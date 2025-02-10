@@ -1,3 +1,321 @@
+----------------------------------------------- LAYERCSS (.lyc) -------------------------------------------------------------------
+
+-- **1. Fundamentos de `.lyc`**
+
+El objetivo de **LayerCSS (`.lyc`)** es simplificar y modularizar el diseño web. A continuación, detallamos las bases del lenguaje:
+
+
+-- **1.1. Filosofía del Lenguaje**
+- **Modularidad**: Divide los estilos en componentes reutilizables y capas dinámicas.
+- **Simplicidad**: Reduce la verbosidad de CSS estándar con una sintaxis más limpia.
+- **Personalización Dinámica**: Permite cambios en tiempo real sin modificar el archivo raíz.
+- **Optimización Automática**: Elimina redundancias y carga solo los estilos necesarios.
+
+
+-- **1.2. Estructura General**
+Un archivo `.lyc` se organiza en bloques específicos, cada uno con un propósito claro. Estos bloques son:
+
+1. **@variables**: Define valores globales reutilizables.
+2. **@base**: Estilos fundamentales aplicados globalmente.
+3. **@component**: Estilos específicos para componentes individuales.
+4. **@layer**: Capas dinámicas que cargan estilos bajo demanda.
+5. **@theme**: Define temas preconfigurados.
+6. **@custom**: Permite personalización dinámica por parte del usuario.
+
+
+-- **2. Sintaxis Básica**
+
+La sintaxis de `.lyc` es similar a CSS estándar, pero más concisa y estructurada. Aquí tienes ejemplos de cómo funciona cada bloque:
+
+
+-- **2.1. @variables**
+Define variables globales que pueden ser reutilizadas en todo el proyecto.
+
+.lyc
+-----------------------------------------------------------------------------------------------------------------------------------
+@variables {
+  primary-color: #3498db;
+  secondary-color: #2ecc71;
+  font-size-base: 1rem;
+}
+-----------------------------------------------------------------------------------------------------------------------------------
+
+**Uso en otros bloques**:
+.lyc
+-----------------------------------------------------------------------------------------------------------------------------------
+@base {
+  body {
+    background-color: $primary-color;
+    font-size: $font-size-base;
+  }
+}
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+-- **2.2. @base**
+Estilos fundamentales que se aplican globalmente.
+
+.lyc
+-----------------------------------------------------------------------------------------------------------------------------------
+@base {
+  body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Arial', sans-serif;
+  }
+}
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+-- **2.3. @component**
+Define estilos específicos para componentes reutilizables.
+
+.lyc
+-----------------------------------------------------------------------------------------------------------------------------------
+@component button {
+  padding: 10px 20px;
+  background-color: $primary-color;
+  border: none;
+  color: white;
+
+  &:hover {
+    background-color: darken($primary-color, 10%);
+  }
+}
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+**Uso en HTML**:
+.html
+<button class="button">Click Me</button>
+
+
+-- **2.4. @layer**
+Carga estilos bajo demanda, optimizando el rendimiento.
+
+.lyc
+-----------------------------------------------------------------------------------------------------------------------------------
+@layer home {
+  .hero-section {
+    background-color: $primary-color;
+    padding: 50px;
+    text-align: center;
+  }
+}
+
+@layer about {
+  .about-section {
+    background-color: $secondary-color;
+    padding: 30px;
+    font-size: 1.2rem;
+  }
+}
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+**Carga dinámica en JavaScript**:
+
+-javascript
+-----------------------------------------------------------------------------------------------------------------------------------
+function loadLayer(layerName) {
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = `/styles/layers/${layerName}.css`;
+  document.head.appendChild(link);
+}
+
+// Cargar la capa "about" cuando el usuario navega a la página "Acerca de"
+document.getElementById('about-link').addEventListener('click', () => {
+  loadLayer('about');
+});
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+-- **2.5. @theme**
+Define temas preconfigurados para personalización rápida.
+
+.lyc
+-----------------------------------------------------------------------------------------------------------------------------------
+@theme light {
+  primary-color: #3498db;
+  secondary-color: #2ecc71;
+}
+
+@theme dark {
+  primary-color: #2c3e50;
+  secondary-color: #1abc9c;
+}
+-----------------------------------------------------------------------------------------------------------------------------------
+
+**Selección de tema en JavaScript**:
+
+-javascript
+-----------------------------------------------------------------------------------------------------------------------------------
+function changeTheme(themeName) {
+  const theme = themes[themeName];
+  document.documentElement.style.setProperty('--primary-color', theme.primaryColor);
+  document.documentElement.style.setProperty('--secondary-color', theme.secondaryColor);
+}
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+
+-- **2.6. @custom**
+Permite personalización dinámica por parte del usuario.
+
+.lyc
+-----------------------------------------------------------------------------------------------------------------------------------
+@custom {
+  primary-color: #ff5733; // Valor predeterminado
+}
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+
+**Personalización en PHP**:
+.php
+-----------------------------------------------------------------------------------------------------------------------------------
+<?php
+$theme = $_GET['theme'] ?? 'light';
+$primaryColor = ($theme === 'dark') ? '#2c3e50' : '#3498db';
+header('Content-Type: text/css');
+echo ":root { --primary-color: $primaryColor; }";
+?>
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+-- **3. Funcionalidades Clave**
+
+Aquí están las funcionalidades principales que diferencian a `.lyc` de CSS estándar:
+
+
+-- **3.1. Variables Globales**
+Las variables globales (`@variables`) permiten reutilizar valores fácilmente.
+
+.lyc
+-----------------------------------------------------------------------------------------------------------------------------------
+@variables {
+  spacing-unit: 16px;
+}
+
+@base {
+  body {
+    margin: $spacing-unit;
+  }
+}
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+-- **3.2. Responsive Design Integrado**
+Define media queries directamente dentro de los bloques.
+
+.lyc
+-----------------------------------------------------------------------------------------------------------------------------------
+@base {
+  body {
+    font-size: $font-size-base;
+
+    @media (max-width: 768px) {
+      font-size: 0.8rem;
+    }
+
+    @media (min-width: 1200px) {
+      font-size: 1.2rem;
+    }
+  }
+}
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+### **3.3. Dark Mode Automático**
+Usa `prefers-color-scheme` para detectar el modo oscuro del sistema operativo.
+
+.lyc
+-----------------------------------------------------------------------------------------------------------------------------------
+@base {
+  body {
+    background-color: $primary-color;
+
+    @media (prefers-color-scheme: dark) {
+      background-color: $dark-primary-color;
+    }
+  }
+}
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+-- **3.4. Extensión de Componentes**
+Extiende estilos de componentes existentes.
+
+.lyc
+-----------------------------------------------------------------------------------------------------------------------------------
+@component button-secondary {
+  @extend .button;
+  background-color: $secondary-color;
+}
+-----------------------------------------------------------------------------------------------------------------------------------
+
+-- **4. Ejemplo Completo**
+
+Aquí tienes un ejemplo completo de un archivo `.lyc`:
+
+.lyc
+-----------------------------------------------------------------------------------------------------------------------------------
+@variables {
+  primary-color: #3498db;
+  secondary-color: #2ecc71;
+  font-size-base: 1rem;
+}
+
+@base {
+  body {
+    margin: 0;
+    padding: 0;
+    font-size: $font-size-base;
+    background-color: $primary-color;
+
+    @media (prefers-color-scheme: dark) {
+      background-color: #2c3e50;
+    }
+  }
+}
+
+@component button {
+  padding: 10px 20px;
+  background-color: $primary-color;
+  border: none;
+  color: white;
+
+  &:hover {
+    background-color: darken($primary-color, 10%);
+  }
+}
+
+@layer home {
+  .hero-section {
+    background-color: $primary-color;
+    padding: 50px;
+    text-align: center;
+  }
+}
+
+@theme light {
+  primary-color: #3498db;
+}
+
+@theme dark {
+  primary-color: #2c3e50;
+}
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+------------------------------------------------- ESPECIFICANDO LAS FUNCIONES -----------------------------------------------------
+
+ 
  **1. Bloques Principales de `.lyc`**
 
 Cada bloque en `.lyc` tiene un propósito específico y sigue una estructura clara. A continuación, profundizamos en cada uno:
