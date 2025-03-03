@@ -1,275 +1,306 @@
-Complete Documentation for `.lyc` Compilers
 
-1. Introduction
-
-1.1. What is `.lyc`?
-`.lyc` (LayerCSS) is a design language built on top of CSS that introduces advanced features such as 
-*global and local variables*, nested blocks, layers (`@layer`), and dynamic theming. 
-It is designed to simplify and modularize web design while adhering to the following core principles:
-
-- *Modularity*: Breaks styles into reusable components and dynamic layers.
-- *Simplicity*: Reduces verbosity with a cleaner and more structured syntax.
-- *Dynamic Customization*: Allows real-time changes without modifying the root file.
-- *Automatic Optimization*: Eliminates redundancies and loads only the necessary styles.
-- *Versatility*: Adapts to various use cases, from small projects to large-scale applications.
+# **LayerCSS Documentation**
 
 
-2. Key Features of `.lyc`
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
-2.1. Global and Local Variables
-Variables are a cornerstone of `.lyc`, enabling **reusability** and **maintainability** across your project.
+## **1. Introduction**
 
+### **What is LayerCSS?**
+LayerCSS is a design language based on CSS that introduces advanced features to facilitate the creation of modular, reusable, and maintainable styles. It is designed to overcome the limitations of traditional CSS by adding support for global and local variables, nested blocks, layers (`@layer`), and structured comments.
 
-Global Variables
-- Defined in the `@variables` block.
-- Accessible throughout the entire project using the `$` symbol.
-- Ideal for defining consistent values like colors, font sizes, spacing, etc.
+The philosophy behind LayerCSS is simple yet powerful:
+- **Modularity**: Divide your styles into logical sections.
+- **Reusability**: Define values once and use them in multiple places.
+- **Ease of Maintenance**: Change a value in one place, and it affects the entire project.
 
-Syntax
+---
+
+## **2. Key Features**
+
+### **2.1. Global and Local Variables**
+
+#### **Global Variables**
+Global variables are accessible throughout the `.lyc` file. They are ideal for defining values that are used repeatedly, such as colors, font sizes, or spacing.
 
 ```lyc
-@variables {
-  primary-color: #3498db;
-  secondary-color: #2ecc71;
-  font-size-base: 1rem;
+--primary-color: #FF69B4;
+--font-size-base: 1rem;
+```
+
+These variables can be used anywhere in the file:
+
+```lyc
+body {
+  background: var(--primary-color);
+  font-size: var(--font-size-base);
 }
 ```
 
-*Usage Example*
+#### **Local Variables**
+Local variables are defined within a specific block and are only available within that scope. This is useful for values that are only relevant in a particular context.
 
 ```lyc
-@base {
+button {
+  --hover-color: #39FF14;
+  background: var(--hover-color);
+}
+```
+
+**Advantages of Local Variables:**
+- Avoid conflicts between variables with the same name in different blocks.
+- Improve encapsulation and code readability.
+
+---
+
+### **2.2. Nested Blocks**
+
+Nested blocks allow you to write styles hierarchically, improving readability and reducing selector repetition.
+
+```lyc
+body {
+  margin: 0;
+  padding: 0;
+
+  h1, h2, h3 {
+    color: var(--primary-color);
+  }
+}
+```
+
+The generated CSS will be:
+
+```css
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body h1, body h2, body h3 {
+  color: #FF69B4;
+}
+```
+
+**Advantages of Nested Blocks:**
+- Simplify writing complex styles.
+- Reduce the need to repeat selectors.
+
+---
+
+### **2.3. Layers (`@layer`)**
+
+Layers allow you to organize styles into logical sections, such as `base`, `components`, or `utilities`. This is especially useful for large projects.
+
+```lyc
+@layer base {
   body {
-    background-color: $primary-color;
-    font-size: $font-size-base;
+    background: var(--primary-color);
+  }
+}
+
+@layer components {
+  button {
+    background: var(--secondary-color);
   }
 }
 ```
 
-Local Variables
-- Defined within specific blocks (e.g., `@component`, `@layer`).
-- Override global variables within their scope.
-- Useful for creating localized styles without affecting the rest of the project.
+The generated CSS will be:
 
-*Example*
-
-```lyc
-@component button {
-  --hover-color: #1abc9c; // Local variable
-  background-color: $secondary-color;
-
-  &:hover {
-    background-color: var(--hover-color);
-  }
-}
-```
-
-
-2.2. Blocks in `.lyc`
-Each block in `.lyc` serves a specific purpose, ensuring *modularity* and *organization*.
-
-*@variables*
-Defines *global variables* for reuse across the project.
-
-*Features*
-- Centralizes common values.
-- Simplifies maintenance by reducing duplication.
-
-*Example*
-
-```lyc
-@variables {
-  spacing-unit: 16px;
-}
-
-@base {
+```css
+@layer base {
   body {
-    margin: $spacing-unit;
+    background: #FF69B4;
+  }
+}
+
+@layer components {
+  button {
+    background: #8A2BE2;
   }
 }
 ```
 
-*@base*
-Contains *fundamental styles* applied globally.
+**Advantages of Layers:**
+- Facilitate organizing styles in large projects.
+- Allow prioritizing certain styles over others (e.g., `base` before `components`).
 
-*Features*
-- Resets default browser styles.
-- Defines typography, spacing, and other global configurations.
+---
 
-*Example*
+### **2.4. Structured Comments**
+
+LayerCSS supports single-line comments (`//`) and multi-line comments (`/* ... */`), making it easier to document your code.
 
 ```lyc
-@base {
+// This is a single-line comment
+
+/*
+  This is a multi-line comment.
+  It can span multiple lines.
+*/
+```
+
+**Advantages of Comments:**
+- Improve code readability.
+- Facilitate collaboration in teams.
+
+---
+
+### **2.5. Support for Animations and Keyframes**
+
+You can define animations and keyframes directly in LayerCSS.
+
+```lyc
+@keyframes fadeInOut {
+  0%, 100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.animated-text {
+  animation: fadeInOut 4s infinite;
+}
+```
+
+The generated CSS will be:
+
+```css
+@keyframes fadeInOut {
+  0%, 100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.animated-text {
+  animation: fadeInOut 4s infinite;
+}
+```
+
+**Advantages of Animations:**
+- Simplify creating dynamic visual effects.
+- Maintain consistency in design.
+
+---
+
+### **2.6. Advanced Options**
+
+#### **Variable Inheritance**
+Local variables can temporarily override global variables within a block.
+
+```lyc
+--primary-color: #FF69B4;
+
+body {
+  background: var(--primary-color);
+
+  .special-section {
+    --primary-color: #8A2BE2;
+    background: var(--primary-color); /* Will use #8A2BE2 */
+  }
+}
+```
+
+#### **Media Query Support**
+LayerCSS allows you to define media queries cleanly and organized.
+
+```lyc
+@media (max-width: 768px) {
   body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Arial', sans-serif;
+    font-size: 0.8rem;
   }
 }
 ```
 
-*@component*
-Defines *styles for reusable components* like buttons, cards, and forms.
+#### **Custom Functions**
+Although LayerCSS does not have built-in functions like Sass, you can simulate similar behaviors using variables and nested blocks.
 
-*Features*
-- Encapsulates styles to avoid conflicts.
-- Supports inheritance with `@extend`.
+---
 
-*Example*
+## **3. Comparison with Similar Projects**
 
-```lyc
-@component button {
-  padding: 10px 20px;
-  background-color: $primary-color;
-  border: none;
-  color: white;
+| **Feature**              | **Sass**            | **Less**                | **PostCSS**              | **LayerCSS**              |
+|--------------------------|---------------------|-------------------------|--------------------------|---------------------------|
+| Variables                | Yes                 | Yes                     | With plugins             | Yes (global and local)    |
+| Nested Blocks            | Yes                 | Yes                     | With plugins             | Yes                       |
+| Layers (`@layer`)        | No                  | No                      | Yes (with plugins)       | Yes                       |
+| Comments                 | Only `/* ... */`    | Only `/* ... */`        | Only `/* ... */`         | `//` and `/* ... */`      |
+| Animations and Keyframes | Yes                 | Yes                     | Yes                      | Yes                       |
+| Learning Curve           | High                | Medium                  | Medium                   | Low                       |
 
-  &:hover {
-    background-color: darken($primary-color, 10%);
-  }
-}
+**Advantages of LayerCSS over Sass/Less/PostCSS:**
+- **Simplicity**: LayerCSS is easier to learn and use than Sass or Less.
+- **Lightweight**: No complex configurations or additional tools required.
+- **Compatibility**: The generated CSS is fully compatible with modern browsers.
 
-@component button-secondary {
-  @extend .button;
-  background-color: $secondary-color;
-}
-```
+---
 
-*@layer*
-Loads styles dynamically under specific conditions, optimizing performance.
+## **4. Versatility of LayerCSS**
 
-*Features*
-- Reduces initial CSS file size.
-- Organizes styles into logical layers (e.g., "home", "about").
+### **4.1. Small Projects**
+LayerCSS is ideal for small projects because:
+- Reduces repetitive code.
+- Facilitates quick implementation of changes.
 
-*Example*
+### **4.2. Large Projects**
+In large projects, LayerCSS shines thanks to:
+- Layers (`@layer`) for organizing styles.
+- Global and local variables for maintaining consistency.
 
-```lyc
-@layer home {
-  .hero-section {
-    background-color: $primary-color;
-    padding: 50px;
-    text-align: center;
-  }
-}
+### **4.3. Development Teams**
+LayerCSS improves collaboration in teams because:
+- Structured comments facilitate documentation.
+- Modularity reduces code conflicts.
 
-@layer about {
-  .about-section {
-    background-color: $secondary-color;
-    padding: 30px;
-    font-size: 1.2rem;
-  }
-}
-```
+---
 
-*@theme*
-Defines *pre-configured themes* for quick customization.
+## **5. Why Use LayerCSS?**
 
-*Features*
-- Supports light/dark modes.
-- Automatically detects system preferences using `prefers-color-scheme`.
+### **5.1. Problems It Solves**
+- **Code Repetition**: Variables eliminate the need to copy and paste values.
+- **Disorganization**: Layers and nested blocks keep the code clean and structured.
+- **Maintenance Difficulty**: Changes to a global variable affect the entire project.
 
-*Example*
+### **5.2. Use Cases**
+- **Responsive Design**: Use media queries and variables to adapt styles to different devices.
+- **Dynamic Themes**: Change global variables to toggle between light and dark themes.
+- **Animations**: Create consistent visual effects with keyframes.
 
-```lyc
-@theme light {
-  primary-color: #3498db;
-  secondary-color: #2ecc71;
-}
+---
 
-@theme dark {
-  primary-color: #2c3e50;
-  secondary-color: #1abc9c;
-}
-```
+## **6. Conclusion**
 
-*@custom*
+LayerCSS is a powerful tool that simplifies CSS development. Its advanced features, such as global and local variables, nested blocks, layers, and structured comments, make it an ideal solution for both small and large projects. Additionally, its compatibility with standard CSS ensures that the generated code works seamlessly in any modern browser.
 
-Allows *dynamic customization* by end-users.
+If you want to improve your design workflow and create modular, reusable, and maintainable styles, **LayerCSS is the perfect solution!**
 
-*Features*
-- Enables real-time personalization.
-- Integrates seamlessly with backend languages like PHP or Python.
+---
 
-*Example*
+## **7. License**
 
-```lyc
-@custom {
-  primary-color: #ff5733; // Default value
-}
-```
+This project is distributed under the **Apache License 2.0**. You can use, modify, and distribute the code as long as you comply with the terms of the license.
 
+For more details, see the [LICENSE](LICENSE) file.
 
-3. Compiler Implementation
+---
 
-3.1. Compiler Workflow
-The compiler transforms `.lyc` files into standard CSS by following these steps:
-1. *Read the `.lyc` File*: Load the content of the `.lyc` file.
-2. *Process Variables*: Replace global and local variables with their corresponding values.
-3. *Process Blocks*: Convert each block (`@base`, `@component`, etc.) into standard CSS.
-4. *Generate the CSS File*: Write the resulting CSS to an output file.
+## **8. Contributing**
 
-3.2. Example Compiler in Node.js
-Here’s a basic implementation of the compiler in JavaScript (Node.js):
+Contributions are welcome! To contribute:
+1. Fork the repository.
+2. Create a new branch.
+3. Submit a pull request with your changes.
 
-```javascript
-const fs = require('fs');
-const path = require('path');
+Please ensure you follow the coding standards and include tests if applicable.
 
-function compileLYC(inputFile, outputFile) {
-  const lycContent = fs.readFileSync(inputFile, 'utf-8');
-  const cssContent = processLYC(lycContent);
-  fs.writeFileSync(outputFile, cssContent);
-  console.log(`CSS file generated: ${outputFile}`);
-}
+---
 
-function processLYC(lycContent) {
-  let cssOutput = '';
-  const variables = {};
+## **9. Support**
 
-  const blocks = lycContent.split(/@(\w+)\s*\{/).filter(block => block.trim() !== '');
+If you encounter any issues or have questions, feel free to open an issue in the [GitHub Issues](https://github.com/your-repo/issues) section.
 
-  for (let i = 0; i < blocks.length; i += 2) {
-    const blockType = blocks[i].trim();
-    const blockContent = blocks[i + 1].replace(/\}\s*$/, '').trim();
-
-    switch (blockType) {
-      case 'variables':
-        blockContent.split(';').forEach(line => {
-          const [key, value] = line.split(':').map(part => part.trim());
-          if (key && value) variables[key] = value;
-        });
-        break;
-
-      case 'base':
-      case 'component':
-      case 'layer':
-      case 'theme':
-      case 'custom':
-        const processedBlock = blockContent.replace(/\$(\w+)/g, (_, varName) => variables[varName] || '');
-        cssOutput += `${processedBlock}\n`;
-        break;
-
-      default:
-        console.warn(`Unknown block: @${blockType}`);
-    }
-  }
-
-  return cssOutput;
-}
-
-const inputFile = path.join(__dirname, 'styles.lyc');
-const outputFile = path.join(__dirname, 'styles.css');
-compileLYC(inputFile, outputFile);
-```
-
-
-4. Philosophy of LayerCSS
-
-LayerCSS adheres to the following principles:
-
-1. *Modularity*: Styles are divided into reusable components and dynamic layers.
-2. *Simplicity*: The syntax is concise and easy to understand, reducing complexity.
-3. *Dynamic Customization*: Users can modify styles in real-time without altering the source file.
-4. *Automatic Optimization*: Redundant styles are eliminated, and only necessary styles are loaded.
-5. *Versatility*: Suitable for both small projects and large-scale applications.
