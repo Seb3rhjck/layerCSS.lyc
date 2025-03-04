@@ -1,256 +1,195 @@
------------------------------------------------------------------------ LayerCSS (`.lyc`) ------------------------------------------------------------------------------------------
+# **Documentación de LayerCSS**
 
-1. Filosofía de LayerCSS
+[![Licencia: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
-LayerCSS (`.lyc`) está diseñado con una filosofía clara que guía su estructura y funcionalidades:
+## **1. Introducción**
 
-- Modularidad: Divide los estilos en componentes reutilizables y capas dinámicas, facilitando la organización y mantenimiento.
-- Simplicidad: Reduce la verbosidad de CSS estándar con una sintaxis limpia y estructurada.
-- Personalización Dinámica: Permite cambios en tiempo real sin modificar el archivo raíz, adaptándose a las necesidades del usuario final.
-- Optimización Automática: Elimina redundancias y carga solo los estilos necesarios, mejorando el rendimiento.
-- Versatilidad: Compatible con múltiples lenguajes de compilación (TypeScript, Java, PHP, Python) y adaptable a diferentes entornos.
+### **¿Qué es LayerCSS?**
+LayerCSS es un lenguaje de diseño basado en CSS que introduce funciones avanzadas para facilitar la creación de estilos modulares, reutilizables y mantenibles. Está diseñado para superar las limitaciones del CSS tradicional al agregar soporte para variables globales y locales, bloques anidados, capas (`@layer`) y comentarios estructurados.
 
+La filosofía detrás de LayerCSS es simple pero poderosa:
+- **Modularidad**: Divide tus estilos en secciones lógicas.
+- **Reutilización**: Define valores una vez y úsalos en varios lugares.
+- **Facilidad de mantenimiento**: Cambia un valor en un solo lugar y afecta todo el proyecto.
 
-2. Variables Globales y Locales
+---
 
-Las variables son una parte esencial de `.lyc`, ya que permiten centralizar valores comunes y reutilizarlos en todo el proyecto. Esto se alinea perfectamente con la *modularidad* y la *optimización automática*.
+## **2. Características Clave**
 
-2.1. Variables Globales
-Definidas en el bloque `@variables`, estas variables son accesibles en todo el archivo `.lyc`.
+### **2.1. Variables Globales y Locales**
 
-  -- Sintaxis
+#### **Variables Globales**
+Las variables globales están disponibles en todo el archivo `.lyc`. Son ideales para definir valores reutilizados, como colores, tamaños de fuente o espaciados.
 
--------------------------------------------------------------------------------------
-.lyc
-@variables {
-  primary-color: #3498db;
-  font-size-base: 1rem;
-}
----------------------------------------------------------------------------------------
+```lyc
+--primary-color: #FF69B4;
+--font-size-base: 1rem;
+```
 
-  -- Características
-- *Reutilización*: Las variables globales se pueden usar en cualquier bloque mediante el símbolo `$`.
-- *Centralización*: Facilita cambios globales sin modificar múltiples archivos.
-- *Tipos de Valores*: Colores (`#hex`, `rgb`, `rgba`, `hsl`), unidades (`px`, `rem`, `%`, etc.), cadenas de texto.
+Estas variables pueden usarse en cualquier parte del archivo:
 
-  -- Ejemplo Completo
-
---------------------------------------------------------------------------------------------
-lyc
-@variables {
-  primary-color: #3498db;
-  spacing-unit: 16px;
-}
-
-@base {
-  body {
-    background-color: $primary-color;
-    margin: $spacing-unit;
-  }
-}
------------------------------------------------------------------------------------------------
-
-
-2.2. Variables Locales
-Las variables locales se definen dentro de bloques específicos (como `@component` o `@layer`) y solo están disponibles en ese ámbito. Esto promueve la *versatilidad* y la *personalización dinámica*.
-
-  -- Sintaxis
-
--------------------------------------------------------------------------------------------------
-lyc
-@component button {
-  --hover-color: #1abc9c;
-  background-color: $primary-color;
-
-  &:hover {
-    background-color: var(--hover-color);
-  }
-}
----------------------------------------------------------------------------------------------------
-
-  -- Características
-- *Alcance Limitado*: Solo afectan al bloque donde se declaran.
-- *Personalización*: Ideal para ajustes específicos dentro de componentes o capas.
-- *Flexibilidad*: Combinable con variables globales para un diseño modular.
-
-
-3. Bloques Principales de `.lyc`
-
-Cada bloque en `.lyc` tiene un propósito específico y sigue la filosofía de LayerCSS. A continuación, profundizamos en cada uno:
-
-3.1. @variables
-Define valores globales reutilizables. Este bloque es clave para la *modularidad* y la *optimización automática*.
-
-  -- Casos de Uso
-- Definir paletas de colores consistentes.
-- Establecer tamaños de fuente y espaciado estándar.
-- Facilitar cambios globales sin modificar múltiples archivos.
-
-
-3.2. @base
-Contiene estilos fundamentales aplicados globalmente. Es ideal para definir estilos básicos como reseteos, tipografía y configuraciones generales.
-
-  -- Características
-- *Globalidad*: Los estilos definidos aquí afectan a todo el proyecto.
-- *Responsive Design*: Puedes incluir media queries dentro de este bloque.
-
-  -- Ejemplo Completo
-
------------------------------------------------------------------------------------------
-lyc
-@base {
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Arial', sans-serif;
-
-    @media (max-width: 768px) {
-      font-size: 0.8rem;
-    }
-  }
-}
--------------------------------------------------------------------------------------------
-
-
-
-3.3. @component
-Define estilos específicos para componentes reutilizables, como botones, tarjetas, formularios, etc. Este bloque promueve la **modularidad** y la **reutilización**.
-
-  -- Características
-- *Encapsulamiento*: Cada componente tiene sus propios estilos encapsulados.
-- *Extensión*: Permite extender estilos de otros componentes.
-
-  -- Ejemplo Completo
-
-----------------------------------------------------------------------------------------------
-lyc
-@component button {
-  padding: 10px 20px;
-  background-color: $primary-color;
-  border: none;
-  color: white;
-
-  &:hover {
-    background-color: darken($primary-color, 10%);
-  }
-}
-----------------------------------------------------------------------------------------------
-
-
-
-3.4. @layer
-Define capas dinámicas que cargan estilos bajo demanda. Este bloque es esencial para la *optimización automática* y la *versatilidad*.
-
-  -- Características
-- *Carga Dinámica*: Los estilos se cargan solo cuando son necesarios.
-- *Organización*: Divide los estilos en capas lógicas (por ejemplo, "home", "about").
-
-  -- Ejemplo Completo
-
-------------------------------------------------------------------------------------------------
-lyc
-@layer home {
-  .hero-section {
-    background-color: $primary-color;
-    padding: 50px;
-    text-align: center;
-  }
-}
---------------------------------------------------------------------------------------------------
-
-
-
-3.5. @theme
-Define temas preconfigurados para personalización rápida. Este bloque apoya la *personalización dinámica* y la *adaptabilidad*.
-
-  -- Características
-- *Automatización*: Usa `prefers-color-scheme` para detectar el modo del sistema operativo.
-- *Flexibilidad*: Cambia rápidamente entre temas predefinidos.
-
-  -- Ejemplo Completo
-
------------------------------------------------------------------------------------------------------
-lyc
-@theme light {
-  primary-color: #3498db;
-}
-
-@theme dark {
-  primary-color: #2c3e50;
-}
-------------------------------------------------------------------------------------------------------
-
-
-3.6. @custom
-Permite personalización dinámica por parte del usuario final. Este bloque es clave para la *versatilidad* y la *interactividad*.
-
-  -- Características
-- *Flexibilidad*: Los usuarios pueden cambiar valores sin editar el archivo `.lyc`.
-- *Integración*: Funciona bien con lenguajes backend como PHP o Python.
-
-  -- Ejemplo Completo
-
---------------------------------------------------------------------------------------------------------
-lyc
-@custom {
-  primary-color: #ff5733; // Valor predeterminado
-}
----------------------------------------------------------------------------------------------------------
-
-
-
-4. Resumen de Bloques
-
-| *Bloque*        | *Propósito*                                     |  *Filosofía Aplicada*            |
-|-----------------|-------------------------------------------------|----------------------------------|
-| `@variables`    | Define valores globales reutilizables.          | Modularidad, Optimización        |
-| `@base`         | Estilos fundamentales aplicados globalmente.    | Simplicidad, Modularidad         |
-| `@component`    | Estilos específicos para componentes.           | Modularidad, Reutilización       |
-| `@layer`        | Capas dinámicas que cargan estilos bajo demanda.| Optimización, Versatilidad       |
-| `@theme`        | Define temas preconfigurados.                   | Personalización, Adaptabilidad   |
-| `@custom`       | Permite personalización dinámica.               | Versatilidad, Interactividad     |
-
-
-5. Compiladores
-
-Los compiladores transforman archivos `.lyc` en CSS estándar, siguiendo los principios de *simplicidad* y *versatilidad*. Cada compilador está implementado en un lenguaje específico para adaptarse a diferentes entornos.
-
-5.1. Estructura del Compilador
-El compilador sigue estos pasos:
-1. Leer el archivo `.lyc`.
-2. Procesar las variables globales y locales.
-3. Convertir cada bloque en CSS estándar.
-4. Generar el archivo CSS.
-
-5.2. Ejemplo de Uso
-*Archivo `.lyc` de Entrada*
-
----------------------------------------------------------------------------------------------
-lyc
-@variables {
-  primary-color: #3498db;
-  font-size-base: 1rem;
-}
-
-@base {
-  body {
-    background-color: $primary-color;
-    font-size: $font-size-base;
-  }
-}
-----------------------------------------------------------------------------------------------
-
-  -- Archivo CSS Generado
-----------------------------------------------------------------------------------------------
-css
+```lyc
 body {
-  background-color: #3498db;
-  font-size: 1rem;
+  background: var(--primary-color);
+  font-size: var(--font-size-base);
 }
-------------------------------------------------------------------------------------------------
+```
 
+#### **Variables Locales**
+Las variables locales se definen dentro de un bloque específico y solo están disponibles en ese ámbito. Esto es útil para valores relevantes solo en un contexto particular.
 
-6. Conclusión
+```lyc
+button {
+  --hover-color: #39FF14;
+  background: var(--hover-color);
+}
+```
 
-La filosofía de LayerCSS (`Modularidad, Simplicidad, Personalización Dinámica, Optimización Automática, Versatilidad`) se refleja en cada aspecto del lenguaje, desde las variables globales y locales hasta los bloques principales como `@base`, `@component` y `@layer`. Con esta estructura, `.lyc` ofrece una solución moderna y eficiente para el diseño web, adaptable a diversos entornos y necesidades.
+**Ventajas de las Variables Locales:**
+- Evitan conflictos entre variables con el mismo nombre en diferentes bloques.
+- Mejoran la encapsulación y legibilidad del código.
+
+---
+
+### **2.2. Bloques Anidados**
+
+Los bloques anidados permiten escribir estilos jerárquicamente, mejorando la legibilidad y reduciendo la repetición de selectores.
+
+```lyc
+body {
+  margin: 0;
+  padding: 0;
+
+  h1, h2, h3 {
+    color: var(--primary-color);
+  }
+}
+```
+
+El CSS generado será:
+
+```css
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body h1, body h2, body h3 {
+  color: #FF69B4;
+}
+```
+
+**Ventajas de los Bloques Anidados:**
+- Simplifican la escritura de estilos complejos.
+- Reducen la necesidad de repetir selectores.
+
+---
+
+### **2.3. Capas (`@layer`)**
+
+Las capas permiten organizar estilos en secciones lógicas, como `base`, `componentes` o `utilidades`. Esto es especialmente útil para proyectos grandes.
+
+```lyc
+@layer base {
+  body {
+    background: var(--primary-color);
+  }
+}
+
+@layer components {
+  button {
+    background: var(--secondary-color);
+  }
+}
+```
+
+El CSS generado será:
+
+```css
+@layer base {
+  body {
+    background: #FF69B4;
+  }
+}
+
+@layer components {
+  button {
+    background: #8A2BE2;
+  }
+}
+```
+
+**Ventajas de las Capas:**
+- Facilitan la organización de estilos en proyectos grandes.
+- Permiten priorizar ciertos estilos sobre otros (por ejemplo, `base` antes que `componentes`).
+
+---
+
+### **2.4. Comentarios Estructurados**
+
+LayerCSS admite comentarios de una línea (`//`) y de varias líneas (`/* ... */`), facilitando la documentación del código.
+
+```lyc
+// Este es un comentario de una línea
+
+/*
+  Este es un comentario de varias líneas.
+  Puede extenderse en varias líneas.
+*/
+```
+
+**Ventajas de los Comentarios:**
+- Mejoran la legibilidad del código.
+- Facilitan la colaboración en equipos.
+
+---
+
+### **2.5. Soporte para Animaciones y Keyframes**
+
+Puedes definir animaciones y keyframes directamente en LayerCSS.
+
+```lyc
+@keyframes fadeInOut {
+  0%, 100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.animated-text {
+  animation: fadeInOut 4s infinite;
+}
+```
+
+**Ventajas de las Animaciones:**
+- Simplifican la creación de efectos visuales dinámicos.
+- Mantienen la coherencia en el diseño.
+
+---
+
+## **3. Comparación con Proyectos Similares**
+
+| **Característica**        | **Sass** | **Less** | **PostCSS** | **LayerCSS** |
+|--------------------------|---------|---------|------------|-------------|
+| Variables               | Sí      | Sí      | Con plugins | Sí (global y local) |
+| Bloques Anidados        | Sí      | Sí      | Con plugins | Sí         |
+| Capas (`@layer`)        | No      | No      | Sí (con plugins) | Sí         |
+| Comentarios            | Solo `/* ... */` | Solo `/* ... */` | Solo `/* ... */` | `//` y `/* ... */` |
+| Animaciones y Keyframes | Sí      | Sí      | Sí          | Sí         |
+| Curva de Aprendizaje   | Alta    | Media   | Media       | Baja        |
+
+**Ventajas de LayerCSS sobre Sass/Less/PostCSS:**
+- **Simplicidad**: Más fácil de aprender y usar que Sass o Less.
+- **Ligero**: No requiere configuraciones complejas ni herramientas adicionales.
+- **Compatibilidad**: El CSS generado es completamente compatible con navegadores modernos.
+
+---
+
+## **4. Conclusión**
+
+LayerCSS es una herramienta poderosa que simplifica el desarrollo en CSS. Sus funciones avanzadas, como variables globales y locales, bloques anidados, capas y comentarios estructurados, lo convierten en una solución ideal para proyectos tanto pequeños como grandes.
+
+Si quieres mejorar tu flujo de trabajo en diseño y crear estilos modulares, reutilizables y mantenibles, **LayerCSS es la solución perfecta!**
 
