@@ -3,46 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LayerCSS - The Future of Styling</title>
-    <link id="theme-style" rel="stylesheet" href="styles/vaporcyber.css">
-    <script src="js/theme-switcher.js" defer></script>
+    <title>LayerCSS Code Tester</title>
+    <link rel="stylesheet" href="styles/code-tester.css">
     <script src="js/compiler.js" defer></script>
 </head>
 <body>
-    <header class="hero">
-        <h1>LayerCSS</h1>
-        <p class="subtitle">A new era in styling – power, speed, and efficiency.</p>
-        <button onclick="switchTheme()">Switch Theme</button>
+    <header>
+        <h1>LayerCSS Code Tester</h1>
+        <p>Test your LayerCSS code with the built-in compiler.</p>
     </header>
     
     <main>
-        <section class="description card">
-            <h2>What is LayerCSS?</h2>
-            <p>LayerCSS is a futuristic styling language built on top of CSS, optimizing styles with layers, reducing redundancy, and boosting performance.</p>
-        </section>
-        
-        <section class="compiler-test card">
-            <h2>Live Compiler Test</h2>
+        <section class="tester">
+            <h2>Live LYC Compiler</h2>
             <textarea id="codeInput" placeholder="Write your LayerCSS code here..."></textarea>
-            <label for="compilerSelect">Choose Compiler:</label>
-            <select id="compilerSelect">
-                <option value="js">JavaScript</option>
-                <option value="ts">TypeScript</option>
-                <option value="py">Python</option>
-                <option value="php">PHP</option>
-                <option value="java">Java</option>
-            </select>
             <button onclick="compileCode()">Compile</button>
             <div id="output"></div>
         </section>
-        
-        <section class="performance card">
-            <h2>Compilation Speed</h2>
-            <canvas id="speedChart"></canvas>
-        </section>
     </main>
     
-    <footer class="footer">
+    <footer>
         <p>&copy; 2025 LayerCSS. All Rights Reserved.</p>
     </footer>
 </body>
