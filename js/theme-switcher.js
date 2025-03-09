@@ -1,25 +1,45 @@
-const themes = {
-    "vaporwave-light": "styles/vaporwave-light.lyc",
-    "vaporwave-dark": "styles/vaporwave-dark.lyc",
-    "cyberpunk-light": "styles/cyberpunk-light.lyc",
-    "cyberpunk-dark": "styles/cyberpunk-dark.lyc"
-};
+async function compileCode() {
+    const codeInput = document.getElementById("codeInput").value;
+    const compilerSelect = document.getElementById("compilerSelect").value;
+    const outputDiv = document.getElementById("output");
+    
+    if (!codeInput.trim()) {
+        outputDiv.innerText = "Error: No LYC code provided.";
+        return;
+    }
 
-function switchTheme() {
-    const themeStyle = document.getElementById("theme-style");
-    const currentTheme = themeStyle.getAttribute("href");
-    
-    let newTheme = "vaporwave-dark"; // Default next theme
-    if (currentTheme.includes("vaporwave-dark")) newTheme = "cyberpunk-dark";
-    else if (currentTheme.includes("cyberpunk-dark")) newTheme = "cyberpunk-light";
-    else if (currentTheme.includes("cyberpunk-light")) newTheme = "vaporwave-light";
-    
-    themeStyle.setAttribute("href", themes[newTheme]);
-    localStorage.setItem("selectedTheme", newTheme);
+    const startTime = performance.now();
+
+    try {
+        let compiledCSS = processLYC(codeInput);
+        const endTime = performance.now();
+        const compileTime = (endTime - startTime).toFixed(2);
+
+        outputDiv.innerHTML = `<strong>Compiled CSS:</strong><pre>${compiledCSS}</pre>`;
+        document.getElementById("speedChart").innerText = `Compilation time: ${compileTime}ms`;
+    } catch (error) {
+        outputDiv.innerText = `Compilation Error: ${error.message}`;
+    }
 }
 
-// Cargar el último tema seleccionado
-document.addEventListener("DOMContentLoaded", () => {
-    const savedTheme = localStorage.getItem("selectedTheme") || "vaporwave-dark";
-    document.getElementById("theme-style").setAttribute("href", themes[savedTheme]);
-});
+function processLYC(lycCode) {
+    let processedCode = lycCode;
+    
+    // Eliminar comentarios
+    processedCode = processedCode.replace(/\/\/.*|\/\*[\s\S]*?\*\//g, '');
+
+    // Procesar variables globales
+    let globalVariables = {};
+    processedCode = processedCode.replace(/^--([a-zA-Z0-9-]+):\s*([^;]+);/gm, (match, varName, varValue) => {
+        globalVariables[varName] = varValue.trim();
+        return '';
+    });
+    
+    // Aplicar variables
+    for (const [varName, varValue] of Object.entries(globalVariables)) {
+        processedCode = processedCode.replace(new RegExp(`var\(--${varName}\)`, 'g'), varValue);
+    }
+    
+    // Minificar CSS resultante
+    return processedCode.replace(/\s+/g, ' ').trim();
+}
