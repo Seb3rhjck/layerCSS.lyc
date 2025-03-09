@@ -15,31 +15,34 @@
         <button onclick="switchTheme()">Switch Theme</button>
     </header>
     
-    <section class="description">
-        <h2>What is LayerCSS?</h2>
-        <p>LayerCSS is a futuristic styling language built on top of CSS, optimizing styles with layers, reducing redundancy, and boosting performance.</p>
-    </section>
+    <main>
+        <section class="description card">
+            <h2>What is LayerCSS?</h2>
+            <p>LayerCSS is a futuristic styling language built on top of CSS, optimizing styles with layers, reducing redundancy, and boosting performance.</p>
+        </section>
+        
+        <section class="compiler-test card">
+            <h2>Live Compiler Test</h2>
+            <textarea id="codeInput" placeholder="Write your LayerCSS code here..."></textarea>
+            <label for="compilerSelect">Choose Compiler:</label>
+            <select id="compilerSelect">
+                <option value="js">JavaScript</option>
+                <option value="ts">TypeScript</option>
+                <option value="py">Python</option>
+                <option value="php">PHP</option>
+                <option value="java">Java</option>
+            </select>
+            <button onclick="compileCode()">Compile</button>
+            <div id="output"></div>
+        </section>
+        
+        <section class="performance card">
+            <h2>Compilation Speed</h2>
+            <canvas id="speedChart"></canvas>
+        </section>
+    </main>
     
-    <section class="compiler-test">
-        <h2>Live Compiler Test</h2>
-        <textarea id="codeInput" placeholder="Write your LayerCSS code here..."></textarea>
-        <select id="compilerSelect">
-            <option value="js">JavaScript</option>
-            <option value="ts">TypeScript</option>
-            <option value="py">Python</option>
-            <option value="php">PHP</option>
-            <option value="java">Java</option>
-        </select>
-        <button onclick="compileCode()">Compile</button>
-        <div id="output"></div>
-    </section>
-    
-    <section class="performance">
-        <h2>Compilation Speed</h2>
-        <canvas id="speedChart"></canvas>
-    </section>
-    
-    <footer>
+    <footer class="footer">
         <p>&copy; 2025 LayerCSS. All Rights Reserved.</p>
     </footer>
 </body>
