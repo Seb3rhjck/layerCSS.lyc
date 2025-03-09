@@ -1,0 +1,86 @@
+--primary-color: #FFC0CB;
+--secondary-color: #E6E6FA;
+--accent-color: #ADD8E6;
+--neon-green: #90EE90;
+
+@layer base {
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Press Start 2P', cursive;
+    background: linear-gradient(135deg, var(--primary-color) 30%, var(--secondary-color) 70%);
+    color: black;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Synthwave 1984', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    --glow-color: var(--accent-color);
+    text-shadow: 0 0 15px var(--glow-color), 0 0 30px var(--glow-color);
+  }
+}
+
+@layer components {
+  .card {
+    background: rgba(255, 255, 255, 0.7);
+    border: 3px solid var(--accent-color);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 0 25px var(--accent-color), 0 0 50px var(--accent-color);
+    animation: pulse 2s infinite;
+    --inner-glow: var(--neon-green);
+    color: var(--inner-glow);
+    text-align: center;
+    max-width: 500px;
+  }
+
+  button {
+    background: var(--secondary-color);
+    color: black;
+    border: 2px solid var(--accent-color);
+    padding: 12px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    --hover-glow: var(--neon-green);
+    box-shadow: 0 0 15px var(--hover-glow), 0 0 30px var(--hover-glow);
+    margin-top: 20px;
+  }
+
+  button:hover {
+    transform: scale(1.15);
+    box-shadow: 0 0 25px var(--hover-glow), 0 0 50px var(--hover-glow);
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+  }
+
+  .animated-text {
+    font-size: 1.8em;
+    animation: fadeInOut 4s infinite;
+    --text-glow: var(--neon-green);
+    text-shadow: 0 0 15px var(--text-glow), 0 0 30px var(--text-glow);
+  }
+
+  @keyframes fadeInOut {
+    0%, 100% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+}
