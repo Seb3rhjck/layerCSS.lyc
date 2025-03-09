@@ -1,6 +1,5 @@
 async function compileCode() {
     const codeInput = document.getElementById("codeInput").value;
-    const compilerSelect = document.getElementById("compilerSelect").value;
     const outputDiv = document.getElementById("output");
     
     if (!codeInput.trim()) {
@@ -16,7 +15,7 @@ async function compileCode() {
         const compileTime = (endTime - startTime).toFixed(2);
 
         outputDiv.innerHTML = `<strong>Compiled CSS:</strong><pre>${compiledCSS}</pre>`;
-        document.getElementById("speedChart").innerText = `Compilation time: ${compileTime}ms`;
+        outputDiv.innerHTML += `<p>Compilation time: ${compileTime}ms</p>`;
     } catch (error) {
         outputDiv.innerText = `Compilation Error: ${error.message}`;
     }
@@ -25,21 +24,21 @@ async function compileCode() {
 function processLYC(lycCode) {
     let processedCode = lycCode;
     
-    // Eliminar comentarios
+    // Remove comments
     processedCode = processedCode.replace(/\/\/.*|\/\*[\s\S]*?\*\//g, '');
 
-    // Procesar variables globales
+    // Process global variables
     let globalVariables = {};
     processedCode = processedCode.replace(/^--([a-zA-Z0-9-]+):\s*([^;]+);/gm, (match, varName, varValue) => {
         globalVariables[varName] = varValue.trim();
         return '';
     });
     
-    // Aplicar variables
+    // Apply variables
     for (const [varName, varValue] of Object.entries(globalVariables)) {
         processedCode = processedCode.replace(new RegExp(`var\(--${varName}\)`, 'g'), varValue);
     }
     
-    // Minificar CSS resultante
+    // Minify result
     return processedCode.replace(/\s+/g, ' ').trim();
 }
