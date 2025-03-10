@@ -4,8 +4,23 @@
   "compilerTitle": "Compilador LYC a CSS",
   "examplesTitle": "Ejemplos",
   "compileButton": "Compilar",
-  "example1Title": "Ejemplo 1: Variables Globales",
-  "example1Description": "Este ejemplo muestra cómo usar variables globales en LayerCSS.",
-  "example2Title": "Ejemplo 2: Bloques Anidados",
-  "example2Description": "Este ejemplo demuestra cómo funcionan los bloques anidados en LayerCSS."
+  "features": {
+    "globalVariables": "Variables Globales y Locales: Define valores reutilizables en todo el proyecto o dentro de bloques específicos.",
+    "nestedBlocks": "Bloques Anidados: Escribe estilos jerárquicamente para mejorar la legibilidad y reducir la repetición de selectores.",
+    "layers": "Capas (@layer): Organiza estilos en secciones lógicas como base, componentes o utilidades.",
+    "comments": "Comentarios Estructurados: Admite comentarios de una línea (//) y de varias líneas (/* ... */).",
+    "animations": "Soporte para Animaciones y Keyframes: Crea efectos visuales dinámicos de manera sencilla."
+  },
+  "philosophy": {
+    "modularity": "Modularidad: Divide tus estilos en secciones lógicas.",
+    "reusability": "Reutilización: Define valores una vez y úsalos en varios lugares.",
+    "maintainability": "Facilidad de mantenimiento: Cambia un valor en un solo lugar y afecta todo el proyecto."
+  },
+  "comparison": {
+    "title": "Ventajas sobre Proyectos Similares",
+    "simplicity": "Simplicidad: Más fácil de aprender y usar que Sass o Less.",
+    "lightweight": "Ligero: No requiere configuraciones complejas ni herramientas adicionales.",
+    "compatibility": "Compatibilidad: El CSS generado es completamente compatible con navegadores modernos."
+  },
+  "conclusion": "LayerCSS es una herramienta poderosa que simplifica el desarrollo en CSS. Sus funciones avanzadas, como variables globales y locales, bloques anidados, capas y comentarios estructurados, lo convierten en una solución ideal para proyectos tanto pequeños como grandes. Si quieres mejorar tu flujo de trabajo en diseño y crear estilos modulares, reutilizables y mantenibles, ¡LayerCSS es la solución perfecta!"
 }
