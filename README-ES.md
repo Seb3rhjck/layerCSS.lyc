@@ -12,6 +12,8 @@ La filosofía detrás de LayerCSS es simple pero poderosa:
 - **Reutilización**: Define valores una vez y úsalos en varios lugares.
 - **Facilidad de mantenimiento**: Cambia un valor en un solo lugar y afecta todo el proyecto.
 
+**Creador**: Sebastian (Balthier) Ordoñez Arias, un programador amateur con conocimientos básicos en diseño web y desarrollo de aplicaciones. Este proyecto nació como una exploración personal para simplificar el desarrollo en CSS y hacerlo accesible para todos.
+
 ---
 
 ## **2. Características Clave**
@@ -169,7 +171,68 @@ Puedes definir animaciones y keyframes directamente en LayerCSS.
 
 ---
 
-## **3. Comparación con Proyectos Similares**
+## **3. Caso de Uso Real**
+
+Aunque LayerCSS aún está en desarrollo y no hay pruebas reales implementadas, aquí tienes un caso de uso hipotético que demuestra su potencial:
+
+### **Proyecto: Sitio Web Corporativo**
+Un sitio web corporativo requiere estilos consistentes para múltiples páginas. Con LayerCSS, puedes organizar los estilos en capas (`@layer`) para separar la base, componentes y utilidades:
+
+```lyc
+@layer base {
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+}
+
+@layer components {
+  .header {
+    background: var(--primary-color);
+    color: white;
+  }
+
+  .button {
+    background: var(--secondary-color);
+    border: none;
+    padding: 10px 20px;
+  }
+}
+
+@layer utilities {
+  .hidden {
+    display: none;
+  }
+
+  .visible {
+    display: block;
+  }
+}
+```
+
+Este enfoque modular permite que los desarrolladores trabajen en diferentes partes del proyecto sin interferir entre sí. Además, si se necesita cambiar un color o estilo global, basta con modificar una variable en lugar de buscar y reemplazar valores en múltiples archivos.
+
+---
+
+## **4. Comparación con Frameworks Modernos**
+
+| **Característica**        | **Tailwind CSS** | **Bootstrap** | **LayerCSS** |
+|--------------------------|-----------------|---------------|-------------|
+| Modularidad              | Alta            | Media         | Alta        |
+| Reutilización            | Media           | Baja          | Alta        |
+| Facilidad de Uso         | Media           | Alta          | Alta        |
+| Curva de Aprendizaje     | Media           | Baja          | Baja        |
+| Personalización          | Media           | Baja          | Alta        |
+
+**Ventajas de LayerCSS sobre Tailwind CSS y Bootstrap:**
+- **Simplicidad**: LayerCSS no requiere aprender clases específicas ni configuraciones complejas.
+- **Personalización**: Ofrece mayor flexibilidad para adaptar estilos a las necesidades del proyecto.
+- **Ligereza**: No depende de frameworks externos, lo que reduce el tamaño final del proyecto.
+
+---
+
+## **5. Comparación con Proyectos Similares**
 
 | **Característica**        | **Sass** | **Less** | **PostCSS** | **LayerCSS** |
 |--------------------------|---------|---------|------------|-------------|
@@ -183,13 +246,23 @@ Puedes definir animaciones y keyframes directamente en LayerCSS.
 **Ventajas de LayerCSS sobre Sass/Less/PostCSS:**
 - **Simplicidad**: Más fácil de aprender y usar que Sass o Less.
 - **Ligero**: No requiere configuraciones complejas ni herramientas adicionales.
-- **Compatibilidad**: El CSS generado es completamente compatible con navegadores modernos.
+- **Compatibilidad**: El CSS generado es completamente compatible con navegadores modernos [[10]].
 
 ---
 
-## **4. Conclusión**
+## **6. Licencia Apache 2.0**
+
+LayerCSS se distribuye bajo la **Licencia Apache 2.0**, lo que significa que puedes usar, modificar y distribuir el software libremente, siempre que incluyas una copia de la licencia y mantengas los avisos de derechos de autor originales [[1]]. Esta licencia es ideal para proyectos de código abierto, ya que fomenta la colaboración y el uso comercial sin restricciones.
+
+---
+
+## **7. Conclusión**
 
 LayerCSS es una herramienta poderosa que simplifica el desarrollo en CSS. Sus funciones avanzadas, como variables globales y locales, bloques anidados, capas y comentarios estructurados, lo convierten en una solución ideal para proyectos tanto pequeños como grandes.
 
 Si quieres mejorar tu flujo de trabajo en diseño y crear estilos modulares, reutilizables y mantenibles, **LayerCSS es la solución perfecta!**
 
+---
+
+**Nota del Creador**:  
+Este proyecto está en sus primeras etapas, y mi objetivo es que LayerCSS se convierta en un lenguaje universal que pueda integrarse con frameworks y proyectos de diseño web en PHP, JavaScript, TypeScript, Python y Java. Si deseas apoyar este proyecto, ¡tu contribución será invaluable!
