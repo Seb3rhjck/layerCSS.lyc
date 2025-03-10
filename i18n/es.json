@@ -21,6 +21,5 @@
     "simplicity": "Simplicidad: Más fácil de aprender y usar que Sass o Less.",
     "lightweight": "Ligero: No requiere configuraciones complejas ni herramientas adicionales.",
     "compatibility": "Compatibilidad: El CSS generado es completamente compatible con navegadores modernos."
-  },
-  "conclusion": "LayerCSS es una herramienta poderosa que simplifica el desarrollo en CSS. Sus funciones avanzadas, como variables globales y locales, bloques anidados, capas y comentarios estructurados, lo convierten en una solución ideal para proyectos tanto pequeños como grandes. Si quieres mejorar tu flujo de trabajo en diseño y crear estilos modulares, reutilizables y mantenibles, ¡LayerCSS es la solución perfecta!"
+  }
 }
