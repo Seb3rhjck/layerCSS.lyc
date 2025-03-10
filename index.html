@@ -20,6 +20,7 @@
         <option value="it">Italiano</option>
         <option value="zh">简体中文</option>
         <option value="ru">Русский</option>
+        <option value="fil">Filipino</option>
       </select>
     </nav>
   </header>
@@ -30,6 +31,77 @@
     <section id="about">
       <h2 id="about-title"></h2>
       <p id="about-description"></p>
+      <h3>Características Clave</h3>
+      <ul>
+        <li><strong>Variables Globales y Locales:</strong> Define valores reutilizables en todo el proyecto o dentro de bloques específicos.</li>
+        <li><strong>Bloques Anidados:</strong> Escribe estilos jerárquicamente para mejorar la legibilidad y reducir la repetición de selectores.</li>
+        <li><strong>Capas (`@layer`):</strong> Organiza estilos en secciones lógicas como `base`, `componentes` o `utilidades`.</li>
+        <li><strong>Comentarios Estructurados:</strong> Admite comentarios de una línea (`//`) y de varias líneas (`/* ... */`).</li>
+        <li><strong>Soporte para Animaciones y Keyframes:</strong> Crea efectos visuales dinámicos de manera sencilla.</li>
+      </ul>
+      <h3>Filosofía detrás de LayerCSS</h3>
+      <p>La filosofía detrás de LayerCSS es simple pero poderosa:</p>
+      <ul>
+        <li><strong>Modularidad:</strong> Divide tus estilos en secciones lógicas.</li>
+        <li><strong>Reutilización:</strong> Define valores una vez y úsalos en varios lugares.</li>
+        <li><strong>Facilidad de mantenimiento:</strong> Cambia un valor en un solo lugar y afecta todo el proyecto.</li>
+      </ul>
+      <h3>Ventajas sobre Proyectos Similares</h3>
+      <table border="1">
+        <thead>
+          <tr>
+            <th>Característica</th>
+            <th>Sass</th>
+            <th>Less</th>
+            <th>PostCSS</th>
+            <th>LayerCSS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Variables</td>
+            <td>Sí</td>
+            <td>Sí</td>
+            <td>Con plugins</td>
+            <td>Sí (global y local)</td>
+          </tr>
+          <tr>
+            <td>Bloques Anidados</td>
+            <td>Sí</td>
+            <td>Sí</td>
+            <td>Con plugins</td>
+            <td>Sí</td>
+          </tr>
+          <tr>
+            <td>Capas (`@layer`)</td>
+            <td>No</td>
+            <td>No</td>
+            <td>Sí (con plugins)</td>
+            <td>Sí</td>
+          </tr>
+          <tr>
+            <td>Comentarios</td>
+            <td>Solo `/* ... */`</td>
+            <td>Solo `/* ... */`</td>
+            <td>Solo `/* ... */`</td>
+            <td>`//` y `/* ... */`</td>
+          </tr>
+          <tr>
+            <td>Animaciones y Keyframes</td>
+            <td>Sí</td>
+            <td>Sí</td>
+            <td>Sí</td>
+            <td>Sí</td>
+          </tr>
+          <tr>
+            <td>Curva de Aprendizaje</td>
+            <td>Alta</td>
+            <td>Media</td>
+            <td>Media</td>
+            <td>Baja</td>
+          </tr>
+        </tbody>
+      </table>
     </section>
 
     <!-- Sección Compilador LYC a CSS -->
@@ -50,7 +122,7 @@
 
   <!-- Pie de Página -->
   <footer>
-    <p>&copy; 2025 LayerCSS. Todos los derechos reservados.</p>
+    <p>&copy; 2025 LayerCSS. Todos los derechos reservados. Licencia Apache 2.0.</p>
   </footer>
 
   <!-- Script Principal -->
