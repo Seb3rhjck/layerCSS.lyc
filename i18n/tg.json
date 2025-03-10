@@ -1,0 +1,26 @@
+{
+  "aboutTitle": "Tungkol sa LayerCSS",
+  "aboutDescription": "Ang LayerCSS ay isang disenyo ng wika batay sa CSS na nagpapakilala ng mga advanced na katangian upang mapadali ang paggawa ng modular, reusable, at maintainable na estilo.",
+  "compilerTitle": "LYC sa CSS Compiler",
+  "examplesTitle": "Mga Halimbawa",
+  "compileButton": "I-compile",
+  "features": {
+    "globalVariables": "Global at Local na Mga Variable: Magtakda ng reusable na mga halaga sa buong proyekto o sa loob ng mga tiyak na bloke.",
+    "nestedBlocks": "Naka-nest na mga Bloke: Isulat ang mga estilo nang hierarchical upang mapabuti ang readability at bawasan ang pag-uulit ng mga selector.",
+    "layers": "Mga Layer (@layer): I-organize ang mga estilo sa mga logical na seksyon tulad ng base, components, o utilities.",
+    "comments": "Structured na mga Komento: Suportado ang single-line (//) at multi-line (/* ... */) na mga komento.",
+    "animations": "Suporta para sa Animations at Keyframes: Madaling lumikha ng dynamic na visual effects."
+  },
+  "philosophy": {
+    "modularity": "Modularity: Hatiin ang iyong mga estilo sa mga logical na seksyon.",
+    "reusability": "Reusability: Tukuyin ang mga halaga nang isang beses at gamitin ang mga ito sa maraming lugar.",
+    "maintainability": "Kadalian sa Pagpapanatili: Baguhin ang isang halaga sa isang lugar at maapektuhan ang buong proyekto."
+  },
+  "comparison": {
+    "title": "Mga Kabutihang Dulot kaysa sa Katulad na Proyekto",
+    "simplicity": "Kasimplehan: Mas madaling matuto at gamitin kaysa sa Sass o Less.",
+    "lightweight": "Lightweight: Walang kailangang mag-complex configuration o dagdag na mga tool.",
+    "compatibility": "Compatibility: Ang nabuong CSS ay ganap na compatible sa mga modernong browser."
+  },
+  "conclusion": "Ang LayerCSS ay isang makapangyarihang tool na nagpapasimple sa pag-develop ng CSS. Ang mga advanced na katangian nito, tulad ng global at local na mga variable, naka-nest na mga bloke, mga layer, at structured na mga komento, ginagawang ideal na solusyon para sa maliliit at malalaking proyekto. Kung gusto mong mapabuti ang iyong workflow sa pag-design at lumikha ng modular, reusable, at maintainable na mga estilo, ang LayerCSS ay ang perpektong solusyon!"
+}
