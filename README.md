@@ -1,63 +1,70 @@
+LayerCSS Documentation
+License: Apache 2.0
 
-# **LayerCSS Documentation**
+1. Introduction
+What is LayerCSS?
+LayerCSS is a design language based on CSS that introduces advanced features to facilitate the creation of modular, reusable, and maintainable styles. It is designed to overcome the limitations of traditional CSS by adding support for global and local variables, nested blocks, layers (@layer), and structured comments.
 
+The philosophy behind LayerCSS is simple but powerful:
 
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+Modularity : Divide your styles into logical sections.
+Reusability : Define values once and use them in multiple places.
+Ease of Maintenance : Change a value in one place and affect the entire project.
+Creator : Sebastian (Balthier) Ordoñez Arias, an amateur programmer with basic knowledge in web design and application development. This project was born as a personal exploration to simplify CSS development and make it accessible to everyone.
 
-## **1. Introduction**
+2. Key Features
+2.1. Global and Local Variables
+Global Variables
+Global variables are available throughout the .lyc file. They are ideal for defining reusable values such as colors, font sizes, or spacing.
 
-### **What is LayerCSS?**
-LayerCSS is a design language based on CSS that introduces advanced features to facilitate the creation of modular, reusable, and maintainable styles. It is designed to overcome the limitations of traditional CSS by adding support for global and local variables, nested blocks, layers (`@layer`), and structured comments.
-
-The philosophy behind LayerCSS is simple yet powerful:
-- **Modularity**: Divide your styles into logical sections.
-- **Reusability**: Define values once and use them in multiple places.
-- **Ease of Maintenance**: Change a value in one place, and it affects the entire project.
-
----
-
-## **2. Key Features**
-
-### **2.1. Global and Local Variables**
-
-#### **Global Variables**
-Global variables are accessible throughout the `.lyc` file. They are ideal for defining values that are used repeatedly, such as colors, font sizes, or spacing.
-
-```lyc
+lyc
+Copy
+1
+2
 --primary-color: #FF69B4;
 --font-size-base: 1rem;
-```
-
 These variables can be used anywhere in the file:
 
-```lyc
+lyc
+Copy
+1
+2
+3
+4
 body {
   background: var(--primary-color);
   font-size: var(--font-size-base);
 }
-```
+Local Variables
+Local variables are defined within a specific block and are only available within that scope. This is useful for values relevant only in a particular context.
 
-#### **Local Variables**
-Local variables are defined within a specific block and are only available within that scope. This is useful for values that are only relevant in a particular context.
-
-```lyc
+lyc
+Copy
+1
+2
+3
+4
 button {
   --hover-color: #39FF14;
   background: var(--hover-color);
 }
-```
+Advantages of Local Variables:
 
-**Advantages of Local Variables:**
-- Avoid conflicts between variables with the same name in different blocks.
-- Improve encapsulation and code readability.
-
----
-
-### **2.2. Nested Blocks**
-
+Avoid conflicts between variables with the same name in different blocks.
+Improve encapsulation and code readability.
+2.2. Nested Blocks
 Nested blocks allow you to write styles hierarchically, improving readability and reducing selector repetition.
 
-```lyc
+lyc
+Copy
+1
+2
+3
+4
+5
+6
+7
+8
 body {
   margin: 0;
   padding: 0;
@@ -66,11 +73,20 @@ body {
     color: var(--primary-color);
   }
 }
-```
-
 The generated CSS will be:
 
-```css
+css
+Copy
+1
+2
+3
+4
+5
+6
+7
+8
+⌄
+⌄
 body {
   margin: 0;
   padding: 0;
@@ -79,19 +95,26 @@ body {
 body h1, body h2, body h3 {
   color: #FF69B4;
 }
-```
+Advantages of Nested Blocks:
 
-**Advantages of Nested Blocks:**
-- Simplify writing complex styles.
-- Reduce the need to repeat selectors.
+Simplify writing complex styles.
+Reduce the need to repeat selectors.
+2.3. Layers (@layer)
+Layers allow you to organize styles into logical sections, such as base, components, or utilities. This is especially useful for large projects.
 
----
-
-### **2.3. Layers (`@layer`)**
-
-Layers allow you to organize styles into logical sections, such as `base`, `components`, or `utilities`. This is especially useful for large projects.
-
-```lyc
+lyc
+Copy
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
 @layer base {
   body {
     background: var(--primary-color);
@@ -103,11 +126,25 @@ Layers allow you to organize styles into logical sections, such as `base`, `comp
     background: var(--secondary-color);
   }
 }
-```
-
 The generated CSS will be:
 
-```css
+css
+Copy
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+⌄
+⌄
+⌄
+⌄
 @layer base {
   body {
     background: #FF69B4;
@@ -119,38 +156,48 @@ The generated CSS will be:
     background: #8A2BE2;
   }
 }
-```
+Advantages of Layers:
 
-**Advantages of Layers:**
-- Facilitate organizing styles in large projects.
-- Allow prioritizing certain styles over others (e.g., `base` before `components`).
+Facilitate organizing styles in large projects.
+Allow prioritizing certain styles over others (e.g., base before components) 5.
+2.4. Structured Comments
+LayerCSS supports single-line comments (//) and multi-line comments (/* ... */), making it easier to document your code.
 
----
-
-### **2.4. Structured Comments**
-
-LayerCSS supports single-line comments (`//`) and multi-line comments (`/* ... */`), making it easier to document your code.
-
-```lyc
+lyc
+Copy
+1
+2
+3
+4
+5
+6
 // This is a single-line comment
 
 /*
   This is a multi-line comment.
-  It can span multiple lines.
+  It can span across multiple lines.
 */
-```
+Advantages of Comments:
 
-**Advantages of Comments:**
-- Improve code readability.
-- Facilitate collaboration in teams.
-
----
-
-### **2.5. Support for Animations and Keyframes**
-
+Improve code readability.
+Facilitate collaboration in teams.
+2.5. Support for Animations and Keyframes
 You can define animations and keyframes directly in LayerCSS.
 
-```lyc
+lyc
+Copy
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
 @keyframes fadeInOut {
   0%, 100% {
     opacity: 0;
@@ -163,144 +210,158 @@ You can define animations and keyframes directly in LayerCSS.
 .animated-text {
   animation: fadeInOut 4s infinite;
 }
-```
+Advantages of Animations:
 
-The generated CSS will be:
+Simplify creating dynamic visual effects.
+Maintain consistency in design.
+3. Real-World Use Case
+Although LayerCSS is still under development and there are no real-world implementations yet, here’s a hypothetical use case that demonstrates its potential:
 
-```css
-@keyframes fadeInOut {
-  0%, 100% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-}
+Project: Corporate Website
+A corporate website requires consistent styles across multiple pages. With LayerCSS, you can organize styles into layers (@layer) to separate the base, components, and utilities:
 
-.animated-text {
-  animation: fadeInOut 4s infinite;
-}
-```
-
-**Advantages of Animations:**
-- Simplify creating dynamic visual effects.
-- Maintain consistency in design.
-
----
-
-### **2.6. Advanced Options**
-
-#### **Variable Inheritance**
-Local variables can temporarily override global variables within a block.
-
-```lyc
---primary-color: #FF69B4;
-
-body {
-  background: var(--primary-color);
-
-  .special-section {
-    --primary-color: #8A2BE2;
-    background: var(--primary-color); /* Will use #8A2BE2 */
-  }
-}
-```
-
-#### **Media Query Support**
-LayerCSS allows you to define media queries cleanly and organized.
-
-```lyc
-@media (max-width: 768px) {
+lyc
+Copy
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+@layer base {
   body {
-    font-size: 0.8rem;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
   }
 }
-```
 
-#### **Custom Functions**
-Although LayerCSS does not have built-in functions like Sass, you can simulate similar behaviors using variables and nested blocks.
+@layer components {
+  .header {
+    background: var(--primary-color);
+    color: white;
+  }
 
----
+  .button {
+    background: var(--secondary-color);
+    border: none;
+    padding: 10px 20px;
+  }
+}
 
-## **3. Comparison with Similar Projects**
+@layer utilities {
+  .hidden {
+    display: none;
+  }
 
-| **Feature**              | **Sass**            | **Less**                | **PostCSS**              | **LayerCSS**              |
-|--------------------------|---------------------|-------------------------|--------------------------|---------------------------|
-| Variables                | Yes                 | Yes                     | With plugins             | Yes (global and local)    |
-| Nested Blocks            | Yes                 | Yes                     | With plugins             | Yes                       |
-| Layers (`@layer`)        | No                  | No                      | Yes (with plugins)       | Yes                       |
-| Comments                 | Only `/* ... */`    | Only `/* ... */`        | Only `/* ... */`         | `//` and `/* ... */`      |
-| Animations and Keyframes | Yes                 | Yes                     | Yes                      | Yes                       |
-| Learning Curve           | High                | Medium                  | Medium                   | Low                       |
+  .visible {
+    display: block;
+  }
+}
+This modular approach allows developers to work on different parts of the project without interfering with each other. Additionally, if you need to change a global color or style, you only need to modify a variable instead of searching and replacing values in multiple files.
 
-**Advantages of LayerCSS over Sass/Less/PostCSS:**
-- **Simplicity**: LayerCSS is easier to learn and use than Sass or Less.
-- **Lightweight**: No complex configurations or additional tools required.
-- **Compatibility**: The generated CSS is fully compatible with modern browsers.
+4. Comparison with Modern Frameworks
+Modularity
+High
+Medium
+High
+Reusability
+Medium
+Low
+High
+Ease of Use
+Medium
+High
+High
+Learning Curve
+Medium
+Low
+Low
+Customization
+Medium
+Low
+High
 
----
+Advantages of LayerCSS over Tailwind CSS and Bootstrap:
 
-## **4. Versatility of LayerCSS**
+Simplicity : LayerCSS does not require learning specific classes or complex configurations.
+Customization : Offers greater flexibility to adapt styles to project needs.
+Lightweight : Does not depend on external frameworks, reducing the final project size.
+5. Comparison with Similar Projects
+Variables
+Yes
+Yes
+With plugins
+Yes (global and local)
+Nested Blocks
+Yes
+Yes
+With plugins
+Yes
+Layers (
+@layer
+)
+No
+No
+Yes (with plugins)
+Yes
+Comments
+Only
+/* ... */
+Only
+/* ... */
+Only
+/* ... */
+//
+and
+/* ... */
+Animations and Keyframes
+Yes
+Yes
+Yes
+Yes
+Learning Curve
+High
+Medium
+Medium
+Low
 
-### **4.1. Small Projects**
-LayerCSS is ideal for small projects because:
-- Reduces repetitive code.
-- Facilitates quick implementation of changes.
+Advantages of LayerCSS over Sass/Less/PostCSS:
 
-### **4.2. Large Projects**
-In large projects, LayerCSS shines thanks to:
-- Layers (`@layer`) for organizing styles.
-- Global and local variables for maintaining consistency.
+Simplicity : Easier to learn and use than Sass or Less.
+Lightweight : No complex configurations or additional tools required.
+Compatibility : The generated CSS is fully compatible with modern browsers 10.
+6. Apache 2.0 License
+LayerCSS is distributed under the Apache 2.0 License , meaning you can use, modify, and distribute the software freely, provided you include a copy of the license and retain the original copyright notices 1. This license is ideal for open-source projects as it encourages collaboration and commercial use without restrictions.
 
-### **4.3. Development Teams**
-LayerCSS improves collaboration in teams because:
-- Structured comments facilitate documentation.
-- Modularity reduces code conflicts.
+7. Conclusion
+LayerCSS is a powerful tool that simplifies CSS development. Its advanced features, such as global and local variables, nested blocks, layers, and structured comments, make it an ideal solution for both small and large projects.
 
----
+If you want to improve your design workflow and create modular, reusable, and maintainable styles, LayerCSS is the perfect solution!
 
-## **5. Why Use LayerCSS?**
-
-### **5.1. Problems It Solves**
-- **Code Repetition**: Variables eliminate the need to copy and paste values.
-- **Disorganization**: Layers and nested blocks keep the code clean and structured.
-- **Maintenance Difficulty**: Changes to a global variable affect the entire project.
-
-### **5.2. Use Cases**
-- **Responsive Design**: Use media queries and variables to adapt styles to different devices.
-- **Dynamic Themes**: Change global variables to toggle between light and dark themes.
-- **Animations**: Create consistent visual effects with keyframes.
-
----
-
-## **6. Conclusion**
-
-LayerCSS is a powerful tool that simplifies CSS development. Its advanced features, such as global and local variables, nested blocks, layers, and structured comments, make it an ideal solution for both small and large projects. Additionally, its compatibility with standard CSS ensures that the generated code works seamlessly in any modern browser.
-
-If you want to improve your design workflow and create modular, reusable, and maintainable styles, **LayerCSS is the perfect solution!**
-
----
-
-## **7. License**
-
-This project is distributed under the **Apache License 2.0**. You can use, modify, and distribute the code as long as you comply with the terms of the license.
-
-For more details, see the [LICENSE](LICENSE) file.
-
----
-
-## **8. Contributing**
-
-Contributions are welcome! To contribute:
-1. Fork the repository.
-2. Create a new branch.
-3. Submit a pull request with your changes.
-
-Please ensure you follow the coding standards and include tests if applicable.
-
----
-
-## **9. Support**
-
-If you encounter any issues or have questions, feel free to open an issue in the [GitHub Issues](https://github.com/your-repo/issues) section.
-
+Note from the Creator :
+This project is in its early stages, and my goal is for LayerCSS to become a universal language that can integrate with frameworks and web design projects in PHP, JavaScript, TypeScript, Python, and Java. If you’d like to support this project, your contribution will be invaluable!
