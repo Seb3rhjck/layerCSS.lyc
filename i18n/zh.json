@@ -4,8 +4,23 @@
   "compilerTitle": "LYC 到 CSS 编译器",
   "examplesTitle": "示例",
   "compileButton": "编译",
-  "example1Title": "示例 1: 全局变量",
-  "example1Description": "此示例展示了如何在 LayerCSS 中使用全局变量。",
-  "example2Title": "示例 2: 嵌套块",
-  "example2Description": "此示例演示了嵌套块在 LayerCSS 中的工作原理。"
+  "features": {
+    "globalVariables": "全局和局部变量：在项目或特定块中定义可重用的值。",
+    "nestedBlocks": "嵌套块：以分层方式编写样式，提高可读性并减少选择器重复。",
+    "layers": "层 (@layer)：将样式组织到逻辑部分，如基础、组件或实用工具。",
+    "comments": "结构化注释：支持单行 (//) 和多行 (/* ... */) 注释。",
+    "animations": "支持动画和关键帧：轻松创建动态视觉效果。"
+  },
+  "philosophy": {
+    "modularity": "模块化：将样式划分为逻辑部分。",
+    "reusability": "可重用性：定义一次值并在多个地方使用。",
+    "maintainability": "易维护性：在一个地方更改值并影响整个项目。"
+  },
+  "comparison": {
+    "title": "相比类似项目的优势",
+    "simplicity": "简单性：比 Sass 或 Less 更容易学习和使用。",
+    "lightweight": "轻量级：无需复杂配置或额外工具。",
+    "compatibility": "兼容性：生成的 CSS 完全兼容现代浏览器。"
+  },
+  "conclusion": "LayerCSS 是一个强大的工具，简化了 CSS 开发。其高级功能（如全局和局部变量、嵌套块、层和结构化注释）使其成为小型和大型项目的理想解决方案。如果你想改进设计工作流程并创建模块化、可重用和可维护的样式，LayerCSS 是完美的选择！"
 }
