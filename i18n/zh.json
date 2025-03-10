@@ -1,0 +1,11 @@
+{
+  "aboutTitle": "关于 LayerCSS",
+  "aboutDescription": "LayerCSS 是一种基于 CSS 的设计语言，引入了高级功能，以促进模块化、可重用和可维护样式的创建。",
+  "compilerTitle": "LYC 到 CSS 编译器",
+  "examplesTitle": "示例",
+  "compileButton": "编译",
+  "example1Title": "示例 1: 全局变量",
+  "example1Description": "此示例展示了如何在 LayerCSS 中使用全局变量。",
+  "example2Title": "示例 2: 嵌套块",
+  "example2Description": "此示例演示了嵌套块在 LayerCSS 中的工作原理。"
+}

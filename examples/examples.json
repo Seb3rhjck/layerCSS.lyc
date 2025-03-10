@@ -1,0 +1,14 @@
+[
+  {
+    "titleKey": "example1Title",
+    "descriptionKey": "example1Description",
+    "lycFile": "examples/example1.lyc",
+    "cssFile": "examples/example1.css"
+  },
+  {
+    "titleKey": "example2Title",
+    "descriptionKey": "example2Description",
+    "lycFile": "examples/example2.lyc",
+    "cssFile": "examples/example2.css"
+  }
+]

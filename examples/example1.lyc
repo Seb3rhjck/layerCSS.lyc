@@ -1,0 +1,7 @@
+--primary-color: #FF69B4;
+body {
+  background: var(--primary-color);
+  h1 {
+    color: #FFFFFF;
+  }
+}

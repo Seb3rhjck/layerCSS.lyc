@@ -1,0 +1,11 @@
+{
+  "aboutTitle": "Acerca de LayerCSS",
+  "aboutDescription": "LayerCSS es un lenguaje de diseño basado en CSS que introduce funciones avanzadas para facilitar la creación de estilos modulares, reutilizables y mantenibles.",
+  "compilerTitle": "Compilador LYC a CSS",
+  "examplesTitle": "Ejemplos",
+  "compileButton": "Compilar",
+  "example1Title": "Ejemplo 1: Variables Globales",
+  "example1Description": "Este ejemplo muestra cómo usar variables globales en LayerCSS.",
+  "example2Title": "Ejemplo 2: Bloques Anidados",
+  "example2Description": "Este ejemplo demuestra cómo funcionan los bloques anidados en LayerCSS."
+}
