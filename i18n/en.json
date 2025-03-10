@@ -4,8 +4,23 @@
   "compilerTitle": "LYC to CSS Compiler",
   "examplesTitle": "Examples",
   "compileButton": "Compile",
-  "example1Title": "Example 1: Global Variables",
-  "example1Description": "This example shows how to use global variables in LayerCSS.",
-  "example2Title": "Example 2: Nested Blocks",
-  "example2Description": "This example demonstrates how nested blocks work in LayerCSS."
+  "features": {
+    "globalVariables": "Global and Local Variables: Define reusable values across the project or within specific blocks.",
+    "nestedBlocks": "Nested Blocks: Write styles hierarchically to improve readability and reduce selector repetition.",
+    "layers": "Layers (@layer): Organize styles into logical sections like base, components, or utilities.",
+    "comments": "Structured Comments: Supports single-line (//) and multi-line (/* ... */) comments.",
+    "animations": "Support for Animations and Keyframes: Create dynamic visual effects easily."
+  },
+  "philosophy": {
+    "modularity": "Modularity: Divide your styles into logical sections.",
+    "reusability": "Reusability: Define values once and use them in multiple places.",
+    "maintainability": "Ease of maintenance: Change a value in one place and affect the entire project."
+  },
+  "comparison": {
+    "title": "Advantages Over Similar Projects",
+    "simplicity": "Simplicity: Easier to learn and use than Sass or Less.",
+    "lightweight": "Lightweight: No complex configurations or additional tools required.",
+    "compatibility": "Compatibility: The generated CSS is fully compatible with modern browsers."
+  },
+  "conclusion": "LayerCSS is a powerful tool that simplifies CSS development. Its advanced features, such as global and local variables, nested blocks, layers, and structured comments, make it an ideal solution for both small and large projects. If you want to improve your design workflow and create modular, reusable, and maintainable styles, LayerCSS is the perfect solution!"
 }
