@@ -1,7 +1,10 @@
 // Variables globales
 let currentLanguage = "es"; // Idioma predeterminado
 
-// Función para cargar traducciones
+/**
+ * Función para cargar traducciones según el idioma seleccionado.
+ * @param {string} lang - Código del idioma (ej. "es", "en").
+ */
 async function loadTranslations(lang) {
   try {
     const response = await fetch(`i18n/${lang}.json`);
@@ -74,13 +77,18 @@ async function loadTranslations(lang) {
 
     // Actualizar ejemplos
     loadExamples(translations);
+
+    // Actualizar idioma actual
     currentLanguage = lang;
   } catch (error) {
     console.error("Error al cargar las traducciones:", error);
   }
 }
 
-// Función para cargar ejemplos
+/**
+ * Función para cargar ejemplos desde un archivo JSON.
+ * @param {Object} translations - Objeto con las traducciones cargadas.
+ */
 async function loadExamples(translations) {
   try {
     const response = await fetch("examples/examples.json");
@@ -108,46 +116,24 @@ async function loadExamples(translations) {
   }
 }
 
-// Evento para cambiar idioma
+/**
+ * Evento para cambiar el idioma mediante el selector.
+ */
 document.getElementById("language-selector").addEventListener("change", (event) => {
   const lang = event.target.value;
   loadTranslations(lang);
 });
 
-// Inicialización
+/**
+ * Inicialización del script al cargar el DOM.
+ */
 document.addEventListener("DOMContentLoaded", () => {
   loadTranslations(currentLanguage);
 });
 
-// Función para cargar ejemplos
-async function loadExamples(translations) {
-  try {
-    const response = await fetch("examples/examples.json");
-    const examples = await response.json();
-    const container = document.getElementById("example-container");
-    container.innerHTML = ""; // Limpiar contenedor
-
-    examples.forEach(async (example) => {
-      const lycResponse = await fetch(example.lycFile);
-      const cssResponse = await fetch(example.cssFile);
-      const lycCode = await lycResponse.text();
-      const cssCode = await cssResponse.text();
-
-      const div = document.createElement("div");
-      div.innerHTML = `
-        <h3>${translations[example.titleKey]}</h3>
-        <p>${translations[example.descriptionKey]}</p>
-        <pre><strong>LYC:</strong>\n${lycCode}</pre>
-        <pre><strong>CSS:</strong>\n${cssCode}</pre>
-      `;
-      container.appendChild(div);
-    });
-  } catch (error) {
-    console.error("Error al cargar los ejemplos:", error);
-  }
-}
-
-// Función para compilar LYC a CSS
+/**
+ * Función para compilar LYC a CSS.
+ */
 document.getElementById("compile-button").addEventListener("click", () => {
   const lycCode = document.getElementById("lyc-input").value;
   if (!lycCode.trim()) {
@@ -160,7 +146,6 @@ document.getElementById("compile-button").addEventListener("click", () => {
     const cssCode = processLYC(lycCode);
     const endTime = performance.now();
     const compileTime = (endTime - startTime).toFixed(2);
-
     document.getElementById("css-output").textContent = cssCode;
     document.getElementById("compilation-time").textContent = `Tiempo de compilación: ${compileTime} ms`;
   } catch (error) {
@@ -168,7 +153,11 @@ document.getElementById("compile-button").addEventListener("click", () => {
   }
 });
 
-// Compilador LYC a CSS
+/**
+ * Compilador LYC a CSS.
+ * @param {string} lycCode - Código LYC a procesar.
+ * @returns {string} Código CSS procesado.
+ */
 function processLYC(lycCode) {
   let processedCode = lycCode;
 
@@ -197,7 +186,11 @@ function processLYC(lycCode) {
   return processedCode.replace(/\s+/g, ' ').trim();
 }
 
-// Función para procesar bloques anidados
+/**
+ * Función para procesar bloques anidados.
+ * @param {string} code - Código LYC a procesar.
+ * @returns {string} Código procesado con bloques anidados.
+ */
 function processNestedBlocks(code) {
   const nestedBlockRegex = /([^{]+)\{([^}]+)\}/g;
   let result = code;
@@ -212,7 +205,6 @@ function processNestedBlocks(code) {
     const processedChildren = childSelectors.map(selectorLine => {
       const [childSelector, ...styles] = selectorLine.split('{');
       if (!childSelector) return '';
-
       const fullSelector = `${parentSelector} ${childSelector.trim()}`;
       const styleContent = styles.join('{').replace(/}/g, '');
       return `${fullSelector} { ${styleContent} }`;
@@ -225,7 +217,11 @@ function processNestedBlocks(code) {
   return result;
 }
 
-// Función para procesar capas (@layer)
+/**
+ * Función para procesar capas (@layer).
+ * @param {string} code - Código LYC a procesar.
+ * @returns {string} Código procesado con capas.
+ */
 function processLayers(code) {
   const layerRegex = /@layer\s+([^{]+)\s*\{([^}]+)\}/g;
   let result = code;
@@ -242,14 +238,3 @@ function processLayers(code) {
 
   return result;
 }
-
-// Evento para cambiar idioma
-document.getElementById("language-selector").addEventListener("change", (event) => {
-  const lang = event.target.value;
-  loadTranslations(lang);
-});
-
-// Inicialización
-document.addEventListener("DOMContentLoaded", () => {
-  loadTranslations(currentLanguage);
-});
