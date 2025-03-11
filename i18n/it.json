@@ -4,6 +4,18 @@
   "compilerTitle": "Compilatore LYC in CSS",
   "examplesTitle": "Esempi",
   "compileButton": "Compila",
+  "featuresTitle": "Caratteristiche Chiave",
+  "philosophyTitle": "Filosofia dietro LayerCSS",
+  "comparisonTitle": "Vantaggi rispetto a progetti simili",
+  "characteristic": "Caratteristica",
+  "high": "Alta",
+  "medium": "Media",
+  "low": "Bassa",
+  "yes": "Sì",
+  "no": "No",
+  "withPlugins": "Sì (con plugin)",
+  "placeholder": "Scrivi il tuo codice LYC qui...",
+  "footerText": "© 2025 LayerCSS. Tutti i diritti riservati. Licenza Apache 2.0.",
   "features": {
     "globalVariables": "Variabili Globali e Locali: Definisci valori riutilizzabili in tutto il progetto o all'interno di blocchi specifici.",
     "nestedBlocks": "Blocchi Annidati: Scrivi stili gerarchicamente per migliorare la leggibilità e ridurre la ripetizione dei selettori.",
@@ -21,10 +33,5 @@
     "simplicity": "Semplicità: Più facile da imparare e usare rispetto a Sass o Less.",
     "lightweight": "Leggero: Non richiede configurazioni complesse o strumenti aggiuntivi.",
     "compatibility": "Compatibilità: Il CSS generato è completamente compatibile con i browser moderni."
-  },
-  "footerText": "© 2025 LayerCSS. Tutti i diritti riservati. Licenza Apache 2.0.",
-  "lycInputPlaceholder": "Scrivi il tuo codice LYC qui...",
-  "philosophyTitle": "Filosofia dietro LayerCSS",
-  "comparisonTitle": "Vantaggi rispetto a progetti simili",
-  "featureColumn": "Caratteristica"
+  }
 }
