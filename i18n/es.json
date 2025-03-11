@@ -21,5 +21,10 @@
     "simplicity": "Simplicidad: Más fácil de aprender y usar que Sass o Less.",
     "lightweight": "Ligero: No requiere configuraciones complejas ni herramientas adicionales.",
     "compatibility": "Compatibilidad: El CSS generado es completamente compatible con navegadores modernos."
-  }
+  },
+  "footerText": "© 2025 LayerCSS. Todos los derechos reservados. Licencia Apache 2.0.",
+  "lycInputPlaceholder": "Escribe tu código LYC aquí...",
+  "philosophyTitle": "Filosofía detrás de LayerCSS",
+  "comparisonTitle": "Ventajas sobre Proyectos Similares",
+  "featureColumn": "Característica"
 }
