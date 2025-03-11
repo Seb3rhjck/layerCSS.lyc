@@ -75,7 +75,7 @@ async function loadTranslations(lang) {
     // Actualizar pie de página
     document.getElementById("footer-text").textContent = translations.footerText;
 
-    // Actualizar ejemplos
+    // Cargar ejemplos
     loadExamples(translations);
 
     // Actualizar idioma actual
@@ -92,6 +92,9 @@ async function loadTranslations(lang) {
 async function loadExamples(translations) {
   try {
     const response = await fetch("examples/examples.json");
+    if (!response.ok) {
+      throw new Error(`Error al cargar el archivo JSON de ejemplos: ${response.status}`);
+    }
     const examples = await response.json();
     const container = document.getElementById("example-container");
     container.innerHTML = ""; // Limpiar contenedor
@@ -99,10 +102,14 @@ async function loadExamples(translations) {
     examples.forEach(async (example) => {
       const lycResponse = await fetch(example.lycFile);
       const cssResponse = await fetch(example.cssFile);
+      if (!lycResponse.ok || !cssResponse.ok) {
+        throw new Error("Error al cargar archivos LYC o CSS.");
+      }
       const lycCode = await lycResponse.text();
       const cssCode = await cssResponse.text();
 
       const div = document.createElement("div");
+      div.classList.add("example-item"); // Clase para estilos
       div.innerHTML = `
         <h3>${translations[example.titleKey]}</h3>
         <p>${translations[example.descriptionKey]}</p>
@@ -137,7 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
 document.getElementById("compile-button").addEventListener("click", () => {
   const lycCode = document.getElementById("lyc-input").value;
   if (!lycCode.trim()) {
-    alert(translations.compileError || "Por favor, ingresa código LYC.");
+    alert("Por favor, ingresa código LYC.");
     return;
   }
 
