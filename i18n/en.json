@@ -22,5 +22,9 @@
     "lightweight": "Lightweight: No complex configurations or additional tools required.",
     "compatibility": "Compatibility: The generated CSS is fully compatible with modern browsers."
   },
-  "conclusion": "LayerCSS is a powerful tool that simplifies CSS development. Its advanced features, such as global and local variables, nested blocks, layers, and structured comments, make it an ideal solution for both small and large projects. If you want to improve your design workflow and create modular, reusable, and maintainable styles, LayerCSS is the perfect solution!"
+  "footerText": "© 2025 LayerCSS. All rights reserved. Apache 2.0 License.",
+  "lycInputPlaceholder": "Write your LYC code here...",
+  "philosophyTitle": "Philosophy Behind LayerCSS",
+  "comparisonTitle": "Advantages Over Similar Projects",
+  "featureColumn": "Feature"
 }
