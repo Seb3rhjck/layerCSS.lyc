@@ -25,6 +25,9 @@ async function loadTranslations(lang) {
     `;
 
     // Actualizar filosofía
+    const philosophySubtitle = document.querySelector("#about h3:nth-of-type(2)");
+    philosophySubtitle.textContent = translations.philosophyTitle || "Filosofía detrás de LayerCSS";
+
     const philosophyList = document.querySelector("#about ul:nth-of-type(2)");
     philosophyList.innerHTML = `
       <li><strong>${translations.philosophy.modularity}</strong></li>
@@ -33,6 +36,12 @@ async function loadTranslations(lang) {
     `;
 
     // Actualizar tabla de comparación
+    const comparisonSubtitle = document.querySelector("#about h3:nth-of-type(3)");
+    comparisonSubtitle.textContent = translations.comparisonTitle || "Ventajas sobre Proyectos Similares";
+
+    const comparisonTableHeader = document.querySelector("#about table thead tr th:first-child");
+    comparisonTableHeader.textContent = translations.featureColumn || "Característica";
+
     const comparisonTable = document.querySelector("#about table tbody");
     comparisonTable.innerHTML = `
       <tr>
@@ -57,6 +66,12 @@ async function loadTranslations(lang) {
         <td>Sí</td>
       </tr>
     `;
+
+    // Actualizar placeholder del textarea
+    document.getElementById("lyc-input").placeholder = translations.lycInputPlaceholder || "Escribe tu código LYC aquí...";
+
+    // Actualizar pie de página
+    document.querySelector(".footer p").textContent = translations.footerText || "© 2025 LayerCSS. Todos los derechos reservados. Licencia Apache 2.0.";
 
     // Actualizar ejemplos
     loadExamples(translations);
