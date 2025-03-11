@@ -22,5 +22,9 @@
     "lightweight": "轻量级：无需复杂配置或额外工具。",
     "compatibility": "兼容性：生成的 CSS 完全兼容现代浏览器。"
   },
-  "conclusion": "LayerCSS 是一个强大的工具，简化了 CSS 开发。其高级功能（如全局和局部变量、嵌套块、层和结构化注释）使其成为小型和大型项目的理想解决方案。如果你想改进设计工作流程并创建模块化、可重用和可维护的样式，LayerCSS 是完美的选择！"
+  "footerText": "© 2025 LayerCSS. 保留所有权利。Apache 2.0 许可证。",
+  "lycInputPlaceholder": "在此处编写您的 LYC 代码...",
+  "philosophyTitle": "LayerCSS 背后的理念",
+  "comparisonTitle": "相比类似项目的优势",
+  "featureColumn": "特性"
 }
