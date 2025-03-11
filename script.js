@@ -90,31 +90,36 @@ async function loadExamples(translations) {
     const examples = await response.json();
     const container = document.getElementById("example-container");
     container.innerHTML = ""; // Limpiar contenedor
-    examples.forEach(async (example) => {
-      const lycResponse = await fetch(example.lycFile);
-      const cssResponse = await fetch(example.cssFile);
-      if (!lycResponse.ok || !cssResponse.ok) {
-        throw new Error("Error al cargar archivos LYC o CSS.");
+
+    for (const example of examples) {
+      try {
+        const lycResponse = await fetch(example.lycFile);
+        const cssResponse = await fetch(example.cssFile);
+
+        if (!lycResponse.ok || !cssResponse.ok) {
+          throw new Error("Error al cargar archivos LYC o CSS.");
+        }
+
+        const lycCode = await lycResponse.text();
+        const cssCode = await cssResponse.text();
+
+        const div = document.createElement("div");
+        div.classList.add("example-item");
+        div.innerHTML = `
+          <h3>${translations[example.titleKey]}</h3>
+          <p>${translations[example.descriptionKey]}</p>
+          <pre><strong>LYC:</strong>\n${lycCode}</pre>
+          <pre><strong>CSS:</strong>\n${cssCode}</pre>
+        `;
+        container.appendChild(div);
+      } catch (error) {
+        console.error(`Error al cargar el ejemplo "${example.titleKey}":`, error);
       }
-      const lycCode = await lycResponse.text();
-      const cssCode = await cssResponse.text();
-      const div = document.createElement("div");
-      div.classList.add("example-item"); // Clase para estilos
-      div.innerHTML = `
-        <h3>${translations[example.titleKey]}</h3>
-        <p>${translations[example.descriptionKey]}</p>
-        <pre><strong>LYC:</strong>
-${lycCode}</pre>
-        <pre><strong>CSS:</strong>
-${cssCode}</pre>
-      `;
-      container.appendChild(div);
-    });
+    }
   } catch (error) {
     console.error("Error al cargar los ejemplos:", error);
   }
 }
-
 /**
  * Evento para cambiar el idioma mediante el selector.
  */
