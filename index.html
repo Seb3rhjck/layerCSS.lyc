@@ -1,134 +1,98 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title id="page-title">LayerCSS - Lenguaje de Programación</title>
-  <!-- Favicon -->
-  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
-  <!-- Hoja de Estilos Minificada -->
-  <link rel="stylesheet" href="styles.css">
-  <!-- Google Fonts (Opcional: Para mejorar la tipografía) -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
-</head>
-<body>
-  <!-- Encabezado -->
-  <header class="header">
-    <div class="container">
-      <h1 class="logo">LayerCSS</h1>
-      <nav class="nav">
-        <select id="language-selector" class="language-selector">
-          <option value="es">Español</option>
-          <option value="en">English</option>
-          <option value="it">Italiano</option>
-          <option value="zh">简体中文</option>
-          <option value="ru">Русский</option>
-          <option value="tg">Tagalo</option>
-        </select>
-      </nav>
-    </div>
-  </header>
+<!-- Contenido Principal -->
+<main class="main">
+  <!-- Sección Acerca de LayerCSS -->
+  <section id="about" class="section about">
+    <h2 id="about-title" class="section-title"></h2>
+    <p id="about-description" class="section-description"></p>
+    <h3 id="features-subtitle" class="section-subtitle">Características Clave</h3>
+    <ul class="features-list">
+      <li><strong id="feature-global-variables">Variables Globales y Locales:</strong> Define valores reutilizables en todo el proyecto o dentro de bloques específicos.</li>
+      <li><strong id="feature-nested-blocks">Bloques Anidados:</strong> Escribe estilos jerárquicamente para mejorar la legibilidad y reducir la repetición de selectores.</li>
+      <li><strong id="feature-layers">Capas (`@layer`):</strong> Organiza estilos en secciones lógicas como `base`, `componentes` o `utilidades`.</li>
+      <li><strong id="feature-comments">Comentarios Estructurados:</strong> Admite comentarios de una línea (`//`) y de varias líneas (`/* ... */`).</li>
+      <li><strong id="feature-animations">Soporte para Animaciones y Keyframes:</strong> Crea efectos visuales dinámicos de manera sencilla.</li>
+    </ul>
+    <h3 id="philosophy-subtitle" class="section-subtitle">Filosofía detrás de LayerCSS</h3>
+    <ul class="philosophy-list">
+      <li><strong id="philosophy-modularity">Modularidad:</strong> Divide tus estilos en secciones lógicas.</li>
+      <li><strong id="philosophy-reusability">Reutilización:</strong> Define valores una vez y úsalos en varios lugares.</li>
+      <li><strong id="philosophy-maintainability">Facilidad de mantenimiento:</strong> Cambia un valor en un solo lugar y afecta todo el proyecto.</li>
+    </ul>
+    <h3 id="comparison-subtitle" class="section-subtitle">Ventajas sobre Proyectos Similares</h3>
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th id="comparison-characteristic">Característica</th>
+          <th>Sass</th>
+          <th>Less</th>
+          <th>PostCSS</th>
+          <th>LayerCSS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td id="comparison-variables">Variables</td>
+          <td id="sass-variables">Sí</td>
+          <td id="less-variables">Sí</td>
+          <td id="postcss-variables">Con plugins</td>
+          <td id="layercss-variables">Sí (global y local)</td>
+        </tr>
+        <tr>
+          <td id="comparison-nested-blocks">Bloques Anidados</td>
+          <td id="sass-nested-blocks">Sí</td>
+          <td id="less-nested-blocks">Sí</td>
+          <td id="postcss-nested-blocks">Con plugins</td>
+          <td id="layercss-nested-blocks">Sí</td>
+        </tr>
+        <tr>
+          <td id="comparison-layers">Capas (`@layer`)</td>
+          <td id="sass-layers">No</td>
+          <td id="less-layers">No</td>
+          <td id="postcss-layers">Sí (con plugins)</td>
+          <td id="layercss-layers">Sí</td>
+        </tr>
+        <tr>
+          <td id="comparison-comments">Comentarios</td>
+          <td id="sass-comments">Solo `/* ... */`</td>
+          <td id="less-comments">Solo `/* ... */`</td>
+          <td id="postcss-comments">Solo `/* ... */`</td>
+          <td id="layercss-comments">`//` y `/* ... */`</td>
+        </tr>
+        <tr>
+          <td id="comparison-animations">Animaciones y Keyframes</td>
+          <td id="sass-animations">Sí</td>
+          <td id="less-animations">Sí</td>
+          <td id="postcss-animations">Sí</td>
+          <td id="layercss-animations">Sí</td>
+        </tr>
+        <tr>
+          <td id="comparison-learning-curve">Curva de Aprendizaje</td>
+          <td id="sass-learning-curve">Alta</td>
+          <td id="less-learning-curve">Media</td>
+          <td id="postcss-learning-curve">Media</td>
+          <td id="layercss-learning-curve">Baja</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
 
-  <!-- Contenido Principal -->
-  <main class="main">
-    <!-- Sección Acerca de LayerCSS -->
-    <section id="about" class="section about">
-      <h2 id="about-title" class="section-title"></h2>
-      <p id="about-description" class="section-description"></p>
-      <h3 id="features-title" class="section-subtitle"></h3>
-      <ul id="features-list" class="features-list">
-        <li><strong id="feature-global-variables"></strong></li>
-        <li><strong id="feature-nested-blocks"></strong></li>
-        <li><strong id="feature-layers"></strong></li>
-        <li><strong id="feature-comments"></strong></li>
-        <li><strong id="feature-animations"></strong></li>
-      </ul>
-      <h3 id="philosophy-title" class="section-subtitle"></h3>
-      <ul id="philosophy-list" class="philosophy-list">
-        <li><strong id="philosophy-modularity"></strong></li>
-        <li><strong id="philosophy-reusability"></strong></li>
-        <li><strong id="philosophy-maintainability"></strong></li>
-      </ul>
-      <h3 id="comparison-title" class="section-subtitle"></h3>
-      <table class="comparison-table">
-        <thead>
-          <tr>
-            <th id="comparison-characteristic"></th>
-            <th>Sass</th>
-            <th>Less</th>
-            <th>PostCSS</th>
-            <th>LayerCSS</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td id="comparison-variables"></td>
-            <td id="sass-variables">Sí</td>
-            <td id="less-variables">Sí</td>
-            <td id="postcss-variables">Con plugins</td>
-            <td id="layercss-variables">Sí (global y local)</td>
-          </tr>
-          <tr>
-            <td id="comparison-nested-blocks"></td>
-            <td id="sass-nested-blocks">Sí</td>
-            <td id="less-nested-blocks">Sí</td>
-            <td id="postcss-nested-blocks">Con plugins</td>
-            <td id="layercss-nested-blocks">Sí</td>
-          </tr>
-          <tr>
-            <td id="comparison-layers"></td>
-            <td id="sass-layers">No</td>
-            <td id="less-layers">No</td>
-            <td id="postcss-layers">Sí (con plugins)</td>
-            <td id="layercss-layers">Sí</td>
-          </tr>
-          <tr>
-            <td id="comparison-comments"></td>
-            <td id="sass-comments">Solo `/* ... */`</td>
-            <td id="less-comments">Solo `/* ... */`</td>
-            <td id="postcss-comments">Solo `/* ... */`</td>
-            <td id="layercss-comments">`//` y `/* ... */`</td>
-          </tr>
-          <tr>
-            <td id="comparison-animations"></td>
-            <td id="sass-animations">Sí</td>
-            <td id="less-animations">Sí</td>
-            <td id="postcss-animations">Sí</td>
-            <td id="layercss-animations">Sí</td>
-          </tr>
-          <tr>
-            <td id="comparison-learning-curve"></td>
-            <td id="sass-learning-curve">Alta</td>
-            <td id="less-learning-curve">Media</td>
-            <td id="postcss-learning-curve">Media</td>
-            <td id="layercss-learning-curve">Baja</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
+  <!-- Sección Compilador LYC a CSS -->
+  <section id="compiler" class="section compiler">
+    <h2 id="compiler-title" class="section-title"></h2>
+    <textarea id="lyc-input" class="code-input" placeholder="Escribe tu código LYC aquí..."></textarea>
+    <button id="compile-button" class="compile-button"></button>
+    <pre id="css-output" class="code-output"></pre>
+    <p id="compilation-time" class="compilation-time"></p>
+  </section>
 
-    <!-- Sección Compilador LYC a CSS -->
-    <section id="compiler" class="section compiler">
-      <h2 id="compiler-title" class="section-title"></h2>
-      <textarea id="lyc-input" class="code-input" placeholder="Escribe tu código LYC aquí..."></textarea>
-      <button id="compile-button" class="compile-button"></button>
-      <pre id="css-output" class="code-output"></pre>
-      <p id="compilation-time" class="compilation-time"></p>
-    </section>
+  <!-- Sección Ejemplos -->
+  <section id="examples" class="section examples">
+    <h2 id="examples-title" class="section-title"></h2>
+    <div id="example-container" class="example-container"></div>
+  </section>
+</main>
 
-    <!-- Sección Ejemplos -->
-    <section id="examples" class="section examples">
-      <h2 id="examples-title" class="section-title"></h2>
-      <div id="example-container" class="example-container"></div>
-    </section>
-  </main>
-
-  <!-- Pie de Página -->
-  <footer class="footer">
-    <p id="footer-text">&copy; 2025 LayerCSS. Todos los derechos reservados. Licencia Apache 2.0.</p>
-  </footer>
-
-  <!-- Script Principal -->
-  <script src="script.js"></script>
-</body>
-</html>
+<!-- Pie de Página -->
+<footer class="footer">
+  <p id="footer-text">&copy; 2025 LayerCSS. Todos los derechos reservados. Licencia Apache 2.0.</p>
+</footer>
