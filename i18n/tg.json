@@ -4,6 +4,18 @@
   "compilerTitle": "LYC sa CSS Compiler",
   "examplesTitle": "Mga Halimbawa",
   "compileButton": "I-compile",
+  "featuresTitle": "Mga Pangunahing Katangian",
+  "philosophyTitle": "Pilosopiya sa Likod ng LayerCSS",
+  "comparisonTitle": "Mga Kabutihang Dulot kaysa sa Katulad na Proyekto",
+  "characteristic": "Katangian",
+  "high": "Mataas",
+  "medium": "Katamtaman",
+  "low": "Mababa",
+  "yes": "Oo",
+  "no": "Hindi",
+  "withPlugins": "Oo (kasama ang mga plugin)",
+  "placeholder": "Isulat ang iyong LYC code dito...",
+  "footerText": "© 2025 LayerCSS. Lahat ng karapatan ay nakalaan. Lisensya ng Apache 2.0.",
   "features": {
     "globalVariables": "Global at Local na Mga Variable: Magtakda ng reusable na mga halaga sa buong proyekto o sa loob ng mga tiyak na bloke.",
     "nestedBlocks": "Naka-nest na mga Bloke: Isulat ang mga estilo nang hierarchical upang mapabuti ang readability at bawasan ang pag-uulit ng mga selector.",
@@ -21,10 +33,5 @@
     "simplicity": "Kasimplehan: Mas madaling matuto at gamitin kaysa sa Sass o Less.",
     "lightweight": "Lightweight: Walang kailangang mag-complex configuration o dagdag na mga tool.",
     "compatibility": "Compatibility: Ang nabuong CSS ay ganap na compatible sa mga modernong browser."
-  },
-  "footerText": "© 2025 LayerCSS. Lahat ng karapatan ay nakalaan. Lisensya ng Apache 2.0.",
-  "lycInputPlaceholder": "Isulat ang iyong code ng LYC dito...",
-  "philosophyTitle": "Pilosopiya sa likod ng LayerCSS",
-  "comparisonTitle": "Mga Kabutihang Dulot kaysa sa Katulad na Proyekto",
-  "featureColumn": "Katangian"
+  }
 }
