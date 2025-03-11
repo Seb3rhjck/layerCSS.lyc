@@ -4,6 +4,18 @@
   "compilerTitle": "LYC 到 CSS 编译器",
   "examplesTitle": "示例",
   "compileButton": "编译",
+  "featuresTitle": "关键特性",
+  "philosophyTitle": "LayerCSS 背后的理念",
+  "comparisonTitle": "相比类似项目的优势",
+  "characteristic": "特性",
+  "high": "高",
+  "medium": "中",
+  "low": "低",
+  "yes": "是",
+  "no": "否",
+  "withPlugins": "是（需插件）",
+  "placeholder": "在此处编写你的 LYC 代码...",
+  "footerText": "© 2025 LayerCSS. 保留所有权利。Apache 2.0 许可证。",
   "features": {
     "globalVariables": "全局和局部变量：在项目或特定块中定义可重用的值。",
     "nestedBlocks": "嵌套块：以分层方式编写样式，提高可读性并减少选择器重复。",
@@ -21,10 +33,5 @@
     "simplicity": "简单性：比 Sass 或 Less 更容易学习和使用。",
     "lightweight": "轻量级：无需复杂配置或额外工具。",
     "compatibility": "兼容性：生成的 CSS 完全兼容现代浏览器。"
-  },
-  "footerText": "© 2025 LayerCSS. 保留所有权利。Apache 2.0 许可证。",
-  "lycInputPlaceholder": "在此处编写您的 LYC 代码...",
-  "philosophyTitle": "LayerCSS 背后的理念",
-  "comparisonTitle": "相比类似项目的优势",
-  "featureColumn": "特性"
+  }
 }
