@@ -12,13 +12,10 @@ async function loadTranslations(lang) {
       throw new Error(`Error al cargar el archivo JSON para el idioma ${lang}: ${response.status}`);
     }
     const translations = await response.json();
-
     // Actualizar título de la página
     document.getElementById("page-title").textContent = translations.aboutTitle;
-
     // Actualizar encabezado
     document.getElementById("header-title").textContent = translations.aboutTitle;
-
     // Actualizar sección "Acerca de LayerCSS"
     document.getElementById("about-title").textContent = translations.aboutTitle;
     document.getElementById("about-description").textContent = translations.aboutDescription;
@@ -40,7 +37,6 @@ async function loadTranslations(lang) {
     document.getElementById("comparison-comments").textContent = translations.comparison.comments;
     document.getElementById("comparison-animations").textContent = translations.comparison.animations;
     document.getElementById("comparison-learning-curve").textContent = translations.comparison.learningCurve;
-
     // Actualizar tabla de comparación
     document.getElementById("sass-variables").textContent = translations.sassVariables;
     document.getElementById("less-variables").textContent = translations.lessVariables;
@@ -66,18 +62,14 @@ async function loadTranslations(lang) {
     document.getElementById("less-learning-curve").textContent = translations.lessLearningCurve;
     document.getElementById("postcss-learning-curve").textContent = translations.postcssLearningCurve;
     document.getElementById("layercss-learning-curve").textContent = translations.layercssLearningCurve;
-
     // Actualizar compilador
     document.getElementById("compiler-title").textContent = translations.compilerTitle;
     document.getElementById("compile-button").textContent = translations.compileButton;
     document.getElementById("lyc-input").placeholder = translations.placeholder;
-
     // Actualizar pie de página
     document.getElementById("footer-text").textContent = translations.footerText;
-
     // Cargar ejemplos
     loadExamples(translations);
-
     // Actualizar idioma actual
     currentLanguage = lang;
   } catch (error) {
@@ -98,7 +90,6 @@ async function loadExamples(translations) {
     const examples = await response.json();
     const container = document.getElementById("example-container");
     container.innerHTML = ""; // Limpiar contenedor
-
     examples.forEach(async (example) => {
       const lycResponse = await fetch(example.lycFile);
       const cssResponse = await fetch(example.cssFile);
@@ -107,14 +98,15 @@ async function loadExamples(translations) {
       }
       const lycCode = await lycResponse.text();
       const cssCode = await cssResponse.text();
-
       const div = document.createElement("div");
       div.classList.add("example-item"); // Clase para estilos
       div.innerHTML = `
         <h3>${translations[example.titleKey]}</h3>
         <p>${translations[example.descriptionKey]}</p>
-        <pre><strong>LYC:</strong>\n${lycCode}</pre>
-        <pre><strong>CSS:</strong>\n${cssCode}</pre>
+        <pre><strong>LYC:</strong>
+${lycCode}</pre>
+        <pre><strong>CSS:</strong>
+${cssCode}</pre>
       `;
       container.appendChild(div);
     });
@@ -147,7 +139,6 @@ document.getElementById("compile-button").addEventListener("click", () => {
     alert("Por favor, ingresa código LYC.");
     return;
   }
-
   const startTime = performance.now();
   try {
     const cssCode = processLYC(lycCode);
@@ -167,28 +158,22 @@ document.getElementById("compile-button").addEventListener("click", () => {
  */
 function processLYC(lycCode) {
   let processedCode = lycCode;
-
   // 1. Eliminar comentarios
   processedCode = processedCode.replace(/\/\/.*|\/\*[\s\S]*?\*\//g, '');
-
   // 2. Procesar variables globales
   let globalVariables = {};
   processedCode = processedCode.replace(/^--([a-zA-Z0-9-]+):\s*([^;]+);/gm, (match, varName, varValue) => {
     globalVariables[varName] = varValue.trim();
     return '';
   });
-
   // 3. Aplicar variables globales
   for (const [varName, varValue] of Object.entries(globalVariables)) {
     processedCode = processedCode.replace(new RegExp(`var\\(--${varName}\\)`, 'g'), varValue);
   }
-
   // 4. Procesar bloques anidados
   processedCode = processNestedBlocks(processedCode);
-
   // 5. Procesar capas (@layer)
   processedCode = processLayers(processedCode);
-
   // 6. Minificar resultado
   return processedCode.replace(/\s+/g, ' ').trim();
 }
@@ -202,11 +187,9 @@ function processNestedBlocks(code) {
   const nestedBlockRegex = /([^{]+)\{([^}]+)\}/g;
   let result = code;
   let match;
-
   while ((match = nestedBlockRegex.exec(code)) !== null) {
     const parentSelector = match[1].trim();
     const childContent = match[2].trim();
-
     // Buscar selectores hijos dentro del bloque
     const childSelectors = childContent.split(';').map(line => line.trim()).filter(line => line);
     const processedChildren = childSelectors.map(selectorLine => {
@@ -216,11 +199,9 @@ function processNestedBlocks(code) {
       const styleContent = styles.join('{').replace(/}/g, '');
       return `${fullSelector} { ${styleContent} }`;
     }).join(' ');
-
     // Reemplazar el bloque original con el procesado
     result = result.replace(match[0], processedChildren);
   }
-
   return result;
 }
 
@@ -233,15 +214,12 @@ function processLayers(code) {
   const layerRegex = /@layer\s+([^{]+)\s*\{([^}]+)\}/g;
   let result = code;
   let match;
-
   while ((match = layerRegex.exec(code)) !== null) {
     const layerName = match[1].trim();
     const layerContent = match[2].trim();
-
     // Mantener la estructura de la capa
     const processedLayer = `@layer ${layerName} { ${layerContent} }`;
     result = result.replace(match[0], processedLayer);
   }
-
   return result;
 }
