@@ -5,73 +5,72 @@ let currentLanguage = "es"; // Idioma predeterminado
 async function loadTranslations(lang) {
   try {
     const response = await fetch(`i18n/${lang}.json`);
+    if (!response.ok) {
+      throw new Error(`Error al cargar el archivo JSON para el idioma ${lang}: ${response.status}`);
+    }
     const translations = await response.json();
 
-    // Actualizar texto en la página
+    // Actualizar título de la página
+    document.getElementById("page-title").textContent = translations.aboutTitle;
+
+    // Actualizar encabezado
+    document.getElementById("header-title").textContent = translations.aboutTitle;
+
+    // Actualizar sección "Acerca de LayerCSS"
     document.getElementById("about-title").textContent = translations.aboutTitle;
     document.getElementById("about-description").textContent = translations.aboutDescription;
-    document.getElementById("compiler-title").textContent = translations.compilerTitle;
-    document.getElementById("examples-title").textContent = translations.examplesTitle;
-    document.getElementById("compile-button").textContent = translations.compileButton;
-
-    // Actualizar características clave
-    const featuresList = document.querySelector("#about ul");
-    featuresList.innerHTML = `
-      <li><strong>${translations.features.globalVariables}</strong></li>
-      <li><strong>${translations.features.nestedBlocks}</strong></li>
-      <li><strong>${translations.features.layers}</strong></li>
-      <li><strong>${translations.features.comments}</strong></li>
-      <li><strong>${translations.features.animations}</strong></li>
-    `;
-
-    // Actualizar filosofía
-    const philosophySubtitle = document.querySelector("#about h3:nth-of-type(2)");
-    philosophySubtitle.textContent = translations.philosophyTitle || "Filosofía detrás de LayerCSS";
-
-    const philosophyList = document.querySelector("#about ul:nth-of-type(2)");
-    philosophyList.innerHTML = `
-      <li><strong>${translations.philosophy.modularity}</strong></li>
-      <li><strong>${translations.philosophy.reusability}</strong></li>
-      <li><strong>${translations.philosophy.maintainability}</strong></li>
-    `;
+    document.getElementById("features-subtitle").textContent = translations.featuresSubtitle;
+    document.getElementById("feature-global-variables").textContent = translations.features.globalVariables;
+    document.getElementById("feature-nested-blocks").textContent = translations.features.nestedBlocks;
+    document.getElementById("feature-layers").textContent = translations.features.layers;
+    document.getElementById("feature-comments").textContent = translations.features.comments;
+    document.getElementById("feature-animations").textContent = translations.features.animations;
+    document.getElementById("philosophy-subtitle").textContent = translations.philosophySubtitle;
+    document.getElementById("philosophy-modularity").textContent = translations.philosophy.modularity;
+    document.getElementById("philosophy-reusability").textContent = translations.philosophy.reusability;
+    document.getElementById("philosophy-maintainability").textContent = translations.philosophy.maintainability;
+    document.getElementById("comparison-subtitle").textContent = translations.comparisonSubtitle;
+    document.getElementById("comparison-characteristic").textContent = translations.comparisonCharacteristic;
+    document.getElementById("comparison-variables").textContent = translations.comparison.variables;
+    document.getElementById("comparison-nested-blocks").textContent = translations.comparison.nestedBlocks;
+    document.getElementById("comparison-layers").textContent = translations.comparison.layers;
+    document.getElementById("comparison-comments").textContent = translations.comparison.comments;
+    document.getElementById("comparison-animations").textContent = translations.comparison.animations;
+    document.getElementById("comparison-learning-curve").textContent = translations.comparison.learningCurve;
 
     // Actualizar tabla de comparación
-    const comparisonSubtitle = document.querySelector("#about h3:nth-of-type(3)");
-    comparisonSubtitle.textContent = translations.comparisonTitle || "Ventajas sobre Proyectos Similares";
+    document.getElementById("sass-variables").textContent = translations.sassVariables;
+    document.getElementById("less-variables").textContent = translations.lessVariables;
+    document.getElementById("postcss-variables").textContent = translations.postcssVariables;
+    document.getElementById("layercss-variables").textContent = translations.layercssVariables;
+    document.getElementById("sass-nested-blocks").textContent = translations.sassNestedBlocks;
+    document.getElementById("less-nested-blocks").textContent = translations.lessNestedBlocks;
+    document.getElementById("postcss-nested-blocks").textContent = translations.postcssNestedBlocks;
+    document.getElementById("layercss-nested-blocks").textContent = translations.layercssNestedBlocks;
+    document.getElementById("sass-layers").textContent = translations.sassLayers;
+    document.getElementById("less-layers").textContent = translations.lessLayers;
+    document.getElementById("postcss-layers").textContent = translations.postcssLayers;
+    document.getElementById("layercss-layers").textContent = translations.layercssLayers;
+    document.getElementById("sass-comments").textContent = translations.sassComments;
+    document.getElementById("less-comments").textContent = translations.lessComments;
+    document.getElementById("postcss-comments").textContent = translations.postcssComments;
+    document.getElementById("layercss-comments").textContent = translations.layercssComments;
+    document.getElementById("sass-animations").textContent = translations.sassAnimations;
+    document.getElementById("less-animations").textContent = translations.lessAnimations;
+    document.getElementById("postcss-animations").textContent = translations.postcssAnimations;
+    document.getElementById("layercss-animations").textContent = translations.layercssAnimations;
+    document.getElementById("sass-learning-curve").textContent = translations.sassLearningCurve;
+    document.getElementById("less-learning-curve").textContent = translations.lessLearningCurve;
+    document.getElementById("postcss-learning-curve").textContent = translations.postcssLearningCurve;
+    document.getElementById("layercss-learning-curve").textContent = translations.layercssLearningCurve;
 
-    const comparisonTableHeader = document.querySelector("#about table thead tr th:first-child");
-    comparisonTableHeader.textContent = translations.featureColumn || "Característica";
-
-    const comparisonTable = document.querySelector("#about table tbody");
-    comparisonTable.innerHTML = `
-      <tr>
-        <td>${translations.comparison.simplicity}</td>
-        <td>Alta</td>
-        <td>Media</td>
-        <td>Media</td>
-        <td>Baja</td>
-      </tr>
-      <tr>
-        <td>${translations.comparison.lightweight}</td>
-        <td>No</td>
-        <td>No</td>
-        <td>Sí (con plugins)</td>
-        <td>Sí</td>
-      </tr>
-      <tr>
-        <td>${translations.comparison.compatibility}</td>
-        <td>Sí</td>
-        <td>Sí</td>
-        <td>Sí</td>
-        <td>Sí</td>
-      </tr>
-    `;
-
-    // Actualizar placeholder del textarea
-    document.getElementById("lyc-input").placeholder = translations.lycInputPlaceholder || "Escribe tu código LYC aquí...";
+    // Actualizar compilador
+    document.getElementById("compiler-title").textContent = translations.compilerTitle;
+    document.getElementById("compile-button").textContent = translations.compileButton;
+    document.getElementById("lyc-input").placeholder = translations.placeholder;
 
     // Actualizar pie de página
-    document.querySelector(".footer p").textContent = translations.footerText || "© 2025 LayerCSS. Todos los derechos reservados. Licencia Apache 2.0.";
+    document.getElementById("footer-text").textContent = translations.footerText;
 
     // Actualizar ejemplos
     loadExamples(translations);
@@ -80,6 +79,45 @@ async function loadTranslations(lang) {
     console.error("Error al cargar las traducciones:", error);
   }
 }
+
+// Función para cargar ejemplos
+async function loadExamples(translations) {
+  try {
+    const response = await fetch("examples/examples.json");
+    const examples = await response.json();
+    const container = document.getElementById("example-container");
+    container.innerHTML = ""; // Limpiar contenedor
+
+    examples.forEach(async (example) => {
+      const lycResponse = await fetch(example.lycFile);
+      const cssResponse = await fetch(example.cssFile);
+      const lycCode = await lycResponse.text();
+      const cssCode = await cssResponse.text();
+
+      const div = document.createElement("div");
+      div.innerHTML = `
+        <h3>${translations[example.titleKey]}</h3>
+        <p>${translations[example.descriptionKey]}</p>
+        <pre><strong>LYC:</strong>\n${lycCode}</pre>
+        <pre><strong>CSS:</strong>\n${cssCode}</pre>
+      `;
+      container.appendChild(div);
+    });
+  } catch (error) {
+    console.error("Error al cargar los ejemplos:", error);
+  }
+}
+
+// Evento para cambiar idioma
+document.getElementById("language-selector").addEventListener("change", (event) => {
+  const lang = event.target.value;
+  loadTranslations(lang);
+});
+
+// Inicialización
+document.addEventListener("DOMContentLoaded", () => {
+  loadTranslations(currentLanguage);
+});
 
 // Función para cargar ejemplos
 async function loadExamples(translations) {
