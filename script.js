@@ -9,7 +9,7 @@ async function loadTranslations(lang) {
   try {
     const response = await fetch(`i18n/${lang}.json`);
     if (!response.ok) {
-      throw new Error(`Error loading JSON file for language ${lang}: ${response.status}`);
+      throw new Error(`Error al cargar el archivo JSON para el idioma ${lang}: ${response.status}`);
     }
     const translations = await response.json();
 
@@ -24,7 +24,7 @@ async function loadTranslations(lang) {
     // Actualizar idioma actual
     currentLanguage = lang;
   } catch (error) {
-    console.error("Error loading translations:", error);
+    console.error("Error al cargar las traducciones:", error);
   }
 }
 
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
 document.getElementById("compile-button").addEventListener("click", () => {
   const lycCode = document.getElementById("code-input").value;
   if (!lycCode.trim()) {
-    alert("Please enter LYC code.");
+    alert("Por favor, ingresa código LYC.");
     return;
   }
 
@@ -59,9 +59,9 @@ document.getElementById("compile-button").addEventListener("click", () => {
     const endTime = performance.now();
     const compileTime = (endTime - startTime).toFixed(2);
     document.getElementById("output").textContent = cssCode;
-    document.getElementById("compilation-time").textContent = `Compilation time: ${compileTime} ms`;
+    document.getElementById("compilation-time").textContent = `Tiempo de compilación: ${compileTime} ms`;
   } catch (error) {
-    document.getElementById("output").textContent = `Compilation error: ${error.message}`;
+    document.getElementById("output").textContent = `Error de compilación: ${error.message}`;
   }
 });
 
