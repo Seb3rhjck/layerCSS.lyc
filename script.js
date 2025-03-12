@@ -17,7 +17,14 @@ async function loadTranslations(lang) {
     Object.keys(translations).forEach((key) => {
       const element = document.getElementById(key);
       if (element) {
-        element.innerHTML = translations[key];
+        // Si el valor es un objeto, concatenar sus propiedades
+        if (typeof translations[key] === "object") {
+          element.innerHTML = Object.values(translations[key]).join("<br>");
+        } else {
+          element.innerHTML = translations[key];
+        }
+      } else {
+        console.warn(`Elemento con ID '${key}' no encontrado en el DOM.`);
       }
     });
 
@@ -31,44 +38,56 @@ async function loadTranslations(lang) {
 /**
  * Evento para cambiar el idioma mediante el selector.
  */
-document.getElementById("language-select")?.addEventListener("change", (event) => {
-  const lang = event.target.value;
-  loadTranslations(lang);
-});
-
-/**
- * Inicialización del script al cargar el DOM.
- */
 document.addEventListener("DOMContentLoaded", () => {
+  const languageSelect = document.getElementById("language-select");
+  if (languageSelect) {
+    languageSelect.addEventListener("change", (event) => {
+      const lang = event.target.value;
+      loadTranslations(lang);
+    });
+  } else {
+    console.error("Elemento 'language-select' no encontrado en el DOM.");
+  }
+
+  // Cargar traducciones iniciales
   loadTranslations(currentLanguage);
 
   // Asociar evento de compilación
-  document.getElementById("compile-button")?.addEventListener("click", compileLYC);
-});
+  const compileButton = document.getElementById("compile-button");
+  if (compileButton) {
+    compileButton.addEventListener("click", compileLYC);
+  } else {
+    console.error("Elemento 'compile-button' no encontrado en el DOM.");
+  }
 
-/**
- * Función para copiar el ejemplo de código LYC al portapapeles.
- */
-document.getElementById("copy-example-button").addEventListener("click", () => {
-  const exampleCode = document.getElementById("example-lyc-code").textContent.trim();
-  navigator.clipboard.writeText(exampleCode).then(() => {
-    alert("Código LYC copiado al portapapeles.");
-  }).catch((error) => {
-    console.error("Error al copiar el código:", error);
-    alert("No se pudo copiar el código. Por favor, inténtalo manualmente.");
-  });
+  // Asociar evento de copiar ejemplo
+  const copyExampleButton = document.getElementById("copy-example-button");
+  if (copyExampleButton) {
+    copyExampleButton.addEventListener("click", () => {
+      const exampleCode = document.getElementById("example-lyc-code").textContent.trim();
+      navigator.clipboard.writeText(exampleCode).then(() => {
+        alert("Código LYC copiado al portapapeles.");
+      }).catch((error) => {
+        console.error("Error al copiar el código:", error);
+        alert("No se pudo copiar el código. Por favor, inténtalo manualmente.");
+      });
+    });
+  } else {
+    console.error("Elemento 'copy-example-button' no encontrado en el DOM.");
+  }
 });
 
 /**
  * Función principal para compilar LYC a CSS.
  */
 function compileLYC() {
-  const lycCode = document.getElementById("code-input")?.value;
-  if (!lycCode || !lycCode.trim()) {
+  const codeInput = document.getElementById("code-input");
+  if (!codeInput || !codeInput.value.trim()) {
     alert("Por favor, ingresa código LYC.");
     return;
   }
 
+  const lycCode = codeInput.value;
   const startTime = performance.now();
   try {
     const cssCode = processLYC(lycCode);
