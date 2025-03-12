@@ -192,14 +192,14 @@ function processMixins(code) {
 
   // Reemplazar @include con el contenido del mixin
   return code.replace(/@include\s+([^{;]+)/g, (match, mixinName) => {
-    const content = mixins[mixinName.trim()];
+    const trimmedMixinName = mixinName.trim(); // Eliminar espacios adicionales
+    const content = mixins[trimmedMixinName];
     if (!content) {
-      throw new Error(`Mixin '${mixinName}' no definido.`);
+      throw new Error(`Mixin '${trimmedMixinName}' no definido. Asegúrate de definirlo antes de usarlo.`);
     }
     return content;
   });
 }
-
 /**
  * Función para procesar herencia (@extend).
  * @param {string} code - Código LYC a procesar.
