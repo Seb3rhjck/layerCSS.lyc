@@ -81,160 +81,114 @@ function compileLYC() {
 
 /**
  * Compilador LYC a CSS.
- * @param {string} lycCode - Código LYC a procesar.
+ * @param {string} lycContent - Código LYC a procesar.
  * @returns {string} Código CSS procesado.
  */
-function processLYC(lycCode) {
-  let processedCode = lycCode;
+function processLYC(lycContent) {
+  let globalVariables = {};
+  lycContent = lycContent.replace(/\/\/.*|\/\*[\s\S]*?\*\//g, '');
 
-  // 1. Eliminar comentarios
-  processedCode = processedCode.replace(/\/\/.*|\/\*[\s\S]*?\*\//g, "");
-
-  // 2. Procesar variables globales
-  const globalVariables = {};
-  processedCode = processedCode.replace(/^--([a-zA-Z0-9-]+):\s*([^;]+);/gm, (match, varName, varValue) => {
-    globalVariables[varName] = varValue.trim();
-    return "";
-  });
-
-  // 3. Aplicar variables globales
-  for (const [varName, varValue] of Object.entries(globalVariables)) {
-    processedCode = processedCode.replace(new RegExp(`var\\(--${varName}\\)`, "g"), varValue);
-  }
-
-  // 4. Procesar bloques anidados
-  processedCode = processNestedBlocks(processedCode);
-
-  // 5. Procesar capas (@layer)
-  processedCode = processLayers(processedCode);
-
-  // 6. Procesar mixins (@mixin y @include)
-  processedCode = processMixins(processedCode);
-
-  // 7. Procesar herencia (@extend)
-  processedCode = processExtend(processedCode);
-
-  // 8. Procesar cálculos matemáticos (calc())
-  processedCode = processCalc(processedCode);
-
-  // 9. Minificar resultado
-  return processedCode.replace(/\s+/g, " ").trim();
-}
-
-/**
- * Función para procesar bloques anidados.
- * @param {string} code - Código LYC a procesar.
- * @returns {string} Código procesado con bloques anidados.
- */
-function processNestedBlocks(code) {
-  const nestedBlockRegex = /([^{]+)\{([^}]+)\}/g;
-  let result = code;
+  // Procesar variables globales
+  const globalVarRegex = /^--([a-zA-Z0-9-]+):\s*([^;]+);/gm;
   let match;
-
-  while ((match = nestedBlockRegex.exec(code)) !== null) {
-    const parentSelector = match[1].trim();
-    const childContent = match[2].trim();
-
-    // Buscar selectores hijos dentro del bloque
-    const childSelectors = childContent.split(";").map((line) => line.trim()).filter((line) => line);
-    const processedChildren = childSelectors
-      .map((selectorLine) => {
-        const [childSelector, ...styles] = selectorLine.split("{");
-        if (!childSelector) return "";
-        const fullSelector = `${parentSelector} ${childSelector.trim()}`;
-        const styleContent = styles.join("{").replace(/}/g, "");
-        return `${fullSelector} { ${styleContent} }`;
-      })
-      .join(" ");
-
-    // Reemplazar el bloque original con el procesado
-    result = result.replace(match[0], processedChildren);
+  while ((match = globalVarRegex.exec(lycContent)) !== null) {
+    globalVariables[match[1]] = match[2].trim();
   }
+  lycContent = lycContent.replace(globalVarRegex, '');
 
-  return result;
-}
-
-/**
- * Función para procesar capas (@layer).
- * @param {string} code - Código LYC a procesar.
- * @returns {string} Código procesado con capas.
- */
-function processLayers(code) {
-  const layerRegex = /@layer\s+([^{]+)\s*\{([^}]+)\}/g;
-  let result = code;
-  let match;
-
-  while ((match = layerRegex.exec(code)) !== null) {
-    const layerName = match[1].trim();
-    const layerContent = match[2].trim();
-
-    // Mantener la estructura de la capa
-    const processedLayer = `@layer ${layerName} { ${layerContent} }`;
-    result = result.replace(match[0], processedLayer);
-  }
-
-  return result;
-}
-
-/**
- * Función para procesar mixins (@mixin y @include).
- * @param {string} code - Código LYC a procesar.
- * @returns {string} Código procesado con mixins.
- */
-function processMixins(code) {
+  // Procesar mixins (@mixin)
   const mixins = {};
-
-  // Extraer definiciones de mixins
-  code = code.replace(/@mixin\s+([^{]+)\s*\{([^}]+)\}/g, (match, mixinName, mixinContent) => {
+  lycContent = lycContent.replace(/@mixin\s+([^{]+)\s*\{([^}]+)\}/g, (match, mixinName, mixinContent) => {
     mixins[mixinName.trim()] = mixinContent.trim();
     return "";
   });
 
   // Reemplazar @include con el contenido del mixin
-  return code.replace(/@include\s+([^{;]+)/g, (match, mixinName) => {
-    const trimmedMixinName = mixinName.trim(); // Eliminar espacios adicionales
+  lycContent = lycContent.replace(/@include\s+([^{;]+)/g, (match, mixinName) => {
+    const trimmedMixinName = mixinName.trim();
     const content = mixins[trimmedMixinName];
     if (!content) {
-      throw new Error(`Mixin '${trimmedMixinName}' no definido. Asegúrate de definirlo antes de usarlo.`);
+      throw new Error(`Mixin '${trimmedMixinName}' no definido.`);
     }
     return content;
   });
-}
-/**
- * Función para procesar herencia (@extend).
- * @param {string} code - Código LYC a procesar.
- * @returns {string} Código procesado con herencia.
- */
-function processExtend(code) {
-  return code.replace(/@extend\s+([^{ ]+)\s+to\s+([^{ ]+)/g, (match, sourceClass, targetClass) => {
-    const sourceStyles = code.match(new RegExp(`${sourceClass}\\s*\\{([^}]+)\\}`, "g"));
+
+  // Procesar herencia (@extend)
+  lycContent = lycContent.replace(/@extend\s+([^{ ]+)\s+to\s+([^{ ]+)/g, (match, sourceClass, targetClass) => {
+    const sourceStyles = lycContent.match(new RegExp(`${sourceClass}\\s*\\{([^}]+)\\}`, "g"));
     if (!sourceStyles) {
       throw new Error(`Clase '${sourceClass}' no encontrada para extender.`);
     }
     const styles = sourceStyles[0].replace(sourceClass, targetClass);
     return styles;
   });
-}
 
-/**
- * Función para procesar cálculos matemáticos (calc()).
- * @param {string} code - Código LYC a procesar.
- * @returns {string} Código procesado con cálculos.
- */
-function processCalc(code) {
-  return code.replace(/calc\(([^)]+)\)/g, (match, expression) => {
+  // Procesar bloques anidados
+  const blocks = lycContent.split(/(@layer\s+\w+\s*\{|})/).filter(Boolean);
+  let stack = [];
+  let currentBlock = '';
+  for (const block of blocks) {
+    const trimmedBlock = block.trim();
+    if (!trimmedBlock) continue;
+    if (trimmedBlock === "{") {
+      stack.push(currentBlock);
+      currentBlock += " {";
+    } else if (trimmedBlock === "}") {
+      currentBlock += "}";
+      if (stack.length > 0) {
+        const parentBlock = stack.pop();
+        currentBlock = parentBlock + currentBlock;
+      }
+    } else {
+      currentBlock = processBlock(trimmedBlock, globalVariables);
+    }
+  }
+
+  // Procesar cálculos matemáticos (calc())
+  currentBlock = currentBlock.replace(/calc\(([^)]+)\)/g, (match, expression) => {
     try {
-      // Evaluar la expresión matemática
       const result = evaluateExpression(expression);
       return result.toString();
     } catch (error) {
       throw new Error(`Error al evaluar calc(): ${error.message}`);
     }
   });
+
+  return minifyCSS(currentBlock);
 }
 
 /**
- * Función para evaluar expresiones matemáticas simples.
+ * Procesar un bloque individual.
+ * @param {string} blockContent - Contenido del bloque.
+ * @param {Object} variables - Variables globales.
+ * @returns {string} Bloque procesado.
+ */
+function processBlock(blockContent, variables) {
+  let localVariables = {};
+  const localVarRegex = /--([a-zA-Z0-9-]+):\s*([^;]+);/g;
+  let match;
+  while ((match = localVarRegex.exec(blockContent)) !== null) {
+    localVariables[match[1]] = match[2].trim();
+  }
+  blockContent = blockContent.replace(localVarRegex, '');
+  const combinedVariables = { ...variables, ...localVariables };
+  for (const [varName, varValue] of Object.entries(combinedVariables)) {
+    blockContent = blockContent.replace(new RegExp(`var\\(--${varName}\\)`, 'g'), varValue);
+  }
+  return blockContent;
+}
+
+/**
+ * Minificar CSS.
+ * @param {string} css - Código CSS a minificar.
+ * @returns {string} Código CSS minificado.
+ */
+function minifyCSS(css) {
+  return css.replace(/\s+/g, ' ').trim();
+}
+
+/**
+ * Evaluar expresiones matemáticas simples.
  * @param {string} expression - Expresión matemática.
  * @returns {number} Resultado de la evaluación.
  */
