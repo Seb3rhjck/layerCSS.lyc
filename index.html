@@ -1,134 +1,186 @@
- <!DOCTYPE html>
- <html lang="es">
- <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title id="page-title">LayerCSS - Lenguaje de Programación</title>
-   <!-- Favicon -->
-   <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
-   <!-- Hoja de Estilos Minificada -->
-   <link rel="stylesheet" href="styles.css">
-   <!-- Google Fonts (Opcional: Para mejorar la tipografía) -->
-   <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
- </head>
- <body>
-   <!-- Encabezado -->
-   <header class="header">
-     <div class="container">
-       <h1 class="logo">LayerCSS</h1>
-       <nav class="nav">
-         <select id="language-selector" class="language-selector">
-           <option value="es">Español</option>
-           <option value="en">English</option>
-           <option value="it">Italiano</option>
-           <option value="zh">简体中文</option>
-           <option value="ru">Русский</option>
-           <option value="tg">Tagalo</option>
-         </select>
-       </nav>
-     </div>
-   </header>
- 
-   <!-- Contenido Principal -->
-   <main class="main">
-     <!-- Sección Acerca de LayerCSS -->
-     <section id="about" class="section about">
-       <h2 id="about-title" class="section-title"></h2>
-       <p id="about-description" class="section-description"></p>
-       <h3 class="section-subtitle">Características Clave</h3>
-       <ul class="features-list">
-         <li><strong id="feature-global-variables">Variables Globales y Locales:</strong> Define valores reutilizables en todo el proyecto o dentro de bloques específicos.</li>
-         <li><strong id="feature-nested-blocks">Bloques Anidados:</strong> Escribe estilos jerárquicamente para mejorar la legibilidad y reducir la repetición de selectores.</li>
-         <li><strong id="feature-layers">Capas (`@layer`):</strong> Organiza estilos en secciones lógicas como `base`, `componentes` o `utilidades`.</li>
-         <li><strong id="feature-comments">Comentarios Estructurados:</strong> Admite comentarios de una línea (`//`) y de varias líneas (`/* ... */`).</li>
-         <li><strong id="feature-animations">Soporte para Animaciones y Keyframes:</strong> Crea efectos visuales dinámicos de manera sencilla.</li>
-       </ul>
-       <h3 class="section-subtitle">Filosofía detrás de LayerCSS</h3>
-       <ul class="philosophy-list">
-         <li><strong id="philosophy-modularity">Modularidad:</strong> Divide tus estilos en secciones lógicas.</li>
-         <li><strong id="philosophy-reusability">Reutilización:</strong> Define valores una vez y úsalos en varios lugares.</li>
-         <li><strong id="philosophy-maintainability">Facilidad de mantenimiento:</strong> Cambia un valor en un solo lugar y afecta todo el proyecto.</li>
-       </ul>
-       <h3 class="section-subtitle">Ventajas sobre Proyectos Similares</h3>
-       <table class="comparison-table">
-         <thead>
-           <tr>
-             <th id="comparison-characteristic">Característica</th>
-             <th>Sass</th>
-             <th>Less</th>
-             <th>PostCSS</th>
-             <th>LayerCSS</th>
-           </tr>
-         </thead>
-         <tbody>
-           <tr>
-             <td id="comparison-variables">Variables</td>
-             <td id="sass-variables">Sí</td>
-             <td id="less-variables">Sí</td>
-             <td id="postcss-variables">Con plugins</td>
-             <td id="layercss-variables">Sí (global y local)</td>
-           </tr>
-           <tr>
-             <td id="comparison-nested-blocks">Bloques Anidados</td>
-             <td id="sass-nested-blocks">Sí</td>
-             <td id="less-nested-blocks">Sí</td>
-             <td id="postcss-nested-blocks">Con plugins</td>
-             <td id="layercss-nested-blocks">Sí</td>
-           </tr>
-           <tr>
-             <td id="comparison-layers">Capas (`@layer`)</td>
-             <td id="sass-layers">No</td>
-             <td id="less-layers">No</td>
-             <td id="postcss-layers">Sí (con plugins)</td>
-             <td id="layercss-layers">Sí</td>
-           </tr>
-           <tr>
-             <td id="comparison-comments">Comentarios</td>
-             <td id="sass-comments">Solo `/* ... */`</td>
-             <td id="less-comments">Solo `/* ... */`</td>
-             <td id="postcss-comments">Solo `/* ... */`</td>
-             <td id="layercss-comments">`//` y `/* ... */`</td>
-           </tr>
-           <tr>
-             <td id="comparison-animations">Animaciones y Keyframes</td>
-             <td id="sass-animations">Sí</td>
-             <td id="less-animations">Sí</td>
-             <td id="postcss-animations">Sí</td>
-             <td id="layercss-animations">Sí</td>
-           </tr>
-           <tr>
-             <td id="comparison-learning-curve">Curva de Aprendizaje</td>
-             <td id="sass-learning-curve">Alta</td>
-             <td id="less-learning-curve">Media</td>
-             <td id="postcss-learning-curve">Media</td>
-             <td id="layercss-learning-curve">Baja</td>
-           </tr>
-         </tbody>
-       </table>
-     </section>
- 
-     <!-- Sección Compilador LYC a CSS -->
-     <section id="compiler" class="section compiler">
-       <h2 id="compiler-title" class="section-title"></h2>
-       <textarea id="lyc-input" class="code-input" placeholder="Escribe tu código LYC aquí..."></textarea>
-       <button id="compile-button" class="compile-button"></button>
-       <pre id="css-output" class="code-output"></pre>
-       <p id="compilation-time" class="compilation-time"></p>
-     </section>
- 
-     <!-- Sección Ejemplos -->
-     <section id="examples" class="section examples">
-       <h2 id="examples-title" class="section-title"></h2>
-       <div id="example-container" class="example-container"></div>
-     </section>
-   </main>
- 
-   <!-- Pie de Página -->
-   <footer class="footer">
-     <p id="footer-text">&copy; 2025 LayerCSS. Todos los derechos reservados. Licencia Apache 2.0.</p>
-   </footer>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="title">LayerCSS .lyc</title>
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Language Selector -->
+  <div class="language-selector">
+    <label for="language-select" id="language-selector-label">Select Language:</label>
+    <select id="language-select">
+      <option value="en">English</option>
+      <option value="es">Español</option>
+      <option value="it">Italiano</option>
+      <option value="ru">Русский</option>
+      <option value="zh">简体中文</option>
+      <option value="tl">Tagalog</option>
+    </select>
+  </div>
 
-  <!-- Script Principal -->
-   <script src="script.js"></script>
- </body>
- </html>
+  <header class="header">
+    <div class="container">
+      <h1 id="header-title">LayerCSS Documentation</h1>
+      <p id="header-license">License: Apache 2.0</p>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <!-- Introduction -->
+    <section class="section" id="introduction-section">
+      <h2 id="introduction-title">1. Introduction</h2>
+      <p id="introduction-description">
+        <strong>What is LayerCSS?</strong> LayerCSS is a design language based on CSS that introduces advanced features to facilitate the creation of modular, reusable, and maintainable styles. It is designed to overcome the limitations of traditional CSS by adding support for global and local variables, nested blocks, layers (@layer), and structured comments.
+      </p>
+      <blockquote id="introduction-quote">
+        "Modularity: Divide your styles into logical sections.<br>
+        Reusability: Define values once and use them in multiple places.<br>
+        Ease of Maintenance: Change a value in one place and affect the entire project."
+      </blockquote>
+      <p id="introduction-creator">
+        <em>Creator:</em> Sebastian (Balthier) Ordoñez Arias, an amateur programmer with basic knowledge in web design and application development. This project was born as a personal exploration to simplify CSS development and make it accessible to everyone.
+      </p>
+    </section>
+
+    <!-- What is .lyc? -->
+    <section class="section" id="lyc-section">
+      <h2 id="lyc-title">2. What is .lyc?</h2>
+      <p id="lyc-description">
+        The `.lyc` file format is the core of LayerCSS. It extends traditional CSS by introducing new syntax and features that make styling more intuitive and efficient. Here are some key aspects:
+      </p>
+      <ul class="features-list" id="lyc-features-list">
+        <li id="lyc-feature-syntax"><strong>Syntax:</strong> Similar to CSS but with added features like variables, nesting, and layers.</li>
+        <li id="lyc-feature-modularity"><strong>Modularity:</strong> Organize your styles into reusable components.</li>
+        <li id="lyc-feature-compilation"><strong>Compilation:</strong> `.lyc` files are compiled into standard CSS for browser compatibility.</li>
+      </ul>
+      <pre class="code-block" id="lyc-example">
+// Example of a .lyc file
+@layer base {
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+}
+
+@layer components {
+  button {
+    background: var(--primary-color);
+    border: none;
+    padding: 10px 20px;
+  }
+}
+      </pre>
+    </section>
+
+    <!-- Key Features -->
+    <section class="section" id="features-section">
+      <h2 id="features-title">3. Key Features</h2>
+      <ul class="features-list" id="features-list">
+        <li id="feature-global-variables"><strong>Global and Local Variables:</strong> Define reusable values like colors and font sizes.</li>
+        <li id="feature-nested-blocks"><strong>Nested Blocks:</strong> Write styles hierarchically for better readability.</li>
+        <li id="feature-layers"><strong>Layers (@layer):</strong> Organize styles into logical sections.</li>
+        <li id="feature-comments"><strong>Structured Comments:</strong> Use single-line and multi-line comments for documentation.</li>
+        <li id="feature-animations"><strong>Animations and Keyframes:</strong> Simplify dynamic visual effects.</li>
+      </ul>
+    </section>
+
+    <!-- Real-World Use Case -->
+    <section class="section" id="use-case-section">
+      <h2 id="use-case-title">4. Real-World Use Case</h2>
+      <p id="use-case-description">
+        A corporate website can use LayerCSS to organize styles into layers for base, components, and utilities. This modular approach allows developers to work on different parts of the project without interfering with each other.
+      </p>
+      <pre class="code-block" id="use-case-code">
+@layer base {
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+}
+
+@layer components {
+  .header {
+    background: var(--primary-color);
+    color: white;
+  }
+
+  .button {
+    background: var(--secondary-color);
+    border: none;
+    padding: 10px 20px;
+  }
+}
+      </pre>
+    </section>
+
+    <!-- Comparison with Modern Frameworks -->
+    <section class="section" id="comparison-section">
+      <h2 id="comparison-title">5. Comparison with Modern Frameworks</h2>
+      <table class="comparison-table" id="comparison-table">
+        <thead>
+          <tr>
+            <th id="comparison-header-feature">Feature</th>
+            <th id="comparison-header-tailwind">Tailwind CSS</th>
+            <th id="comparison-header-bootstrap">Bootstrap</th>
+            <th id="comparison-header-layercss">LayerCSS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td id="comparison-row-modularity">Modularity</td>
+            <td id="comparison-tailwind-modularity">High</td>
+            <td id="comparison-bootstrap-modularity">Medium</td>
+            <td id="comparison-layercss-modularity">High</td>
+          </tr>
+          <tr>
+            <td id="comparison-row-reusability">Reusability</td>
+            <td id="comparison-tailwind-reusability">Medium</td>
+            <td id="comparison-bootstrap-reusability">Low</td>
+            <td id="comparison-layercss-reusability">High</td>
+          </tr>
+          <tr>
+            <td id="comparison-row-ease-of-use">Ease of Use</td>
+            <td id="comparison-tailwind-ease-of-use">Medium</td>
+            <td id="comparison-bootstrap-ease-of-use">High</td>
+            <td id="comparison-layercss-ease-of-use">High</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Compiler Space -->
+    <section class="section" id="compiler-section">
+      <h2 id="compiler-title">6. Compiler Space</h2>
+      <div id="compiler-container">
+        <textarea id="code-input" placeholder="Write your LayerCSS code here..."></textarea>
+        <button id="compile-button">Compile</button>
+        <pre id="output"></pre>
+      </div>
+    </section>
+
+    <!-- Conclusion -->
+    <section class="section" id="conclusion-section">
+      <h2 id="conclusion-title">7. Conclusion</h2>
+      <p id="conclusion-description">
+        LayerCSS simplifies CSS development with advanced features like variables, nested blocks, and layers. It's ideal for both small and large projects.
+      </p>
+      <p id="conclusion-note">
+        <em>Note from the Creator:</em> This project is in its early stages. Your contribution will be invaluable!
+      </p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p id="footer-text">&copy; 2025 LayerCSS. Distributed under the Apache 2.0 License.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
