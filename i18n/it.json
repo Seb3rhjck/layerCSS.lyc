@@ -1,7 +1,7 @@
 {
   "title": "LayerCSS .lyc",
   "language-selector-label": "Seleziona Lingua:",
-  "header-title": "Documentazione di LayerCSS",
+  "header-title": "LayerCSS - Linguaggio di Programmazione",
   "header-license": "Licenza: Apache 2.0",
   "introduction-title": "1. Introduzione",
   "introduction-description": "<strong>Cos'è LayerCSS?</strong> LayerCSS è un linguaggio di design basato su CSS che introduce funzionalità avanzate per facilitare la creazione di stili modulari, riutilizzabili e manutenibili. È progettato per superare i limiti del CSS tradizionale aggiungendo supporto per variabili globali e locali, blocchi nidificati, livelli (@layer) e commenti strutturati.",
