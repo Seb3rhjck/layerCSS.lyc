@@ -88,75 +88,134 @@
       </ul>
     </section>
 
-    <!-- Real-World Use Case -->
-    <section class="section" id="use-case-section">
-      <h2 id="use-case-title">4. Real-World Use Case</h2>
-      <p id="use-case-description">
-        A corporate website can use LayerCSS to organize styles into layers for base, components, and utilities. This modular approach allows developers to work on different parts of the project without interfering with each other.
+    <!-- Detailed Example -->
+    <section class="section" id="example-section">
+      <h2 id="example-title">4. Detailed Example</h2>
+      <p id="example-description">
+        Below is a basic example of a `.lyc` file with detailed comments explaining each part of the code. This file uses the fundamental features of LYC: <strong>global variables</strong>, <strong>`calc()`</strong>, <strong>mixins (`@mixin` and `@include`)</strong>, and <strong>inheritance with `@extend`</strong>.
       </p>
-      <pre class="code-block" id="use-case-code">
-@layer base {
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-  }
+
+      <!-- Horizontal Comparison -->
+      <div class="comparison-container">
+        <h3 id="comparison-title">Comparison: .lyc vs .css</h3>
+        <div class="comparison-columns">
+          <div class="column">
+            <h4>.lyc Code</h4>
+            <pre class="code-block" id="lyc-detailed-example">
+/* 
+  Global variables:
+  - Defined at the top of the file.
+  - Can be used anywhere in the file.
+*/
+--primary-color: #3498db; /* Light blue */
+--secondary-color: #e74c3c; /* Red */
+--font-size: 16px; /* Base font size */
+
+/*
+  Mixin for reusable buttons:
+  - A mixin is a reusable block of styles.
+  - Defined with @mixin and included with @include.
+*/
+@mixin button-style {
+  background: var(--primary-color); /* Uses global variable --primary-color */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-@layer components {
-  .header {
-    background: var(--primary-color);
-    color: white;
-  }
-
-  .button {
-    background: var(--secondary-color);
-    border: none;
-    padding: 10px 20px;
-  }
+/*
+  Base styles for the body:
+  - General styles for the page.
+  - Uses global variables for consistency.
+*/
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background: var(--secondary-color); /* Uses global variable --secondary-color */
+  color: var(--primary-color); /* Uses global variable --primary-color */
+  font-size: var(--font-size); /* Uses global variable --font-size */
 }
-      </pre>
-    </section>
 
-    <!-- Comparison with Modern Frameworks -->
-    <section class="section" id="comparison-section">
-      <h2 id="comparison-title">5. Comparison with Modern Frameworks</h2>
-      <table class="comparison-table" id="comparison-table">
-        <thead>
-          <tr>
-            <th id="comparison-header-feature">Feature</th>
-            <th id="comparison-header-tailwind">Tailwind CSS</th>
-            <th id="comparison-header-bootstrap">Bootstrap</th>
-            <th id="comparison-header-layercss">LayerCSS</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td id="comparison-row-modularity">Modularity</td>
-            <td id="comparison-tailwind-modularity">High</td>
-            <td id="comparison-bootstrap-modularity">Medium</td>
-            <td id="comparison-layercss-modularity">High</td>
-          </tr>
-          <tr>
-            <td id="comparison-row-reusability">Reusability</td>
-            <td id="comparison-tailwind-reusability">Medium</td>
-            <td id="comparison-bootstrap-reusability">Low</td>
-            <td id="comparison-layercss-reusability">High</td>
-          </tr>
-          <tr>
-            <td id="comparison-row-ease-of-use">Ease of Use</td>
-            <td id="comparison-tailwind-ease-of-use">Medium</td>
-            <td id="comparison-bootstrap-ease-of-use">High</td>
-            <td id="comparison-layercss-ease-of-use">High</td>
-          </tr>
-        </tbody>
-      </table>
+/*
+  Components:
+  - Specific styles for components like buttons.
+  - Uses @include to include the mixin button-style.
+*/
+.button {
+  @include button-style; /* Includes styles defined in the mixin button-style */
+  box-shadow: 0 0 calc(5px + 2px) rgba(0, 0, 0, 0.3); /* Uses calc() for shadow size */
+}
+
+.button:hover {
+  transform: scale(calc(1 + 0.1)); /* Uses calc() to increase button size on hover */
+  background: var(--secondary-color); /* Changes background color on hover */
+}
+
+/*
+  Inheritance with @extend:
+  - Shares styles between classes.
+  - Here, .warning-message inherits styles from .error-message.
+*/
+.error-message {
+  color: red;
+  font-weight: bold;
+}
+
+.warning-message {
+  @extend error-message to warning-message; /* Inherits styles from .error-message */
+  color: orange; /* Overrides color to make it orange */
+}
+            </pre>
+          </div>
+          <div class="column">
+            <h4>.css Output</h4>
+            <pre class="code-block" id="css-output-example">
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background: #e74c3c;
+  color: #3498db;
+  font-size: 16px;
+}
+
+.button {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 0 7px rgba(0, 0, 0, 0.3);
+}
+
+.button:hover {
+  transform: scale(1.1);
+  background: #e74c3c;
+}
+
+.error-message {
+  color: red;
+  font-weight: bold;
+}
+
+.warning-message {
+  color: orange;
+  font-weight: bold;
+}
+            </pre>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Compiler Space -->
     <section class="section" id="compiler-section">
-      <h2 id="compiler-title">6. Compiler Space</h2>
-      <div class="compiler-container" id="compiler-container">
+      <h2 id="compiler-title">5. Compiler Space</h2>
+      <div id="compiler-container">
         <textarea id="code-input" placeholder="Write your LayerCSS code here..."></textarea>
         <button id="compile-button">Compile</button>
         <pre id="output"></pre>
@@ -165,7 +224,7 @@
 
     <!-- Conclusion -->
     <section class="section" id="conclusion-section">
-      <h2 id="conclusion-title">7. Conclusion</h2>
+      <h2 id="conclusion-title">6. Conclusion</h2>
       <p id="conclusion-description">
         LayerCSS simplifies CSS development with advanced features like variables, nested blocks, and layers. It's ideal for both small and large projects.
       </p>
