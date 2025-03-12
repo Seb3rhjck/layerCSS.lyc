@@ -64,13 +64,10 @@ function compileLYC() {
 
     // Mostrar resultados
     const outputElement = document.getElementById("output");
-    const timeElement = document.getElementById("compilation-time");
-
-    if (outputElement && timeElement) {
+    if (outputElement) {
       outputElement.textContent = cssCode;
-      timeElement.textContent = `Tiempo de compilación: ${compileTime} ms`;
     } else {
-      console.error("Elementos 'output' o 'compilation-time' no encontrados en el DOM.");
+      console.error("Elemento 'output' no encontrado en el DOM.");
     }
   } catch (error) {
     const outputElement = document.getElementById("output");
