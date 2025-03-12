@@ -47,6 +47,19 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /**
+ * Función para copiar el ejemplo de código LYC al portapapeles.
+ */
+document.getElementById("copy-example-button").addEventListener("click", () => {
+  const exampleCode = document.getElementById("example-lyc-code").textContent.trim();
+  navigator.clipboard.writeText(exampleCode).then(() => {
+    alert("Código LYC copiado al portapapeles.");
+  }).catch((error) => {
+    console.error("Error al copiar el código:", error);
+    alert("No se pudo copiar el código. Por favor, inténtalo manualmente.");
+  });
+});
+
+/**
  * Función principal para compilar LYC a CSS.
  */
 function compileLYC() {
