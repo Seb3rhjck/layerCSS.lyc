@@ -35,31 +35,6 @@ async function loadTranslations(lang) {
  * Función para cargar ejemplos desde un archivo JSON.
  * @param {Object} translations - Objeto con las traducciones cargadas.
  */
-async function loadExamples(translations) {
-  try {
-    const response = await fetch("examples/examples.json");
-    if (!response.ok) {
-      throw new Error(`Error al cargar el archivo JSON de ejemplos: ${response.status}`);
-    }
-    const examples = await response.json();
-    const container = document.getElementById("example-container");
-    container.innerHTML = ""; // Limpiar contenedor
-
-    examples.forEach((example) => {
-      const div = document.createElement("div");
-      div.classList.add("example-item");
-      div.innerHTML = `
-        <h3>${translations[example.titleKey]}</h3>
-        <p>${translations[example.descriptionKey]}</p>
-        <pre><strong>LYC:</strong>\n${example.lycCode}</pre>
-        <pre><strong>CSS:</strong>\n${example.cssCode}</pre>
-      `;
-      container.appendChild(div);
-    });
-  } catch (error) {
-    console.error("Error al cargar los ejemplos:", error);
-  }
-}
 
 /**
  * Evento para cambiar el idioma mediante el selector.
