@@ -31,7 +31,7 @@ async function loadTranslations(lang) {
 /**
  * Evento para cambiar el idioma mediante el selector.
  */
-document.getElementById("language-select").addEventListener("change", (event) => {
+document.getElementById("language-select")?.addEventListener("change", (event) => {
   const lang = event.target.value;
   loadTranslations(lang);
 });
@@ -41,14 +41,17 @@ document.getElementById("language-select").addEventListener("change", (event) =>
  */
 document.addEventListener("DOMContentLoaded", () => {
   loadTranslations(currentLanguage);
+
+  // Asociar evento de compilación
+  document.getElementById("compile-button")?.addEventListener("click", compileLYC);
 });
 
 /**
- * Función para compilar LYC a CSS.
+ * Función principal para compilar LYC a CSS.
  */
-document.getElementById("compile-button").addEventListener("click", () => {
-  const lycCode = document.getElementById("code-input").value;
-  if (!lycCode.trim()) {
+function compileLYC() {
+  const lycCode = document.getElementById("code-input")?.value;
+  if (!lycCode || !lycCode.trim()) {
     alert("Por favor, ingresa código LYC.");
     return;
   }
@@ -58,12 +61,26 @@ document.getElementById("compile-button").addEventListener("click", () => {
     const cssCode = processLYC(lycCode);
     const endTime = performance.now();
     const compileTime = (endTime - startTime).toFixed(2);
-    document.getElementById("output").textContent = cssCode;
-    document.getElementById("compilation-time").textContent = `Tiempo de compilación: ${compileTime} ms`;
+
+    // Mostrar resultados
+    const outputElement = document.getElementById("output");
+    const timeElement = document.getElementById("compilation-time");
+
+    if (outputElement && timeElement) {
+      outputElement.textContent = cssCode;
+      timeElement.textContent = `Tiempo de compilación: ${compileTime} ms`;
+    } else {
+      console.error("Elementos 'output' o 'compilation-time' no encontrados en el DOM.");
+    }
   } catch (error) {
-    document.getElementById("output").textContent = `Error de compilación: ${error.message}`;
+    const outputElement = document.getElementById("output");
+    if (outputElement) {
+      outputElement.textContent = `Error de compilación: ${error.message}`;
+    } else {
+      console.error("Elemento 'output' no encontrado en el DOM.");
+    }
   }
-});
+}
 
 /**
  * Compilador LYC a CSS.
@@ -77,7 +94,7 @@ function processLYC(lycCode) {
   processedCode = processedCode.replace(/\/\/.*|\/\*[\s\S]*?\*\//g, "");
 
   // 2. Procesar variables globales
-  let globalVariables = {};
+  const globalVariables = {};
   processedCode = processedCode.replace(/^--([a-zA-Z0-9-]+):\s*([^;]+);/gm, (match, varName, varValue) => {
     globalVariables[varName] = varValue.trim();
     return "";
@@ -94,7 +111,16 @@ function processLYC(lycCode) {
   // 5. Procesar capas (@layer)
   processedCode = processLayers(processedCode);
 
-  // 6. Minificar resultado
+  // 6. Procesar mixins (@mixin y @include)
+  processedCode = processMixins(processedCode);
+
+  // 7. Procesar herencia (@extend)
+  processedCode = processExtend(processedCode);
+
+  // 8. Procesar cálculos matemáticos (calc())
+  processedCode = processCalc(processedCode);
+
+  // 9. Minificar resultado
   return processedCode.replace(/\s+/g, " ").trim();
 }
 
@@ -148,6 +174,101 @@ function processLayers(code) {
     // Mantener la estructura de la capa
     const processedLayer = `@layer ${layerName} { ${layerContent} }`;
     result = result.replace(match[0], processedLayer);
+  }
+
+  return result;
+}
+
+/**
+ * Función para procesar mixins (@mixin y @include).
+ * @param {string} code - Código LYC a procesar.
+ * @returns {string} Código procesado con mixins.
+ */
+function processMixins(code) {
+  const mixins = {};
+
+  // Extraer definiciones de mixins
+  code = code.replace(/@mixin\s+([^{]+)\s*\{([^}]+)\}/g, (match, mixinName, mixinContent) => {
+    mixins[mixinName.trim()] = mixinContent.trim();
+    return "";
+  });
+
+  // Reemplazar @include con el contenido del mixin
+  return code.replace(/@include\s+([^{;]+)/g, (match, mixinName) => {
+    const content = mixins[mixinName.trim()];
+    if (!content) {
+      throw new Error(`Mixin '${mixinName}' no definido.`);
+    }
+    return content;
+  });
+}
+
+/**
+ * Función para procesar herencia (@extend).
+ * @param {string} code - Código LYC a procesar.
+ * @returns {string} Código procesado con herencia.
+ */
+function processExtend(code) {
+  return code.replace(/@extend\s+([^{ ]+)\s+to\s+([^{ ]+)/g, (match, sourceClass, targetClass) => {
+    const sourceStyles = code.match(new RegExp(`${sourceClass}\\s*\\{([^}]+)\\}`, "g"));
+    if (!sourceStyles) {
+      throw new Error(`Clase '${sourceClass}' no encontrada para extender.`);
+    }
+    const styles = sourceStyles[0].replace(sourceClass, targetClass);
+    return styles;
+  });
+}
+
+/**
+ * Función para procesar cálculos matemáticos (calc()).
+ * @param {string} code - Código LYC a procesar.
+ * @returns {string} Código procesado con cálculos.
+ */
+function processCalc(code) {
+  return code.replace(/calc\(([^)]+)\)/g, (match, expression) => {
+    try {
+      // Evaluar la expresión matemática
+      const result = evaluateExpression(expression);
+      return result.toString();
+    } catch (error) {
+      throw new Error(`Error al evaluar calc(): ${error.message}`);
+    }
+  });
+}
+
+/**
+ * Función para evaluar expresiones matemáticas simples.
+ * @param {string} expression - Expresión matemática.
+ * @returns {number} Resultado de la evaluación.
+ */
+function evaluateExpression(expression) {
+  const operators = ["+", "-", "*", "/"];
+  let result = parseFloat(expression);
+  let operator = "+";
+
+  const tokens = expression.split(/([+\-*/])/).map((token) => token.trim());
+
+  for (const token of tokens) {
+    if (operators.includes(token)) {
+      operator = token;
+    } else if (!isNaN(parseFloat(token))) {
+      const value = parseFloat(token);
+      switch (operator) {
+        case "+":
+          result += value;
+          break;
+        case "-":
+          result -= value;
+          break;
+        case "*":
+          result *= value;
+          break;
+        case "/":
+          if (value === 0) throw new Error("División por cero.");
+          result /= value;
+          break;
+      }
+    }
   }
 
   return result;
