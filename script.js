@@ -1,5 +1,5 @@
 // Variables globales
-let currentLanguage = "en"; // Idioma predeterminado
+let currentLanguage = "es"; // Idioma predeterminado
 
 /**
  * Función para cargar traducciones según el idioma seleccionado.
