@@ -20,14 +20,12 @@
       <option value="tl">Tagalog</option>
     </select>
   </div>
-
   <header class="header">
     <div class="container">
       <h1 id="header-title">LayerCSS - Programming Language</h1>
       <p id="header-license">License: Apache 2.0</p>
     </div>
   </header>
-
   <main class="main-content">
     <!-- Introduction -->
     <section class="section" id="introduction-section">
@@ -65,7 +63,6 @@
     font-family: Arial, sans-serif;
   }
 }
-
 @layer components {
   button {
     background: var(--primary-color);
@@ -94,7 +91,6 @@
       <p id="example-description">
         Below is a basic example of a `.lyc` file with detailed comments explaining each part of the code. This file uses the fundamental features of LYC: <strong>global variables</strong>, <strong>`calc()`</strong>, <strong>mixins (`@mixin` and `@include`)</strong>, and <strong>inheritance with `@extend`</strong>.
       </p>
-
       <!-- Horizontal Comparison -->
       <div class="comparison-container">
         <h3 id="comparison-title">Comparison: .lyc vs .css</h3>
@@ -210,68 +206,123 @@ body {
           </div>
         </div>
       </div>
+
+      <!-- Horizontal Comparison Table -->
+      <div class="comparison-container">
+        <h3 id="comparison-title">Comparison: .lyc vs .css</h3>
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th id="comparison-characteristic">Characteristic</th>
+              <th id="comparison-variables">Variables</th>
+              <th id="comparison-nested-blocks">Nested Blocks</th>
+              <th id="comparison-layers">Layers</th>
+              <th id="comparison-comments">Comments</th>
+              <th id="comparison-animations">Animations</th>
+              <th id="comparison-learning-curve">Learning Curve</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>.lyc</td>
+              <td id="layercss-variables">Native Support</td>
+              <td id="layercss-nested-blocks">Native Support</td>
+              <td id="layercss-layers">Native Support</td>
+              <td id="layercss-comments">Structured Comments</td>
+              <td id="layercss-animations">Native Support</td>
+              <td id="layercss-learning-curve">Easy</td>
+            </tr>
+            <tr>
+              <td>Sass</td>
+              <td id="sass-variables">Supported</td>
+              <td id="sass-nested-blocks">Supported</td>
+              <td id="sass-layers">Not Supported</td>
+              <td id="sass-comments">Standard CSS Comments</td>
+              <td id="sass-animations">Supported</td>
+              <td id="sass-learning-curve">Moderate</td>
+            </tr>
+            <tr>
+              <td>Less</td>
+              <td id="less-variables">Supported</td>
+              <td id="less-nested-blocks">Supported</td>
+              <td id="less-layers">Not Supported</td>
+              <td id="less-comments">Standard CSS Comments</td>
+              <td id="less-animations">Supported</td>
+              <td id="less-learning-curve">Easy</td>
+            </tr>
+            <tr>
+              <td>PostCSS</td>
+              <td id="postcss-variables">Supported via plugins</td>
+              <td id="postcss-nested-blocks">Supported via plugins</td>
+              <td id="postcss-layers">Supported via plugins</td>
+              <td id="postcss-comments">Standard CSS Comments</td>
+              <td id="postcss-animations">Supported via plugins</td>
+              <td id="postcss-learning-curve">Moderate</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </section>
 
     <!-- LYC Code Example -->
-<section class="section" id="example-lyc-section">
-  <h2 id="example-lyc-title">7. LYC Code Example</h2>
-  <p id="example-lyc-description">
-    Below is an example of LYC code that you can copy and paste into the compiler to test its features.
-  </p>
-  <div class="code-container">
-    <pre class="code-block" id="example-lyc-code">
-      /* Global Variables */
-      --primary-color: #FF5733;
-      --secondary-color: #33FF57;
-      --font-size: 16px;
+    <section class="section" id="example-lyc-section">
+      <h2 id="example-lyc-title">7. LYC Code Example</h2>
+      <p id="example-lyc-description">
+        Below is an example of LYC code that you can copy and paste into the compiler to test its features.
+      </p>
+      <div class="code-container">
+        <pre class="code-block" id="example-lyc-code">
+/* Global Variables */
+--primary-color: #FF5733;
+--secondary-color: #33FF57;
+--font-size: 16px;
 
-      /* Mixin for reusable buttons */
-      @mixin button-style {
-        background: var(--primary-color);
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        cursor: pointer;
-      }
+/* Mixin for reusable buttons */
+@mixin button-style {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
 
-      /* Base Styles */
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: 'Arial', sans-serif;
-        background: var(--secondary-color);
-        color: var(--primary-color);
-        font-size: var(--font-size);
-      }
+/* Base Styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background: var(--secondary-color);
+  color: var(--primary-color);
+  font-size: var(--font-size);
+}
 
-      /* Components */
-      .button {
-        @include button-style;
-        box-shadow: 0 0 calc(5px + 2px) rgba(0, 0, 0, 0.3);
-      }
+/* Components */
+.button {
+  @include button-style;
+  box-shadow: 0 0 calc(5px + 2px) rgba(0, 0, 0, 0.3);
+}
 
-      .button:hover {
-        transform: scale(calc(1 + 0.1));
-        background: var(--secondary-color);
-      }
+.button:hover {
+  transform: scale(calc(1 + 0.1));
+  background: var(--secondary-color);
+}
 
-      /* Inheritance */
-      .error-message {
-        color: red;
-        font-weight: bold;
-      }
+/* Inheritance */
+.error-message {
+  color: red;
+  font-weight: bold;
+}
 
-      .warning-message {
-        @extend error-message to warning-message;
-        color: orange;
-      }
-    </pre>
-    <button id="copy-example-button">Copy Code</button>
-  </div>
-</section>
+.warning-message {
+  @extend error-message to warning-message;
+  color: orange;
+}
+        </pre>
+        <button id="copy-example-button">Copy Code</button>
+      </div>
+    </section>
 
-    
     <!-- Compiler Space -->
     <section class="section" id="compiler-section">
       <h2 id="compiler-title">5. Compiler Space</h2>
@@ -293,13 +344,11 @@ body {
       </p>
     </section>
   </main>
-
   <footer class="footer">
     <div class="container">
       <p id="footer-text">&copy; 2025 LayerCSS. Distributed under the Apache 2.0 License.</p>
     </div>
   </footer>
-
   <script src="script.js"></script>
 </body>
 </html>
