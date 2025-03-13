@@ -20,6 +20,8 @@
   "feature-animations": "<strong>Animazioni e Keyframes:</strong> Semplifica gli effetti visivi dinamici.",
   "example-title": "Esempio Dettagliato",
   "example-description": "Di seguito è riportato un esempio di base di un file `.lyc` con commenti dettagliati che spiegano ogni parte del codice. Questo file utilizza le funzionalità fondamentali di LYC: <strong>variabili globali</strong>, <strong>`calc()`</strong>, <strong>mixin (`@mixin` e `@include`)</strong>, e <strong>ereditarietà con `@extend`</strong>.",
+  "exampleLycTitle": "Esempio di Codice LYC",
+  "exampleLycDescription": "Di seguito è riportato un esempio di codice LYC che puoi copiare e incollare nel compilatore per testarne le funzionalità.",
   "comparison-title": "Confronto: .lyc vs .css",
   "comparison-characteristic": "Caratteristica",
   "comparison-variables": "Variabili",
