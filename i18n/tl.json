@@ -20,6 +20,8 @@
   "feature-animations": "<strong>Animations and Keyframes:</strong> Pasimplehin ang dynamic na visual effects.",
   "example-title": "Detalyadong Halimbawa",
   "example-description": "Sa ibaba ay isang basic example ng isang `.lyc` file na may detalyadong komento na nagpapaliwanag sa bawat bahagi ng code. Ang file na ito ay gumagamit ng fundamental na mga katangian ng LYC: <strong>global variables</strong>, <strong>`calc()`</strong>, <strong>mixins (`@mixin` at `@include`)</strong>, at <strong>inheritance with `@extend`</strong>.",
+  "exampleLycTitle": "Halimbawa ng Code ng LYC",
+  "exampleLycDescription": "Sa ibaba ay isang halimbawa ng code ng LYC na maaari mong i-copy at i-paste sa compiler upang subukan ang mga feature nito.",
   "comparison-title": "Pagkukumpara: .lyc vs .css",
   "comparison-characteristic": "Katangian",
   "comparison-variables": "Variables",
