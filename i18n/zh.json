@@ -20,6 +20,8 @@
   "feature-animations": "<strong>动画和关键帧：</strong>简化动态视觉效果。",
   "example-title": "详细示例",
   "example-description": "以下是一个基本的 `.lyc` 文件示例，其中包含详细的注释，解释代码的每个部分。此文件使用了 LYC 的基本功能：<strong>全局变量</strong>、<strong>`calc()`</strong>、<strong>混入（`@mixin` 和 `@include`）</strong> 和 <strong>继承（`@extend`）</strong>。",
+   "exampleLycTitle": "LYC代码示例",
+  "exampleLycDescription": "以下是一个LYC代码示例，您可以将其复制并粘贴到编译器中以测试其功能。",
   "comparison-title": "比较：.lyc 与 .css",
   "comparison-characteristic": "特性",
   "comparison-variables": "变量",
