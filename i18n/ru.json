@@ -20,6 +20,8 @@
   "feature-animations": "<strong>Анимации и ключевые кадры:</strong> Упростите динамические визуальные эффекты.",
   "example-title": "Подробный пример",
   "example-description": "Ниже приведен базовый пример файла `.lyc` с подробными комментариями, объясняющими каждую часть кода. Этот файл использует фундаментальные возможности LYC: <strong>глобальные переменные</strong>, <strong>`calc()`</strong>, <strong>миксины (`@mixin` и `@include`)</strong> и <strong>наследование с помощью `@extend`</strong>.",
+  "exampleLycTitle": "Пример кода LYC",
+  "exampleLycDescription": "Ниже приведен пример кода LYC, который вы можете скопировать и вставить в компилятор для тестирования его функций.",
   "comparison-title": "Сравнение: .lyc vs .css",
   "comparison-characteristic": "Характеристика",
   "comparison-variables": "Переменные",
