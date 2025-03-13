@@ -158,35 +158,35 @@ function processLYC(lycContent) {
   // Procesar bloques anidados
   const blocks = lycContent.split(/(@layer\s+\w+\s*\{|})/).filter(Boolean);
   let stack = [];
-  let currentBlock = '';
+  let result = ''; // Variable para almacenar el resultado final
   for (const block of blocks) {
     const trimmedBlock = block.trim();
     if (!trimmedBlock) continue;
     if (trimmedBlock === "{") {
-      stack.push(currentBlock);
-      currentBlock += " {";
+      stack.push(result);
+      result += " {";
     } else if (trimmedBlock === "}") {
-      currentBlock += "}";
+      result += "}";
       if (stack.length > 0) {
         const parentBlock = stack.pop();
-        currentBlock = parentBlock + currentBlock;
+        result = parentBlock + result;
       }
     } else {
-      currentBlock = processBlock(trimmedBlock, globalVariables);
+      result += processBlock(trimmedBlock, globalVariables);
     }
   }
 
   // Procesar cálculos matemáticos (calc())
-  currentBlock = currentBlock.replace(/calc\(([^)]+)\)/g, (match, expression) => {
+  result = result.replace(/calc\(([^)]+)\)/g, (match, expression) => {
     try {
-      const result = evaluateExpression(expression);
-      return result.toString();
+      const evaluatedResult = evaluateExpression(expression);
+      return evaluatedResult.toString();
     } catch (error) {
       throw new Error(`Error al evaluar calc(): ${error.message}`);
     }
   });
 
-  return minifyCSS(currentBlock);
+  return minifyCSS(result);
 }
 
 /**
