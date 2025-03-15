@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS", // O "ESNext" si prefieres módulos ES
+    "target": "ES2018",
+    "strict": true,
+    "esModuleInterop": true,
+    "outDir": "./dist"
+  },
+  "include": ["src/**/*"]
+}

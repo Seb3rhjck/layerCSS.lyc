@@ -1,0 +1,31 @@
+// Variables globales
+--primary-color: #3498db;
+--secondary-color: #2ecc71;
+--font-size-base: 1rem;
+
+@layer base {
+  body {
+    background-color: var(--primary-color);
+    font-size: var(--font-size-base);
+    margin: 0;
+    padding: 0;
+  }
+
+  h1, h2, h3 {
+    color: var(--secondary-color);
+  }
+}
+
+@layer components {
+  button {
+    padding: 10px 20px;
+    background-color: var(--secondary-color);
+    border: none;
+    color: white;
+
+    --hover-color: #1abc9c; /* Variable local */
+    &:hover {
+      background-color: var(--hover-color);
+    }
+  }
+}
