@@ -12,3 +12,4 @@ button:hover{background:linear-gradient(135deg,#00bfff,#0044ff);box-shadow:0 0 1
 #compiler-container{background:#2d2d2d;padding:50px;border:2px solid #00ffff;border-radius:15px;display:flex;flex-direction:column;gap:20px;box-shadow:0 0 20px rgba(0,255,255,.4);max-width:900px;margin:0 auto}
 #compiler-container textarea{width:100%;height:400px;padding:15px;font-family:'Courier New',monospace;font-size:18px;border:2px solid #00ffff;background:#0f0c29;color:#00ffff;border-radius:8px;resize:vertical;margin-bottom:20px;align-self:start}
 #compiler-container button{align-self:end}
+#compiler-container output{width:100%;height:200px;padding:15px;font-family:'Courier New',monospace;font-size:18px;border:2px solid #00ffff;background:#0f0c29;color:#00ffff;border-radius:8px;resize:verticl;margin-bottom:20px;align-self:start}
