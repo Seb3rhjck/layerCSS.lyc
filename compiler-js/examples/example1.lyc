@@ -1,0 +1,112 @@
+/* Variables globales */
+--primary-color: #FF69B4;
+--secondary-color: #8A2BE2;
+--accent-color: #00FFFF;
+
+/* Mixins */
+@mixin button-style {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+@mixin text-shadow-effect {
+  text-shadow: 0 0 10px var(--accent-color), 0 0 20px var(--accent-color);
+}
+
+/* Herencia */
+.button-base {
+  background: var(--primary-color);
+  color: white;
+}
+
+.primary-button {
+  @extend .button-base;
+  font-weight: bold;
+}
+
+.secondary-button {
+  @extend .button-base;
+  background: var(--secondary-color);
+}
+
+/* Capa base */
+@layer base {
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Courier New', monospace;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    --glow-color: var(--accent-color); /* Variable local */
+    text-shadow: 0 0 10px var(--glow-color), 0 0 20px var(--glow-color);
+  }
+}
+
+/* Capa Componentes */
+@layer components {
+  .vaporwave-card {
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid var(--accent-color);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 0 20px var(--accent-color);
+    animation: pulse 2s infinite;
+    --inner-glow: var(--accent-color); /* Variable local */
+    color: var(--inner-glow);
+    text-align: center;
+  }
+
+  button {
+    @include button-style;
+    background: var(--secondary-color);
+    color: white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    --hover-glow: var(--accent-color); /* Variable local */
+    box-shadow: 0 0 10px var(--hover-glow);
+    margin-top: 20px;
+  }
+
+  button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px var(--hover-glow);
+  }
+
+  /* Animaciones */
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+  }
+
+  /* Animación de Texto */
+  .animated-text {
+    font-size: 1.5em;
+    animation: fadeInOut 4s infinite;
+    @include text-shadow-effect;
+  }
+
+  @keyframes fadeInOut {
+    0%, 100% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+}
