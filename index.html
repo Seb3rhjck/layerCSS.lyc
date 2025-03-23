@@ -324,14 +324,14 @@ body {
     </section>
 
     <!-- Compiler Space -->
-    <section class="section" id="compiler-section">
-      <h2 id="compiler-title">Compiler Space</h2>
-      <div id="compiler-container">
-        <textarea id="code-input" placeholder="Write your LayerCSS code here..."></textarea>
-        <button id="compile-button">Compile</button>
-        <pre id="output"></pre>
-      </div>
-    </section>
+<section class="section" id="compiler-section">
+  <h2 id="compiler-title">Compiler Space</h2>
+  <div id="compiler-container">
+    <textarea id="code-input" placeholder="Write your LayerCSS code here..." onfocus="this.placeholder=''" onblur="this.placeholder='Write your LayerCSS code here...'"></textarea>
+    <button id="compile-button">Compile</button>
+    <div id="output" class="output-container"></div>
+  </div>
+</section>
 
     <!-- Current and Future Process -->
 <section class="section" id="process-section">
