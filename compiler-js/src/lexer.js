@@ -1,54 +1,47 @@
-function tokenize(input) {
-    const tokens = [];
-    let remaining = input;
+// src/lexer.js
+class Lexer {
+  constructor(input) {
+    this.input = input;
+    this.tokens = [];
+    this.currentPosition = 0;
+  }
 
-const patterns = [
-    { type: 'COMMENT', regex: /^\/\*[\s\S]*?\*\// },
-    { type: 'GLOBAL_VAR', regex: /^--([a-zA-Z0-9-_]+):\s*([^;]+);/ },
-    { type: 'MIXIN_DEF', regex: /^@mixin\s+([a-zA-Z0-9-_]+)\s*\{/ },
-    { type: 'MIXIN_INCLUDE', regex: /^@include\s+([a-zA-Z0-9-_]+);/ },
-    { type: 'EXTEND', regex: /^@extend\s+([a-zA-Z0-9-_]+);/ },
-    { type: 'LAYER', regex: /^@layer\s+([a-zA-Z0-9-_]+)\s*\{/ },
+  tokenize() {
+    const patterns = [
+      { type: "COMMENT", regex: /\/\*[\s\S]*?\*\//g }, // Comentarios multilínea
+      { type: "GLOBAL_VAR", regex: /^--([a-zA-Z0-9-]+):\s*([^;]+);/gm }, // Variables globales
+      { type: "LOCAL_VAR", regex: /^--([a-zA-Z0-9-]+):\s*([^;]+);/gm }, // Variables locales
+      { type: "MIXIN_DEF", regex: /^@mixin\s+([a-zA-Z0-9-]+)\s*\{/gm }, // Definición de mixin
+      { type: "MIXIN_INCLUDE", regex: /^@include\s+([a-zA-Z0-9-]+)/gm }, // Inclusión de mixin
+      { type: "EXTEND", regex: /^@extend\s+([a-zA-Z0-9-.]+)/gm }, // Herencia
+      { type: "LAYER", regex: /^@layer\s+([a-zA-Z0-9-]+)\s*\{/gm }, // Capas
+      { type: "KEYFRAMES", regex: /^@keyframes\s+([a-zA-Z0-9-]+)\s*\{/gm }, // Animaciones
+      { type: "BLOCK_START", regex: /\{/g }, // Bloque de inicio
+      { type: "BLOCK_END", regex: /\}/g }, // Bloque de fin
+      { type: "PROPERTY", regex: /^[a-zA-Z-]+\s*:\s*[^;]+;/gm }, // Propiedades CSS
+      { type: "SELECTOR", regex: /^[a-zA-Z0-9-_\.\#\[\]:, ]+\s*\{/gm }, // Selectores
+    ];
 
-    // 📌 Agregamos una regla clara para detectar selectores
-    { type: 'SELECTOR', regex: /^([.#]?[a-zA-Z_][a-zA-Z0-9-_,\s]*)\s*\{/ },
-
-    { type: 'PROPERTY', regex: /^([a-zA-Z-]+)\s*:/ },
-    { type: 'VALUE', regex: /^([^;]+);/ },
-    { type: 'BLOCK_END', regex: /^\}/ }
-];
-
-    while (remaining.length > 0) {
-        remaining = remaining.trim();
-        let matched = false;
-
-        for (const pattern of patterns) {
-            const match = remaining.match(pattern.regex);
-            if (match) {
-                tokens.push({ type: pattern.type, value: match[0].trim() });
-
-                console.log(`🟢 Token detectado: ${pattern.type} -> ${match[0].trim()}`); // 🛠 Depuración en vivo
-
-                remaining = remaining.slice(match[0].length);
-                matched = true;
-                break;
-            }
+    let remainingInput = this.input.trim();
+    while (remainingInput.length > 0) {
+      let matched = false;
+      for (const { type, regex } of patterns) {
+        const match = remainingInput.match(regex);
+        if (match) {
+          this.tokens.push({ type, value: match[0].trim() });
+          remainingInput = remainingInput.slice(match[0].length).trim();
+          matched = true;
+          break;
         }
-
-        if (!matched) {
-            throw new Error(`❌ Token no reconocido: "${remaining.substring(0, 20)}..."`);
-        }
+      }
+      if (!matched) {
+        throw new Error(`Error de sintaxis cerca de: ${remainingInput.slice(0, 10)}...`);
+      }
     }
 
-    // 🔍 Comprobación de `SELECTOR`
-    const hasSelector = tokens.some(t => t.type === 'SELECTOR');
-    if (!hasSelector) {
-        console.error("🚨 No se detectaron `SELECTOR`. Tokens actuales:");
-        tokens.forEach(token => console.log(`   - ${token.type}: ${token.value}`));
-        throw new Error('❌ No se detectaron selectores en los tokens. Verifica la sintaxis del código LYC.');
-    }
-
-    return tokens;
+    console.debug("Tokens generados:", this.tokens);
+    return this.tokens;
+  }
 }
 
-module.exports = { tokenize };
+module.exports = Lexer;

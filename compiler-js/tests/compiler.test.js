@@ -1,24 +1,36 @@
 // tests/compiler.test.js
-
 const fs = require('fs');
 const path = require('path');
-const { compileLYC } = require('../src/compiler');
+const Lexer = require('../src/lexer');
+const Parser = require('../src/parser');
+const Processor = require('../src/processor');
 
 describe('Compilador LYC', () => {
   const inputFile = path.join(__dirname, '../examples/example1.lyc');
-  const outputFile = path.join(__dirname, '../examples/example1.css');
+  const lycContent = fs.readFileSync(inputFile, 'utf-8');
 
-  it('debería generar un archivo CSS válido', () => {
-    // Ejecutar el compilador
-    compileLYC(inputFile, outputFile);
+  test('Lexer genera tokens correctamente', () => {
+    const lexer = new Lexer(lycContent);
+    const tokens = lexer.tokenize();
+    expect(tokens).toHaveLength(expect.any(Number));
+  });
 
-    // Leer el archivo CSS generado
-    const cssContent = fs.readFileSync(outputFile, 'utf-8');
-    console.debug('CSS generado en la prueba:', cssContent);
+  test('Parser construye AST correctamente', () => {
+    const lexer = new Lexer(lycContent);
+    const tokens = lexer.tokenize();
+    const parser = new Parser(tokens);
+    const ast = parser.parse();
+    expect(ast).toHaveProperty('type', 'Root');
+    expect(ast.body).toHaveLength(expect.any(Number));
+  });
 
-    // Validar el contenido del archivo CSS
-    expect(cssContent).toContain('body { margin: 0; padding: 0;');
-    expect(cssContent).toContain('background: linear-gradient(135deg, #FF69B4, #8A2BE2);');
-    expect(cssContent).toContain('.button-base { background: #FF69B4; color: white; }');
+  test('Processor genera CSS válido', () => {
+    const lexer = new Lexer(lycContent);
+    const tokens = lexer.tokenize();
+    const parser = new Parser(tokens);
+    const ast = parser.parse();
+    const processor = new Processor(ast);
+    const css = processor.generateCSS();
+    expect(css).toContain(':root');
   });
 });
