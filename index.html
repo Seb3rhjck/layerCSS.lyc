@@ -42,7 +42,6 @@
         <em>Creator:</em> Sebastian (Balthier) Ordoñez Arias, an amateur programmer with basic knowledge in web design and application development. This project was born as a personal exploration to simplify CSS development and make it accessible to everyone.
       </p>
     </section>
-
     <!-- What is .lyc? -->
     <section class="section" id="lyc-section">
       <h2 id="lyc-title">What is .lyc?</h2>
@@ -72,7 +71,6 @@
 }
       </pre>
     </section>
-
     <!-- Key Features -->
     <section class="section" id="features-section">
       <h2 id="features-title">Key Features</h2>
@@ -84,7 +82,6 @@
         <li id="feature-animations"><strong>Animations and Keyframes:</strong> Simplify dynamic visual effects.</li>
       </ul>
     </section>
-
     <!-- Detailed Example -->
     <section class="section" id="example-section">
       <h2 id="example-title">Detailed Example</h2>
@@ -106,7 +103,6 @@
 --primary-color: #3498db; /* Light blue */
 --secondary-color: #e74c3c; /* Red */
 --font-size: 16px; /* Base font size */
-
 /*
   Mixin for reusable buttons:
   - A mixin is a reusable block of styles.
@@ -120,7 +116,6 @@
   border-radius: 5px;
   cursor: pointer;
 }
-
 /*
   Base styles for the body:
   - General styles for the page.
@@ -134,7 +129,6 @@ body {
   color: var(--primary-color); /* Uses global variable --primary-color */
   font-size: var(--font-size); /* Uses global variable --font-size */
 }
-
 /*
   Components:
   - Specific styles for components like buttons.
@@ -144,12 +138,10 @@ body {
   @include button-style; /* Includes styles defined in the mixin button-style */
   box-shadow: 0 0 calc(5px + 2px) rgba(0, 0, 0, 0.3); /* Uses calc() for shadow size */
 }
-
 .button:hover {
   transform: scale(calc(1 + 0.1)); /* Uses calc() to increase button size on hover */
   background: var(--secondary-color); /* Changes background color on hover */
 }
-
 /*
   Inheritance with @extend:
   - Shares styles between classes.
@@ -159,7 +151,6 @@ body {
   color: red;
   font-weight: bold;
 }
-
 .warning-message {
   @extend error-message to warning-message; /* Inherits styles from .error-message */
   color: orange; /* Overrides color to make it orange */
@@ -177,7 +168,6 @@ body {
   color: #3498db;
   font-size: 16px;
 }
-
 .button {
   background: #3498db;
   color: white;
@@ -187,17 +177,14 @@ body {
   cursor: pointer;
   box-shadow: 0 0 7px rgba(0, 0, 0, 0.3);
 }
-
 .button:hover {
   transform: scale(1.1);
   background: #e74c3c;
 }
-
 .error-message {
   color: red;
   font-weight: bold;
 }
-
 .warning-message {
   color: orange;
   font-weight: bold;
@@ -206,7 +193,6 @@ body {
           </div>
         </div>
       </div>
-
       <!-- Horizontal Comparison Table -->
       <div class="comparison-container">
         <h3 id="comparison-title">Comparison: .lyc vs .css</h3>
@@ -263,7 +249,6 @@ body {
         </table>
       </div>
     </section>
-
     <!-- LYC Code Example -->
     <section class="section" id="example-lyc-section">
       <h2 id="example-lyc-title">LYC Code Example</h2>
@@ -276,7 +261,6 @@ body {
 --primary-color: #FF5733;
 --secondary-color: #33FF57;
 --font-size: 16px;
-
 /* Mixin for reusable buttons */
 @mixin button-style {
   background: var(--primary-color);
@@ -286,7 +270,6 @@ body {
   border-radius: 5px;
   cursor: pointer;
 }
-
 /* Base Styles */
 body {
   margin: 0;
@@ -296,24 +279,20 @@ body {
   color: var(--primary-color);
   font-size: var(--font-size);
 }
-
 /* Components */
 .button {
   @include button-style;
   box-shadow: 0 0 calc(5px + 2px) rgba(0, 0, 0, 0.3);
 }
-
 .button:hover {
   transform: scale(calc(1 + 0.1));
   background: var(--secondary-color);
 }
-
 /* Inheritance */
 .error-message {
   color: red;
   font-weight: bold;
 }
-
 .warning-message {
   @extend error-message to warning-message;
   color: orange;
@@ -322,74 +301,69 @@ body {
         <button id="copy-example-button">Copy Code</button>
       </div>
     </section>
-
     <!-- Compiler Space -->
-<section class="section" id="compiler-section">
-  <h2 id="compiler-title">Compiler Space</h2>
-  <div id="compiler-container">
-    <textarea id="code-input" placeholder="Write your LayerCSS code here..." onfocus="this.placeholder=''" onblur="this.placeholder='Write your LayerCSS code here...'"></textarea>
-    <button id="compile-button">Compile</button>
-    <div id="output" class="output-container"></div>
-  </div>
-</section>
-
+    <section class="section" id="compiler-section">
+      <h2 id="compiler-title">Compiler Space</h2>
+      <div id="compiler-container">
+        <textarea id="code-input" placeholder="Write your LayerCSS code here..." onfocus="this.placeholder=''" onblur="this.placeholder='Write your LayerCSS code here...'"></textarea>
+        <button id="compile-button">Compile</button>
+        <output id="output" class="output-container"></output>
+      </div>
+    </section>
     <!-- Current and Future Process -->
-<section class="section" id="process-section">
-  <h2 id="process-title">Current and Future Process</h2>
-  
-  <!-- Current State -->
-  <div class="subsection">
-    <h3 id="current-process-title">Where We Are in the Process</h3>
-    <p id="current-process-description">
-      So far, we have implemented a preprocessor or partial interpreter for the LYC language. This preprocessor performs the following tasks:
-    </p>
-    <ul class="features-list" id="current-process-features">
-      <li id="current-process-feature-vars"><strong>Variable replacement:</strong> Processes global and local variables (using <code>var(--name)</code>).</li>
-      <li id="current-process-feature-math"><strong>Mathematical expressions:</strong> Evaluates expressions within <code>calc()</code>.</li>
-      <li id="current-process-feature-mixins"><strong>Mixins (<code>@mixin</code> and <code>@include</code>):</strong> Allows code reuse through mixins.</li>
-      <li id="current-process-feature-extend"><strong>Inheritance with <code>@extend</code>:</strong> Reuses styles between selectors.</li>
-      <li id="current-process-feature-dynamic"><strong>Dynamic structures:</strong> Uses <code>malloc</code> and <code>realloc</code> to dynamically manage variables, mixins, and other elements.</li>
-      <li id="current-process-feature-local-scope"><strong>Local scopes:</strong> Local variables are stored in a stack and do not appear in the output file.</li>
-    </ul>
-    <p id="current-process-note">
-      However, this is only a partial compiler, as there are still several important compilation stages that need to be implemented.
-    </p>
-  </div>
-
-  <!-- Full Compiler Stages -->
-  <div class="subsection">
-    <h3 id="compiler-stages-title">What Will Be Added</h3>
-    <p id="compiler-stages-description">
-      To transform our preprocessor into a full compiler, we need to add the following features:
-    </p>
-    <h4 id="compiler-stages-subtitle">A. Stages of a Full Compiler</h4>
-    <ul class="features-list" id="compiler-stages-list">
-      <li id="compiler-stage-lexing"><strong>Lexical analysis (Lexing):</strong> Converts source code into tokens (keywords, identifiers, operators, etc.).</li>
-      <li id="compiler-stage-parsing"><strong>Syntax analysis (Parsing):</strong> Builds an abstract syntax tree (AST) from the tokens generated by the lexer.</li>
-      <li id="compiler-stage-semantic"><strong>Semantic analysis:</strong> Verifies that the AST is valid according to the language rules.</li>
-      <li id="compiler-stage-intermediate-code"><strong>Intermediate code generation:</strong> Translates the AST into an intermediate format that is easier to optimize or compile.</li>
-      <li id="compiler-stage-optimization"><strong>Optimization:</strong> Improves the intermediate code to make it more efficient.</li>
-      <li id="compiler-stage-final-code"><strong>Final code generation:</strong> Produces the output file in the desired format (in this case, CSS).</li>
-    </ul>
-  </div>
-
-  <!-- Additional Features -->
-  <div class="subsection">
-    <h4 id="additional-features-title">B. Additional Features That Can Be Added</h4>
-    <p id="additional-features-description">
-      In addition to the compiler stages, we can add the following specific features for LYC:
-    </p>
-    <ul class="features-list" id="additional-features-list">
-      <li id="additional-feature-functions"><strong>Support for advanced functions:</strong> Implement custom functions in LYC, such as <code>darken(color, percentage)</code> or <code>lighten(color, percentage)</code>.</li>
-      <li id="additional-feature-nested-rules"><strong>Advanced nested rules:</strong> Allow more complex nested CSS rules, similar to those found in SASS or LESS.</li>
-      <li id="additional-feature-strict-mode"><strong>Strict mode:</strong> Add a strict mode that detects potential errors, such as unused variables or duplicate rules.</li>
-      <li id="additional-feature-tools-integration"><strong>Compatibility with external tools:</strong> Integrate LYC with tools like PostCSS or Autoprefixer to enhance browser compatibility.</li>
-      <li id="additional-feature-minification"><strong>Automatic minification:</strong> Add an option to generate minified CSS automatically.</li>
-      <li id="additional-feature-debugging"><strong>Debugging:</strong> Include comments in the generated CSS to facilitate debugging.</li>
-      <li id="additional-feature-documentation"><strong>Documentation and examples:</strong> Create detailed documentation for LYC and provide usage examples.</li>
-    </ul>
-  </div>
-    
+    <section class="section" id="process-section">
+      <h2 id="process-title">Current and Future Process</h2>
+      <!-- Current State -->
+      <div class="subsection">
+        <h3 id="current-process-title">Where We Are in the Process</h3>
+        <p id="current-process-description">
+          So far, we have implemented a preprocessor or partial interpreter for the LYC language. This preprocessor performs the following tasks:
+        </p>
+        <ul class="features-list" id="current-process-features">
+          <li id="current-process-feature-vars"><strong>Variable replacement:</strong> Processes global and local variables (using <code>var(--name)</code>).</li>
+          <li id="current-process-feature-math"><strong>Mathematical expressions:</strong> Evaluates expressions within <code>calc()</code>.</li>
+          <li id="current-process-feature-mixins"><strong>Mixins (<code>@mixin</code> and <code>@include</code>):</strong> Allows code reuse through mixins.</li>
+          <li id="current-process-feature-extend"><strong>Inheritance with <code>@extend</code>:</strong> Reuses styles between selectors.</li>
+          <li id="current-process-feature-dynamic"><strong>Dynamic structures:</strong> Uses <code>malloc</code> and <code>realloc</code> to dynamically manage variables, mixins, and other elements.</li>
+          <li id="current-process-feature-local-scope"><strong>Local scopes:</strong> Local variables are stored in a stack and do not appear in the output file.</li>
+        </ul>
+        <p id="current-process-note">
+          However, this is only a partial compiler, as there are still several important compilation stages that need to be implemented.
+        </p>
+      </div>
+      <!-- Full Compiler Stages -->
+      <div class="subsection">
+        <h3 id="compiler-stages-title">What Will Be Added</h3>
+        <p id="compiler-stages-description">
+          To transform our preprocessor into a full compiler, we need to add the following features:
+        </p>
+        <h4 id="compiler-stages-subtitle">A. Stages of a Full Compiler</h4>
+        <ul class="features-list" id="compiler-stages-list">
+          <li id="compiler-stage-lexing"><strong>Lexical analysis (Lexing):</strong> Converts source code into tokens (keywords, identifiers, operators, etc.).</li>
+          <li id="compiler-stage-parsing"><strong>Syntax analysis (Parsing):</strong> Builds an abstract syntax tree (AST) from the tokens generated by the lexer.</li>
+          <li id="compiler-stage-semantic"><strong>Semantic analysis:</strong> Verifies that the AST is valid according to the language rules.</li>
+          <li id="compiler-stage-intermediate-code"><strong>Intermediate code generation:</strong> Translates the AST into an intermediate format that is easier to optimize or compile.</li>
+          <li id="compiler-stage-optimization"><strong>Optimization:</strong> Improves the intermediate code to make it more efficient.</li>
+          <li id="compiler-stage-final-code"><strong>Final code generation:</strong> Produces the output file in the desired format (in this case, CSS).</li>
+        </ul>
+      </div>
+      <!-- Additional Features -->
+      <div class="subsection">
+        <h4 id="additional-features-title">B. Additional Features That Can Be Added</h4>
+        <p id="additional-features-description">
+          In addition to the compiler stages, we can add the following specific features for LYC:
+        </p>
+        <ul class="features-list" id="additional-features-list">
+          <li id="additional-feature-functions"><strong>Support for advanced functions:</strong> Implement custom functions in LYC, such as <code>darken(color, percentage)</code> or <code>lighten(color, percentage)</code>.</li>
+          <li id="additional-feature-nested-rules"><strong>Advanced nested rules:</strong> Allow more complex nested CSS rules, similar to those found in SASS or LESS.</li>
+          <li id="additional-feature-strict-mode"><strong>Strict mode:</strong> Add a strict mode that detects potential errors, such as unused variables or duplicate rules.</li>
+          <li id="additional-feature-tools-integration"><strong>Compatibility with external tools:</strong> Integrate LYC with tools like PostCSS or Autoprefixer to enhance browser compatibility.</li>
+          <li id="additional-feature-minification"><strong>Automatic minification:</strong> Add an option to generate minified CSS automatically.</li>
+          <li id="additional-feature-debugging"><strong>Debugging:</strong> Include comments in the generated CSS to facilitate debugging.</li>
+          <li id="additional-feature-documentation"><strong>Documentation and examples:</strong> Create detailed documentation for LYC and provide usage examples.</li>
+        </ul>
+      </div>
+    </section>
     <!-- Conclusion -->
     <section class="section" id="conclusion-section">
       <h2 id="conclusion-title">Conclusion</h2>
