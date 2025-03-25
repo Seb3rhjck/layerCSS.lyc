@@ -30,14 +30,17 @@
     <!-- Introduction -->
     <section class="section" id="introduction-section">
       <h2 id="introduction-title">Introduction</h2>
+      <br>
       <p id="introduction-description">
         <strong>What is LayerCSS?</strong> LayerCSS is a design language based on CSS that introduces advanced features to facilitate the creation of modular, reusable, and maintainable styles. It is designed to overcome the limitations of traditional CSS by adding support for global and local variables, nested blocks, layers (@layer), and structured comments.
       </p>
+      <br>
       <blockquote id="introduction-quote">
         "Modularity: Divide your styles into logical sections.<br>
         Reusability: Define values once and use them in multiple places.<br>
         Ease of Maintenance: Change a value in one place and affect the entire project."
       </blockquote>
+      <br>
       <p id="introduction-creator">
         <em>Creator:</em> Sebastian (Balthier) Ordoñez Arias, an amateur programmer with basic knowledge in web design and application development. This project was born as a personal exploration to simplify CSS development and make it accessible to everyone.
       </p>
@@ -45,12 +48,16 @@
     <!-- What is .lyc? -->
     <section class="section" id="lyc-section">
       <h2 id="lyc-title">What is .lyc?</h2>
+      <br>
       <p id="lyc-description">
         The `.lyc` file format is the core of LayerCSS. It extends traditional CSS by introducing new syntax and features that make styling more intuitive and efficient. Here are some key aspects:
       </p>
+      <br>
       <ul class="features-list" id="lyc-features-list">
         <li id="lyc-feature-syntax"><strong>Syntax:</strong> Similar to CSS but with added features like variables, nesting, and layers.</li>
+        <br>
         <li id="lyc-feature-modularity"><strong>Modularity:</strong> Organize your styles into reusable components.</li>
+        <br>
         <li id="lyc-feature-compilation"><strong>Compilation:</strong> `.lyc` files are compiled into standard CSS for browser compatibility.</li>
       </ul>
       <pre class="code-block" id="lyc-example">
@@ -74,17 +81,24 @@
     <!-- Key Features -->
     <section class="section" id="features-section">
       <h2 id="features-title">Key Features</h2>
+      <br>
       <ul class="features-list" id="features-list">
+        <br>
         <li id="feature-global-variables"><strong>Global and Local Variables:</strong> Define reusable values like colors and font sizes.</li>
+        <br>
         <li id="feature-nested-blocks"><strong>Nested Blocks:</strong> Write styles hierarchically for better readability.</li>
+        <br>
         <li id="feature-layers"><strong>Layers (@layer):</strong> Organize styles into logical sections.</li>
+        <br>
         <li id="feature-comments"><strong>Structured Comments:</strong> Use single-line and multi-line comments for documentation.</li>
+        <br>
         <li id="feature-animations"><strong>Animations and Keyframes:</strong> Simplify dynamic visual effects.</li>
       </ul>
     </section>
     <!-- Detailed Example -->
     <section class="section" id="example-section">
       <h2 id="example-title">Detailed Example</h2>
+      <br>
       <p id="example-description">
         Below is a basic example of a `.lyc` file with detailed comments explaining each part of the code. This file uses the fundamental features of LYC: <strong>global variables</strong>, <strong>`calc()`</strong>, <strong>mixins (`@mixin` and `@include`)</strong>, and <strong>inheritance with `@extend`</strong>.
       </p>
@@ -248,10 +262,12 @@ body {
           </tbody>
         </table>
       </div>
+    <br>
     </section>
     <!-- LYC Code Example -->
     <section class="section" id="example-lyc-section">
       <h2 id="example-lyc-title">LYC Code Example</h2>
+      <br>
       <p id="example-lyc-description">
         Below is an example of LYC code that you can copy and paste into the compiler to test its features.
       </p>
@@ -298,33 +314,43 @@ body {
   color: orange;
 }
         </pre>
+        <br>
         <button id="copy-example-button">Copy Code</button>
       </div>
     </section>
     <!-- Compiler Space -->
     <section class="section" id="compiler-section">
       <h2 id="compiler-title">Compiler Space</h2>
+      <br>
       <div id="compiler-container">
         <textarea id="code-input" placeholder="Write your LayerCSS code here..." onfocus="this.placeholder=''" onblur="this.placeholder='Write your LayerCSS code here...'"></textarea>
         <button id="compile-button">Compile</button>
         <output id="output" class="output-container"></output>
       </div>
+    <br>
     </section>
     <!-- Current and Future Process -->
     <section class="section" id="process-section">
       <h2 id="process-title">Current and Future Process</h2>
       <!-- Current State -->
+      <br>
       <div class="subsection">
         <h3 id="current-process-title">Where We Are in the Process</h3>
         <p id="current-process-description">
           So far, we have implemented a preprocessor or partial interpreter for the LYC language. This preprocessor performs the following tasks:
         </p>
         <ul class="features-list" id="current-process-features">
+          <br>
           <li id="current-process-feature-vars"><strong>Variable replacement:</strong> Processes global and local variables (using <code>var(--name)</code>).</li>
+          <br>
           <li id="current-process-feature-math"><strong>Mathematical expressions:</strong> Evaluates expressions within <code>calc()</code>.</li>
+          <br>
           <li id="current-process-feature-mixins"><strong>Mixins (<code>@mixin</code> and <code>@include</code>):</strong> Allows code reuse through mixins.</li>
+          <br>
           <li id="current-process-feature-extend"><strong>Inheritance with <code>@extend</code>:</strong> Reuses styles between selectors.</li>
+          <br>
           <li id="current-process-feature-dynamic"><strong>Dynamic structures:</strong> Uses <code>malloc</code> and <code>realloc</code> to dynamically manage variables, mixins, and other elements.</li>
+          <br>
           <li id="current-process-feature-local-scope"><strong>Local scopes:</strong> Local variables are stored in a stack and do not appear in the output file.</li>
         </ul>
         <p id="current-process-note">
@@ -333,17 +359,25 @@ body {
       </div>
       <!-- Full Compiler Stages -->
       <div class="subsection">
+        <br>
         <h3 id="compiler-stages-title">What Will Be Added</h3>
+        <br>
         <p id="compiler-stages-description">
           To transform our preprocessor into a full compiler, we need to add the following features:
         </p>
         <h4 id="compiler-stages-subtitle">A. Stages of a Full Compiler</h4>
         <ul class="features-list" id="compiler-stages-list">
+          <br>
           <li id="compiler-stage-lexing"><strong>Lexical analysis (Lexing):</strong> Converts source code into tokens (keywords, identifiers, operators, etc.).</li>
+          <br>
           <li id="compiler-stage-parsing"><strong>Syntax analysis (Parsing):</strong> Builds an abstract syntax tree (AST) from the tokens generated by the lexer.</li>
+          <br>
           <li id="compiler-stage-semantic"><strong>Semantic analysis:</strong> Verifies that the AST is valid according to the language rules.</li>
+          <br>
           <li id="compiler-stage-intermediate-code"><strong>Intermediate code generation:</strong> Translates the AST into an intermediate format that is easier to optimize or compile.</li>
+          <br>
           <li id="compiler-stage-optimization"><strong>Optimization:</strong> Improves the intermediate code to make it more efficient.</li>
+          <br>
           <li id="compiler-stage-final-code"><strong>Final code generation:</strong> Produces the output file in the desired format (in this case, CSS).</li>
         </ul>
       </div>
@@ -354,19 +388,28 @@ body {
           In addition to the compiler stages, we can add the following specific features for LYC:
         </p>
         <ul class="features-list" id="additional-features-list">
+          <br>
           <li id="additional-feature-functions"><strong>Support for advanced functions:</strong> Implement custom functions in LYC, such as <code>darken(color, percentage)</code> or <code>lighten(color, percentage)</code>.</li>
+          <br>
           <li id="additional-feature-nested-rules"><strong>Advanced nested rules:</strong> Allow more complex nested CSS rules, similar to those found in SASS or LESS.</li>
+          <br>
           <li id="additional-feature-strict-mode"><strong>Strict mode:</strong> Add a strict mode that detects potential errors, such as unused variables or duplicate rules.</li>
+          <br>
           <li id="additional-feature-tools-integration"><strong>Compatibility with external tools:</strong> Integrate LYC with tools like PostCSS or Autoprefixer to enhance browser compatibility.</li>
+          <br>
           <li id="additional-feature-minification"><strong>Automatic minification:</strong> Add an option to generate minified CSS automatically.</li>
+          <br>
           <li id="additional-feature-debugging"><strong>Debugging:</strong> Include comments in the generated CSS to facilitate debugging.</li>
+          <br>
           <li id="additional-feature-documentation"><strong>Documentation and examples:</strong> Create detailed documentation for LYC and provide usage examples.</li>
         </ul>
       </div>
+    <br>
     </section>
     <!-- Conclusion -->
     <section class="section" id="conclusion-section">
       <h2 id="conclusion-title">Conclusion</h2>
+      <br>
       <p id="conclusion-description">
         LayerCSS simplifies CSS development with advanced features like variables, nested blocks, and layers. It's ideal for both small and large projects.
       </p>
