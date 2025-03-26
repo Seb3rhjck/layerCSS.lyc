@@ -266,3 +266,5 @@ Si quieres mejorar tu flujo de trabajo en diseño y crear estilos modulares, reu
 
 **Nota del Creador**:  
 Este proyecto está en sus primeras etapas, y mi objetivo es que LayerCSS se convierta en un lenguaje universal que pueda integrarse con frameworks y proyectos de diseño web en PHP, JavaScript, TypeScript, Python y Java. Si deseas apoyar este proyecto, ¡tu contribución será invaluable!
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Y8Y01BYKW9)
