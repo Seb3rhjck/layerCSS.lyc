@@ -248,3 +248,5 @@ Kung nais mong mapabuti ang iyong workflow sa disenyo at lumikha ng modular, reu
 
 **Tandaan ng May-akda**:  
 Ang proyektong ito ay nasa paunang yugto, at ang aking layunin ay gawing universal na lengguwahe ang LayerCSS na maaaring i-integrate sa frameworks at web design projects sa PHP, JavaScript, TypeScript, Python, at Java. Kung nais mong suportahan ang proyektong ito, ang iyong kontribusyon ay mahalaga!
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Y8Y01BYKW9)
