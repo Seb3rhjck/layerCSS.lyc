@@ -266,3 +266,5 @@ LayerCSS 是一款强大的工具，简化了 CSS 开发。其高级功能，如
 
 **创作者备注**：  
 该项目处于早期阶段，我的目标是使 LayerCSS 成为一种通用语言，能够与 PHP、JavaScript、TypeScript、Python 和 Java 中的框架和网页设计项目集成。如果您想支持该项目，您的贡献将是无价的！
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Y8Y01BYKW9)
