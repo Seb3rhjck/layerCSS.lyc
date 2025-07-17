@@ -1,18 +1,191 @@
-/* Neotech Symmetry - Improved */
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Orbitron',monospace}
-body{background:radial-gradient(circle at center,#0f0c29,#302b63,#24243e);color:#00ffff;line-height:1.6;overflow-x:hidden;padding:60px;position:relative}
-body::after{content:"";position:fixed;top:0;left:0;width:100%;height:100%;background:conic-gradient(from 0deg,#0f0c29,#302b63,#24243e,#0f0c29);opacity:.15;z-index:-1;animation:rotateBackground 20s linear infinite}@keyframes rotateBackground{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}header{background:linear-gradient(45deg,#1a1a2e,#29293e);color:#00ffff;padding:60px;text-align:center;border-bottom:4px solid #00ffff;position:relative;box-shadow:0 5px 15px rgba(0,255,255,.3);border-radius:15px;margin-bottom:50px;clip-path:polygon(10% 0%,90% 0%,100% 10%,100% 90%,90% 100%,10% 100%,0% 90%,0% 10%)}header h1{font-size:40px;font-weight:bold;text-shadow:2px 2px 8px rgba(0,255,255,.5);animation:glow 2s ease-in-out infinite alternate}@keyframes glow{from{text-shadow:2px 2px 8px rgba(0,255,255,.5)}to{text-shadow:2px 2px 15px rgba(0,255,255,1)}}
-.section{background:rgba(26,26,46,.9);padding:70px;border:2px solid #00ffff;border-radius:15px;box-shadow:0 0 15px rgba(0,255,255,.3);margin-bottom:80px;transform:perspective(500px) rotateX(1deg);transition:transform .3s ease;position:relative;overflow:hidden}
-.section::before{content:"";position:absolute;top:-10px;left:-10px;width:calc(100% + 20px);height:calc(100% + 20px);border:2px dashed #00ffff;border-radius:20px;opacity:.5;animation:rotateBorder 10s linear infinite}@keyframes rotateBorder{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}@media (min-width:768px){.section:hover{transform:perspective(90px) rotateX(0) scale(1.01)}
-button:hover{transform:scale(1.03)}}@media (max-width:767px){.section:hover{transform:none}
-button:hover{transform:none}}
-button{background:linear-gradient(135deg,#00ffff,#0077ff);color:#0f0c29;padding:18px 36px;font-size:18px;border-radius:10px;cursor:pointer;transition:all .3s ease-in-out;position:relative;overflow:hidden}
-button::after{content:"";position:absolute;top:50%;left:50%;width:120%;height:120%;background:radial-gradient(circle,#00ffff33,#0077ff00);transform:translate(-50%,-50%);border-radius:50%;opacity:0;transition:opacity .3s ease-in-out}button:hover::after{opacity:1}
-#compiler-container{background:#2d2d2d;padding:50px;border:2px solid #00ffff;border-radius:15px;display:flex;flex-direction:column;gap:20px;box-shadow:0 0 20px rgba(0,255,255,.4);max-width:900px;margin:0 auto;clip-path:polygon(10% 0%,90% 0%,100% 10%,100% 90%,90% 100%,10% 100%,0% 90%,0% 10%);position:relative;overflow:hidden}
-#compiler-container::before{content:"";position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(0,255,255,.1),transparent);transform:rotate(45deg);animation:moveFractal 15s linear infinite}@keyframes moveFractal{from{transform:rotate(0deg) translate(-10px,-10px)}to{transform:rotate(360deg) translate(10px,10px)}}
-#compiler-container textarea{width:100%;height:400px;padding:15px;font-family:'Courier New',monospace;font-size:18px;border:2px solid #00ffff;background:#0f0c29;color:#00ffff;border-radius:8px;resize:vertical;margin-bottom:20px;align-self:start}
-#compiler-container button{align-self:end}
-#compiler-container output{background:#0f0c29;padding:15px;border:2px solid #00ffff;border-radius:5px;font-family:"Courier New",monospace;font-size:14px;color:#00ffff;max-height:300px;overflow-y:auto;white-space:pre-wrap;word-break:break-word;text-align:left}.language-selector{margin-bottom:20px}.language-selector label{margin-right:10px;font-size:16px;color:#00ffff}.code-block{background:#0f0c29;color:#00ffff;padding:15px;border-radius:5px;overflow-x:auto;white-space:pre-wrap;word-break:break-word;position:relative}.code-block::before{content:"";position:absolute;top:0;left:0;width:100%;height:100%;background:repeating-linear-gradient(45deg,transparent,transparent 10px,rgba(0,255,255,.1) 10px,rgba(0,255,255,.1) 20px);z-index:-1;opacity:.5}
-.table{width:100%;border-collapse:collapse}
-.table th,.table td{border:1px solid #00ffff;padding:10px;text-align:left}
-.table th{background:#1a1a2e}
+/* ===== BASE PARA WORDPRESS ===== */
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: #0a0e23;
+  color: #e0f8ff;
+  font-family: 'Arial', sans-serif;
+  overflow: auto;
+  position: relative;
+}
+
+/* ===== MANDALA COMPLEJO (12 puntas) ===== */
+body::before {
+  content: "";
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 180vmax;
+  height: 180vmax;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.9;
+  background:
+    radial-gradient(circle at center, rgba(0, 200, 255, 0.2) 0%, transparent 60%),
+    repeating-conic-gradient(from 15deg, transparent 0deg 15deg, rgba(100, 220, 255, 0.15) 15deg 30deg),
+    repeating-radial-gradient(circle at center,
+      transparent 0px 10vmin,
+      rgba(0, 150, 255, 0.08) 10vmin 12vmin,
+      transparent 12vmin 20vmin,
+      rgba(0, 180, 255, 0.08) 20vmin 22vmin),
+    repeating-linear-gradient(75deg, transparent 0px 5vmax, rgba(0, 220, 255, 0.05) 5vmax 6vmax);
+  animation: mandalaSpin 300s linear infinite, mandalaPulse 8s ease-in-out infinite alternate;
+}
+
+/* ===== EFECTO DE PROFUNDIDAD ===== */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  z-index: -2;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.03) 0%, transparent 3%),
+    radial-gradient(circle at 80% 70%, rgba(0, 200, 255, 0.03) 0%, transparent 3%);
+  animation: particleMove 40s linear infinite;
+}
+
+/* ===== ANIMACIONES ===== */
+@keyframes mandalaSpin {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+@keyframes mandalaPulse {
+  0% { opacity: 0.8; transform: translate(-50%, -50%) scale(0.98); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1.02); }
+}
+@keyframes particleMove {
+  to { transform: translate(-50%, -50%); }
+}
+
+/* ===== ESTRUCTURA DEL CONTENIDO ===== */
+header, footer {
+  position: relative;
+  z-index: 10;
+  background: rgba(10, 20, 40, 0.95);
+  width: 100%;
+  padding: 1rem;
+  text-align: center;
+  color: #00ffff;
+}
+
+main {
+  position: relative;
+  z-index: 5;
+  padding: 2rem;
+  background: rgba(15, 25, 50, 0.85);
+  backdrop-filter: blur(2px);
+  margin: 2rem auto;
+  max-width: 1200px;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 100, 255, 0.1);
+}
+
+/* ==== COMPILADOR === */
+#compiler-container {
+  background: rgba(20, 25, 60, 0.8);
+  padding: 2rem;
+  border: 2px solid #00ffff;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+}
+
+#compiler-container textarea {
+  width: 100%;
+  height: 400px;
+  padding: 15px;
+  font-family: 'Courier New', monospace;
+  font-size: 16px;
+  border: 2px solid #00ffff;
+  background: #0f0c29;
+  color: #00ffff;
+  border-radius: 6px;
+  resize: vertical;
+  pointer-events: auto;
+  user-select: text;
+  z-index: 1;
+}
+
+#compiler-container button {
+  align-self: flex-end;
+  background: linear-gradient(135deg, #00ffff, #0077ff);
+  color: #0f0c29;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#compiler-container button:hover {
+  transform: scale(1.03);
+}
+
+#compiler-container output {
+  background: #0f0c29;
+  color: #00ffff;
+  padding: 15px;
+  border: 2px solid #00ffff;
+  border-radius: 6px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+/* ==== GENERAL === */
+.language-selector {
+  text-align: right;
+  margin: 1rem;
+}
+.language-selector label {
+  margin-right: 10px;
+  color: #00ffff;
+}
+.code-block {
+  background: #0f0c29;
+  color: #00ffff;
+  padding: 15px;
+  border-radius: 6px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.comparison-container {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.column {
+  flex: 1;
+  min-width: 300px;
+}
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.comparison-table th,
+.comparison-table td {
+  border: 1px solid #00ffff;
+  padding: 8px;
+  text-align: left;
+}
+.comparison-table th {
+  background: #1a1a2e;
+}
+.section {
+  background: rgba(26, 26, 46, 0.9);
+  padding: 2rem;
+  border: 2px solid #00ffff;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+  margin-bottom: 2rem;
+}
