@@ -116,77 +116,87 @@ function compileLYC() {
  * @param {string} lycContent - Código LYC a procesar.
  * @returns {string} Código CSS procesado.
  */
+// ---------- NEW processLYC (drop-in) ----------
 function processLYC(lycContent) {
-  let globalVariables = {};
+  let css = '';
+
+  // 1. Strip comments
   lycContent = lycContent.replace(/\/\/.*|\/\*[\s\S]*?\*\//g, '');
 
-  // Procesar variables globales
-  const globalVarRegex = /^--([a-zA-Z0-9-]+):\s*([^;]+);/gm;
-  let match;
-  while ((match = globalVarRegex.exec(lycContent)) !== null) {
-    globalVariables[match[1]] = match[2].trim();
-  }
-  lycContent = lycContent.replace(globalVarRegex, '');
+  // 2. Global variables
+  const globalVars = {};
+  lycContent = lycContent.replace(/^--([a-zA-Z0-9-]+)\s*:\s*([^;]+);?/gm, (_, k, v) => {
+    globalVars[k] = v.trim();
+    return '';
+  });
 
-  // Procesar mixins (@mixin)
+  // 3. Mixins
   const mixins = {};
-  lycContent = lycContent.replace(/@mixin\s+([^{]+)\s*\{([^}]+)\}/g, (match, mixinName, mixinContent) => {
-    mixins[mixinName.trim()] = mixinContent.trim();
-    return "";
+  lycContent = lycContent.replace(/@mixin\s+([^{]+)\s*\{([^}]*)\}/g, (_, name, body) => {
+    mixins[name.trim()] = body.trim();
+    return '';
   });
 
-  // Reemplazar @include con el contenido del mixin
-  lycContent = lycContent.replace(/@include\s+([^{;]+)/g, (match, mixinName) => {
-    const trimmedMixinName = mixinName.trim();
-    const content = mixins[trimmedMixinName];
-    if (!content) {
-      throw new Error(`Mixin '${trimmedMixinName}' no definido.`);
-    }
-    return content;
+  // 4. Replace @include
+  lycContent = lycContent.replace(/@include\s+([^;{]+)/g, (_, name) => {
+    const key = name.trim();
+    if (!mixins[key]) throw new Error(`Mixin '${key}' no definido.`);
+    return mixins[key];
   });
 
-  // Procesar herencia (@extend)
-  lycContent = lycContent.replace(/@extend\s+([^{ ]+)\s+to\s+([^{ ]+)/g, (match, sourceClass, targetClass) => {
-    const sourceStyles = lycContent.match(new RegExp(`${sourceClass}\\s*\\{([^}]+)\\}`, "g"));
-    if (!sourceStyles) {
-      throw new Error(`Clase '${sourceClass}' no encontrada para extender.`);
-    }
-    const styles = sourceStyles[0].replace(sourceClass, targetClass);
-    return styles;
+  // 5. Replace variables
+  const vars = { ...globalVars };
+  const replacer = str => str.replace(/var\(--([a-zA-Z0-9-]+)\)/g, (_, k) => vars[k] || `var(--${k})`);
+
+  // 6. @extend
+  const extendMap = new Map();
+  lycContent = lycContent.replace(/@extend\s+([^{ ]+)\s+to\s+([^{ ]+)/g, (_, src, dst) => {
+    extendMap.set(dst.trim(), src.trim());
+    return '';
   });
 
-  // Procesar bloques anidados
+  // 7. Split into blocks and build CSS
   const blocks = lycContent.split(/(@layer\s+\w+\s*\{|})/).filter(Boolean);
-  let stack = [];
-  let result = ''; // Variable para almacenar el resultado final
+  const stack = [];
+  let result = '';
+
   for (const block of blocks) {
-    const trimmedBlock = block.trim();
-    if (!trimmedBlock) continue;
-    if (trimmedBlock === "{") {
+    const t = block.trim();
+    if (t === '{') {
       stack.push(result);
-      result += " {";
-    } else if (trimmedBlock === "}") {
-      result += "}";
-      if (stack.length > 0) {
-        const parentBlock = stack.pop();
-        result = parentBlock + result;
-      }
+      result += ' {';
+    } else if (t === '}') {
+      result += '}';
+      if (stack.length) result = stack.pop() + result;
+    } else if (t.startsWith('@layer')) {
+      result += t.replace(/@layer\s+(\w+)/, '/* @layer $1 */');
     } else {
-      result += processBlock(trimmedBlock, globalVariables);
+      // resolve variables & calc
+      let cssBlock = replacer(t);
+      // delegate calc to browser
+      const style = document.createElement('div').style;
+      style.cssText = cssBlock.replace(/calc\([^)]+\)/g, m => {
+        style.cssText = `width:${m}`;
+        return style.width;
+      });
+      result += cssBlock;
     }
   }
 
-  // Procesar cálculos matemáticos (calc())
-  result = result.replace(/calc\(([^)]+)\)/g, (match, expression) => {
-    try {
-      const evaluatedResult = evaluateExpression(expression);
-      return evaluatedResult.toString();
-    } catch (error) {
-      throw new Error(`Error al evaluar calc(): ${error.message}`);
+  // 8. Apply @extend by copying rules
+  extendMap.forEach((src, dst) => {
+    const re = new RegExp(`([^{}]+)${src}\\s*\\{([^}]*)\\}`, 'g');
+    let m;
+    while ((m = re.exec(result)) !== null) {
+      result += `${m[1]}${dst}{${m[2]}}`;
     }
   });
 
-  return minifyCSS(result);
+  // 9. Minify
+  return result
+    .replace(/\s+/g, ' ')
+    .replace(/\s*([{}:;,>+~])\s*/g, '$1')
+    .trim();
 }
 
 /**
