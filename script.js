@@ -116,89 +116,58 @@ function compileLYC() {
  * @param {string} lycContent - Código LYC a procesar.
  * @returns {string} Código CSS procesado.
  */
-// ---------- NEW processLYC (drop-in) ----------
 function processLYC(lycContent) {
-  let css = '';
-
-  // 1. Strip comments
+  let globalVariables = {};
+  // Limpiar comentarios
   lycContent = lycContent.replace(/\/\/.*|\/\*[\s\S]*?\*\//g, '');
 
-  // 2. Global variables
-  const globalVars = {};
-  lycContent = lycContent.replace(/^--([a-zA-Z0-9-]+)\s*:\s*([^;]+);?/gm, (_, k, v) => {
-    globalVars[k] = v.trim();
-    return '';
-  });
+  // Capturar y eliminar todas las variables globales
+  const globalVarRegex = /^--([a-zA-Z0-9-]+):\s*([^;]+);/gm;
+  let match;
+  while ((match = globalVarRegex.exec(lycContent)) !== null) {
+    globalVariables[match[1]] = match[2].trim();
+  }
+  lycContent = lycContent.replace(globalVarRegex, '').trim();
 
-  // 3. Mixins
+  // Procesar mixins
   const mixins = {};
-  lycContent = lycContent.replace(/@mixin\s+([^{]+)\s*\{([^}]*)\}/g, (_, name, body) => {
-    mixins[name.trim()] = body.trim();
-    return '';
+  lycContent = lycContent.replace(/@mixin\s+([^{]+)\s*\{([^}]+)\}/g, (match, name, content) => {
+    mixins[name.trim()] = content.trim();
+    return "";
   });
 
-  // 4. Replace @include
-  lycContent = lycContent.replace(/@include\s+([^;{]+)/g, (_, name) => {
-    const key = name.trim();
-    if (!mixins[key]) throw new Error(`Mixin '${key}' no definido.`);
-    return mixins[key];
+  // Reemplazar @include
+  lycContent = lycContent.replace(/@include\s+([^{;]+)/g, (match, name) => {
+    const trimmedName = name.trim();
+    if (!mixins[trimmedName]) throw new Error(`Mixin '${trimmedName}' no definido`);
+    return mixins[trimmedName];
   });
 
-  // 5. Replace variables
-  const vars = { ...globalVars };
-  const replacer = str => str.replace(/var\(--([a-zA-Z0-9-]+)\)/g, (_, k) => vars[k] || `var(--${k})`);
-
-  // 6. @extend
-  const extendMap = new Map();
-  lycContent = lycContent.replace(/@extend\s+([^{ ]+)\s+to\s+([^{ ]+)/g, (_, src, dst) => {
-    extendMap.set(dst.trim(), src.trim());
-    return '';
+  // Procesar herencia (@extend)
+  lycContent = lycContent.replace(/@extend\s+([^{ ]+)\s+to\s+([^{ ]+)/g, (match, source, target) => {
+    const sourceRegex = new RegExp(`${source}\\s*\\{([^}]*)\\}`, 'g');
+    const sourceMatch = lycContent.match(sourceRegex);
+    if (!sourceMatch) throw new Error(`Clase fuente '${source}' no encontrada`);
+    return sourceMatch[0].replace(source, target);
   });
 
-  // 7. Split into blocks and build CSS
-  const blocks = lycContent.split(/(@layer\s+\w+\s*\{|})/).filter(Boolean);
-  const stack = [];
-  let result = '';
-
-  for (const block of blocks) {
-    const t = block.trim();
-    if (t === '{') {
-      stack.push(result);
-      result += ' {';
-    } else if (t === '}') {
-      result += '}';
-      if (stack.length) result = stack.pop() + result;
-    } else if (t.startsWith('@layer')) {
-      result += t.replace(/@layer\s+(\w+)/, '/* @layer $1 */');
-    } else {
-      // resolve variables & calc
-      let cssBlock = replacer(t);
-      // delegate calc to browser
-      const style = document.createElement('div').style;
-      style.cssText = cssBlock.replace(/calc\([^)]+\)/g, m => {
-        style.cssText = `width:${m}`;
-        return style.width;
-      });
-      result += cssBlock;
-    }
+  // Reemplazar variables
+  for (const [key, value] of Object.entries(globalVariables)) {
+    const regex = new RegExp(`var\$--${key}\$`, 'g');
+    lycContent = lycContent.replace(regex, value);
   }
 
-  // 8. Apply @extend by copying rules
-  extendMap.forEach((src, dst) => {
-    const re = new RegExp(`([^{}]+)${src}\\s*\\{([^}]*)\\}`, 'g');
-    let m;
-    while ((m = re.exec(result)) !== null) {
-      result += `${m[1]}${dst}{${m[2]}}`;
+  // Evaluar calc()
+  lycContent = lycContent.replace(/calc\(([^)]+)\)/g, (match, expr) => {
+    try {
+      return evaluateExpression(expr);
+    } catch (e) {
+      throw new Error(`Error en calc(${expr}): ${e.message}`);
     }
   });
 
-  // 9. Minify
-  return result
-    .replace(/\s+/g, ' ')
-    .replace(/\s*([{}:;,>+~])\s*/g, '$1')
-    .trim();
+  return minifyCSS(lycContent);
 }
-
 /**
  * Procesar un bloque individual.
  * @param {string} blockContent - Contenido del bloque.
