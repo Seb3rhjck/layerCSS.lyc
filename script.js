@@ -2,236 +2,161 @@
 let currentLanguage = "en"; // Idioma predeterminado
 
 /**
- * Función para cargar traducciones según el idioma seleccionado.
- * @param {string} lang - Código del idioma (ej. "es", "en").
+ * Carga las traducciones desde un archivo JSON según el idioma seleccionado.
+ * @param {string} lang - Código del idioma (ej. 'es', 'en')
  */
 async function loadTranslations(lang) {
   try {
     const response = await fetch(`i18n/${lang}.json`);
-    if (!response.ok) {
-      throw new Error(`Error al cargar el archivo JSON para el idioma ${lang}: ${response.status}`);
-    }
+    if (!response.ok) throw new Error(`Error al cargar ${lang}.json`);
+
     const translations = await response.json();
 
-    // Actualizar elementos del DOM con las traducciones
-    Object.keys(translations).forEach((key) => {
+    Object.keys(translations).forEach(key => {
       const element = document.getElementById(key);
       if (element) {
-        // Si el valor es un objeto, concatenar sus propiedades
         if (typeof translations[key] === "object") {
           element.innerHTML = Object.values(translations[key]).join("<br>");
         } else {
-          element.innerHTML = translations[key];
+          element.textContent = translations[key];
         }
-      } else {
-        console.warn(`Elemento con ID '${key}' no encontrado en el DOM.`);
       }
     });
 
-    // Actualizar idioma actual
     currentLanguage = lang;
   } catch (error) {
-    console.error("Error al cargar las traducciones:", error);
+    console.error("Error cargando traducciones:", error);
   }
 }
 
 /**
- * Evento para cambiar el idioma mediante el selector.
+ * Inicializa eventos al cargar el DOM
  */
 document.addEventListener("DOMContentLoaded", () => {
   const languageSelect = document.getElementById("language-select");
+  const compileButton = document.getElementById("compile-button");
+  const copyExampleButton = document.getElementById("copy-example-button");
+
   if (languageSelect) {
-    languageSelect.addEventListener("change", (event) => {
-      const lang = event.target.value;
-      loadTranslations(lang);
+    languageSelect.addEventListener("change", (e) => {
+      loadTranslations(e.target.value);
     });
-  } else {
-    console.error("Elemento 'language-select' no encontrado en el DOM.");
+  }
+
+  if (compileButton) {
+    compileButton.addEventListener("click", compileLYC);
+  }
+
+  if (copyExampleButton) {
+    copyExampleButton.addEventListener("click", () => {
+      const exampleCode = document.getElementById("example-lyc-code").textContent.trim();
+      navigator.clipboard.writeText(exampleCode)
+        .then(() => alert("✅ Código copiado al portapapeles"))
+        .catch(err => console.error("❌ Error al copiar:", err));
+    });
   }
 
   // Cargar traducciones iniciales
   loadTranslations(currentLanguage);
-
-  // Asociar evento de compilación
-  const compileButton = document.getElementById("compile-button");
-  if (compileButton) {
-    compileButton.addEventListener("click", compileLYC);
-  } else {
-    console.error("Elemento 'compile-button' no encontrado en el DOM.");
-  }
-
-  // Asociar evento de copiar ejemplo
-  const copyExampleButton = document.getElementById("copy-example-button");
-  if (copyExampleButton) {
-    copyExampleButton.addEventListener("click", () => {
-      const exampleCode = document.getElementById("example-lyc-code").textContent.trim();
-      navigator.clipboard.writeText(exampleCode).then(() => {
-        alert("Código LYC copiado al portapapeles.");
-      }).catch((error) => {
-        console.error("Error al copiar el código:", error);
-        alert("No se pudo copiar el código. Por favor, inténtalo manualmente.");
-      });
-    });
-  } else {
-    console.error("Elemento 'copy-example-button' no encontrado en el DOM.");
-  }
 });
 
 /**
- * Función principal para compilar LYC a CSS.
+ * Compila el código LYC ingresado por el usuario a CSS
  */
 function compileLYC() {
   const codeInput = document.getElementById("code-input");
+  const outputElement = document.getElementById("output");
+
   if (!codeInput || !codeInput.value.trim()) {
-    alert("Por favor, ingresa código LYC.");
+    outputElement.textContent = "⚠️ Por favor, ingresa código LYC.";
     return;
   }
 
-  const lycCode = codeInput.value;
-  const startTime = performance.now();
   try {
-    const cssCode = processLYC(lycCode);
-    const endTime = performance.now();
-    const compileTime = (endTime - startTime).toFixed(2);
-
-    // Mostrar resultados
-    const outputElement = document.getElementById("output");
-    if (outputElement) {
-      outputElement.textContent = cssCode;
-    } else {
-      console.error("Elemento 'output' no encontrado en el DOM.");
-    }
+    const cssCode = processLYC(codeInput.value);
+    outputElement.textContent = cssCode;
   } catch (error) {
-    const outputElement = document.getElementById("output");
-    if (outputElement) {
-      outputElement.textContent = `Error de compilación: ${error.message}`;
-    } else {
-      console.error("Elemento 'output' no encontrado en el DOM.");
-    }
+    outputElement.textContent = `❌ Error de compilación: ${error.message}`;
   }
 }
 
 /**
- * Compilador LYC a CSS.
- * @param {string} lycContent - Código LYC a procesar.
- * @returns {string} Código CSS procesado.
+ * Procesa el código LYC y lo transforma en CSS válido
+ * @param {string} lycContent - Código fuente LYC
+ * @returns {string} - Código CSS procesado
  */
 function processLYC(lycContent) {
   let globalVariables = {};
-  // Limpiar comentarios
-  lycContent = lycContent.replace(/\/\/.*|\/\*[\s\S]*?\*\//g, '');
+  let result = "";
 
-  // Capturar y eliminar todas las variables globales
+  // Eliminar comentarios
+  lycContent = lycContent.replace(/\/\/.*|\/\*[\s\S]*?\*\//g, "");
+
+  // Extraer variables globales
   const globalVarRegex = /^--([a-zA-Z0-9-]+):\s*([^;]+);/gm;
   let match;
   while ((match = globalVarRegex.exec(lycContent)) !== null) {
     globalVariables[match[1]] = match[2].trim();
   }
-  lycContent = lycContent.replace(globalVarRegex, '').trim();
+  lycContent = lycContent.replace(globalVarRegex, "");
 
-  // Procesar mixins
+  // Procesar mixins (@mixin / @include)
   const mixins = {};
-  lycContent = lycContent.replace(/@mixin\s+([^{]+)\s*\{([^}]+)\}/g, (match, name, content) => {
+  lycContent = lycContent.replace(/@mixin\s+([^{]+)\s*\{([^}]+)\}/g, (full, name, content) => {
     mixins[name.trim()] = content.trim();
     return "";
   });
 
-  // Reemplazar @include
-  lycContent = lycContent.replace(/@include\s+([^{;]+)/g, (match, name) => {
-    const trimmedName = name.trim();
-    if (!mixins[trimmedName]) throw new Error(`Mixin '${trimmedName}' no definido`);
-    return mixins[trimmedName];
+  lycContent = lycContent.replace(/@include\s+([^{;]+)/g, (full, name) => {
+    const key = name.trim();
+    if (!mixins[key]) throw new Error(`Mixin '${key}' no definido`);
+    return mixins[key];
   });
 
   // Procesar herencia (@extend)
-  lycContent = lycContent.replace(/@extend\s+([^{ ]+)\s+to\s+([^{ ]+)/g, (match, source, target) => {
-    const sourceRegex = new RegExp(`${source}\\s*\\{([^}]*)\\}`, 'g');
+  lycContent = lycContent.replace(/@extend\s+([^{ ]+)\s+to\s+([^{ ]+)/g, (full, source, target) => {
+    const sourceRegex = new RegExp(`${source}\\s*\\{([^}]*)\\}`, "g");
     const sourceMatch = lycContent.match(sourceRegex);
     if (!sourceMatch) throw new Error(`Clase fuente '${source}' no encontrada`);
     return sourceMatch[0].replace(source, target);
   });
 
-  // Reemplazar variables
+  // Reemplazar variables globales
   for (const [key, value] of Object.entries(globalVariables)) {
-    const regex = new RegExp(`var\$--${key}\$`, 'g');
+    const regex = new RegExp(`var\$--${key}\$`, "g");
     lycContent = lycContent.replace(regex, value);
   }
 
-  // Evaluar calc()
-  lycContent = lycContent.replace(/calc\(([^)]+)\)/g, (match, expr) => {
+  // Evaluar expresiones en calc()
+  lycContent = lycContent.replace(/calc\(([^)]+)\)/g, (full, expr) => {
     try {
       return evaluateExpression(expr);
-    } catch (e) {
-      throw new Error(`Error en calc(${expr}): ${e.message}`);
+    } catch (err) {
+      throw new Error(`Error evaluando calc(${expr}): ${err.message}`);
     }
   });
 
-  return minifyCSS(lycContent);
-}
-/**
- * Procesar un bloque individual.
- * @param {string} blockContent - Contenido del bloque.
- * @param {Object} variables - Variables globales.
- * @returns {string} Bloque procesado.
- */
-function processBlock(blockContent, variables) {
-  let localVariables = {};
-  const localVarRegex = /--([a-zA-Z0-9-]+):\s*([^;]+);/g;
-  let match;
-  while ((match = localVarRegex.exec(blockContent)) !== null) {
-    localVariables[match[1]] = match[2].trim();
-  }
-  blockContent = blockContent.replace(localVarRegex, '');
-  const combinedVariables = { ...variables, ...localVariables };
-  for (const [varName, varValue] of Object.entries(combinedVariables)) {
-    blockContent = blockContent.replace(new RegExp(`var\\(--${varName}\\)`, 'g'), varValue);
-  }
-  return blockContent;
-}
-
-/**
- * Minificar CSS.
- * @param {string} css - Código CSS a minificar.
- * @returns {string} Código CSS minificado.
- */
-function minifyCSS(css) {
-  return css.replace(/\s+/g, ' ').trim();
-}
-
-/**
- * Evaluar expresiones matemáticas simples.
- * @param {string} expression - Expresión matemática.
- * @returns {number} Resultado de la evaluación.
- */
-function evaluateExpression(expression) {
-  const operators = ["+", "-", "*", "/"];
-  let result = parseFloat(expression);
-  let operator = "+";
-
-  const tokens = expression.split(/([+\-*/])/).map((token) => token.trim());
-
-  for (const token of tokens) {
-    if (operators.includes(token)) {
-      operator = token;
-    } else if (!isNaN(parseFloat(token))) {
-      const value = parseFloat(token);
-      switch (operator) {
-        case "+":
-          result += value;
-          break;
-        case "-":
-          result -= value;
-          break;
-        case "*":
-          result *= value;
-          break;
-        case "/":
-          if (value === 0) throw new Error("División por cero.");
-          result /= value;
-          break;
-      }
-    }
-  }
+  // Minificar CSS
+  result = minifyCSS(lycContent);
 
   return result;
+}
+
+/**
+ * Evalúa expresiones matemáticas simples dentro de calc()
+ * @param {string} expr - Expresión matemática
+ * @returns {number|string} - Resultado evaluado
+ */
+function evaluateExpression(expr) {
+  const sanitized = expr.replace(/\s+/g, '');
+  return Function('"use strict";return (' + sanitized + ')')();
+}
+
+/**
+ * Minifica el CSS generado
+ * @param {string} css - Código CSS sin minificar
+ * @returns {string} - Código CSS minificado
+ */
+function minifyCSS(css) {
+  return css.replace(/\s+/g, " ").trim();
 }
