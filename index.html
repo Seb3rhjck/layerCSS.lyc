@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>LayerCSS .lyc</title>
+  <title id="title">LayerCSS .lyc</title>
   <link rel="icon" href="assets/favicon.ico" type="image/x-icon"/>
   <link rel="stylesheet" href="styles.css"/>
 </head>
@@ -11,7 +11,7 @@
 
   <!-- Selector de Idioma -->
   <div class="language-selector">
-    <label for="language-select">Select Language:</label>
+    <label for="language-select" id="language-selector-label">Select Language:</label>
     <select id="language-select">
       <option value="en">English</option>
       <option value="es">Español</option>
@@ -23,119 +23,149 @@
   </div>
 
   <!-- Header -->
-  <header>
-    <h1 id="header-title">LayerCSS - Programming Language</h1>
-    <p id="header-license">License: Apache 2.0</p>
+  <header class="header">
+    <div class="container">
+      <h1 id="header-title">LayerCSS - Programming Language</h1>
+      <p id="header-license">License: Apache 2.0</p>
+    </div>
   </header>
 
   <!-- Main Content -->
-  <main>
-    <!-- Introducción -->
+  <main class="main-content">
+
+    <!-- Introduction -->
     <section class="section" id="introduction-section">
       <h2 id="introduction-title">Introduction</h2>
-      <p id="introduction-description"></p>
-      <blockquote id="introduction-quote"></blockquote>
-      <p id="introduction-creator"></p>
+      <br>
+      <p id="introduction-description">
+        <strong>What is LayerCSS?</strong> LayerCSS is a design language based on CSS that introduces advanced features to facilitate the creation of modular, reusable, and maintainable styles. It is designed to overcome the limitations of traditional CSS by adding support for global and local variables, nested blocks, layers (@layer), and structured comments.
+      </p>
+      <br>
+      <blockquote id="introduction-quote">
+        "Modularity: Divide your styles into logical sections.<br>
+        Reusability: Define values once and use them in multiple places.<br>
+        Ease of Maintenance: Change a value in one place and affect the entire project."
+      </blockquote>
+      <br>
+      <p id="introduction-creator">
+        <em>Creator:</em> Sebastian (Balthier) Ordoñez Arias, an amateur programmer with basic knowledge in web design and application development. This project was born as a personal exploration to simplify CSS development and make it accessible to everyone.
+      </p>
     </section>
 
-    <!-- ¿Qué es .lyc? -->
+    <!-- What is .lyc? -->
     <section class="section" id="lyc-section">
       <h2 id="lyc-title">What is .lyc?</h2>
-      <p id="lyc-description"></p>
-      <ul id="lyc-features-list"></ul>
-      <pre id="lyc-example"></pre>
+      <br>
+      <p id="lyc-description">
+        The `.lyc` file format is the core of LayerCSS. It extends traditional CSS by introducing new syntax and features that make styling more intuitive and efficient. Here are some key aspects:
+      </p>
+      <br>
+      <ul class="features-list" id="lyc-features-list">
+        <li id="lyc-feature-syntax"><strong>Syntax:</strong> Similar to CSS but with added features like variables, nesting, and layers.</li>
+        <br>
+        <li id="lyc-feature-modularity"><strong>Modularity:</strong> Organize your styles into reusable components.</li>
+        <br>
+        <li id="lyc-feature-compilation"><strong>Compilation:</strong> `.lyc` files are compiled into standard CSS for browser compatibility.</li>
+      </ul>
+      <pre class="code-block" id="lyc-example"></pre>
     </section>
 
-    <!-- Características Clave -->
+    <!-- Key Features -->
     <section class="section" id="features-section">
       <h2 id="features-title">Key Features</h2>
-      <ul id="features-list"></ul>
+      <br>
+      <ul class="features-list" id="features-list"></ul>
     </section>
 
-    <!-- Ejemplo Detallado -->
+    <!-- Detailed Example -->
     <section class="section" id="example-section">
       <h2 id="example-title">Detailed Example</h2>
+      <br>
       <p id="example-description"></p>
       <div class="comparison-container">
-        <div class="column">
-          <h4>.lyc Code</h4>
-          <pre id="lyc-detailed-example"></pre>
+        <h3 id="comparison-title">Comparison: .lyc vs .css</h3>
+        <div class="comparison-columns">
+          <div class="column">
+            <h4>.lyc Code</h4>
+            <pre class="code-block" id="lyc-detailed-example"></pre>
+          </div>
+          <div class="column">
+            <h4>.css Output</h4>
+            <pre class="code-block" id="css-output-example"></pre>
+          </div>
         </div>
-        <div class="column">
-          <h4>.css Output</h4>
-          <pre id="css-output-example"></pre>
-        </div>
+      </div>
+      <div class="comparison-container">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th id="comparison-characteristic">Characteristic</th>
+              <th id="comparison-variables">Variables</th>
+              <th id="comparison-nested-blocks">Nested Blocks</th>
+              <th id="comparison-layers">Layers</th>
+              <th id="comparison-comments">Comments</th>
+              <th id="comparison-animations">Animations</th>
+              <th id="comparison-learning-curve">Learning Curve</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>.lyc</td>
+              <td id="layercss-variables"></td>
+              <td id="layercss-nested-blocks"></td>
+              <td id="layercss-layers"></td>
+              <td id="layercss-comments"></td>
+              <td id="layercss-animations"></td>
+              <td id="layercss-learning-curve"></td>
+            </tr>
+            <tr>
+              <td>Sass</td>
+              <td id="sass-variables"></td>
+              <td id="sass-nested-blocks"></td>
+              <td id="sass-layers"></td>
+              <td id="sass-comments"></td>
+              <td id="sass-animations"></td>
+              <td id="sass-learning-curve"></td>
+            </tr>
+            <tr>
+              <td>Less</td>
+              <td id="less-variables"></td>
+              <td id="less-nested-blocks"></td>
+              <td id="less-layers"></td>
+              <td id="less-comments"></td>
+              <td id="less-animations"></td>
+              <td id="less-learning-curve"></td>
+            </tr>
+            <tr>
+              <td>PostCSS</td>
+              <td id="postcss-variables"></td>
+              <td id="postcss-nested-blocks"></td>
+              <td id="postcss-layers"></td>
+              <td id="postcss-comments"></td>
+              <td id="postcss-animations"></td>
+              <td id="postcss-learning-curve"></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
-    <!-- Tabla Comparativa -->
-    <div class="comparison-container">
-      <table class="comparison-table">
-        <thead>
-          <tr>
-            <th>Characteristic</th>
-            <th>Variables</th>
-            <th>Nested Blocks</th>
-            <th>Layers</th>
-            <th>Comments</th>
-            <th>Animations</th>
-            <th>Learning Curve</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>.lyc</td>
-            <td id="layercss-variables"></td>
-            <td id="layercss-nested-blocks"></td>
-            <td id="layercss-layers"></td>
-            <td id="layercss-comments"></td>
-            <td id="layercss-animations"></td>
-            <td id="layercss-learning-curve"></td>
-          </tr>
-          <tr>
-            <td>Sass</td>
-            <td id="sass-variables"></td>
-            <td id="sass-nested-blocks"></td>
-            <td id="sass-layers"></td>
-            <td id="sass-comments"></td>
-            <td id="sass-animations"></td>
-            <td id="sass-learning-curve"></td>
-          </tr>
-          <tr>
-            <td>Less</td>
-            <td id="less-variables"></td>
-            <td id="less-nested-blocks"></td>
-            <td id="less-layers"></td>
-            <td id="less-comments"></td>
-            <td id="less-animations"></td>
-            <td id="less-learning-curve"></td>
-          </tr>
-          <tr>
-            <td>PostCSS</td>
-            <td id="postcss-variables"></td>
-            <td id="postcss-nested-blocks"></td>
-            <td id="postcss-layers"></td>
-            <td id="postcss-comments"></td>
-            <td id="postcss-animations"></td>
-            <td id="postcss-learning-curve"></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Ejemplo de Código -->
+    <!-- LYC Code Example -->
     <section class="section" id="example-lyc-section">
       <h2 id="example-lyc-title">LYC Code Example</h2>
+      <br>
       <p id="example-lyc-description"></p>
       <div class="code-container">
-        <pre id="example-lyc-code"></pre>
+        <pre class="code-block" id="example-lyc-code"></pre>
+        <br>
         <button id="copy-example-button">Copy Code</button>
       </div>
     </section>
 
-    <!-- Compilador -->
+    <!-- Compiler Space -->
     <section class="section" id="compiler-section">
       <h2 id="compiler-title">Compiler Space</h2>
+      <br>
       <div id="compiler-container">
         <textarea id="code-input" placeholder="Write your LayerCSS code here..."></textarea>
         <button id="compile-button">Compile</button>
@@ -143,30 +173,50 @@
       </div>
     </section>
 
-    <!-- Proceso Actual -->
+    <!-- Current and Future Process -->
     <section class="section" id="process-section">
       <h2 id="process-title">Current and Future Process</h2>
-      <p id="current-process-description"></p>
-      <ul id="current-process-features"></ul>
-      <p id="current-process-note"></p>
+      <div class="subsection">
+        <h3 id="current-process-title">Where We Are in the Process</h3>
+        <p id="current-process-description"></p>
+        <ul class="features-list" id="current-process-features"></ul>
+        <p id="current-process-note"></p>
+      </div>
+      <div class="subsection">
+        <h3 id="compiler-stages-title">What Will Be Added</h3>
+        <p id="compiler-stages-description"></p>
+        <h4 id="compiler-stages-subtitle">A. Stages of a Full Compiler</h4>
+        <ul class="features-list" id="compiler-stages-list"></ul>
+      </div>
+      <div class="subsection">
+        <h4 id="additional-features-title">B. Additional Features That Can Be Added</h4>
+        <p id="additional-features-description"></p>
+        <ul class="features-list" id="additional-features-list"></ul>
+      </div>
     </section>
 
-    <!-- Conclusión -->
+    <!-- Conclusion -->
     <section class="section" id="conclusion-section">
       <h2 id="conclusion-title">Conclusion</h2>
+      <br>
       <p id="conclusion-description"></p>
       <p id="conclusion-note"></p>
     </section>
 
-    <!-- Ko-fi -->
+    <!-- Ko-fi Widget -->
     <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js '></script>
-    <script type='text/javascript'>kofiwidget2.init('Support me on Ko-fi', '#72a4f2', 'Y8Y01BYKW9');kofiwidget2.draw();</script>
+    <script type='text/javascript'>
+      kofiwidget2.init('Support me on Ko-fi', '#72a4f2', 'Y8Y01BYKW9');
+      kofiwidget2.draw();
+    </script>
 
   </main>
 
   <!-- Footer -->
-  <footer>
-    <p id="footer-text">&copy; 2025 LayerCSS. Distributed under the Apache 2.0 License.</p>
+  <footer class="footer">
+    <div class="container">
+      <p id="footer-text">&copy; 2025 LayerCSS. Distributed under the Apache 2.0 License.</p>
+    </div>
   </footer>
 
   <!-- Scripts -->
