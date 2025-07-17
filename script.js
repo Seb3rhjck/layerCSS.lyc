@@ -1,264 +1,78 @@
-// Variables globales
-let currentLanguage = "en"; // Idioma predeterminado
-let lastValidUnit = ""; // Almacena la última unidad encontrada (ej: px, %)
 
-/**
- * Función para cargar traducciones según el idioma seleccionado.
- * @param {string} lang - Código del idioma (ej. "es", "en").
- */
-async function loadTranslations(lang) {
+//compilador basico en js
+const fs = require('fs');
+const path = require('path');
+
+function compileLYC(inputFile, outputFile) {
   try {
-    const response = await fetch(`i18n/${lang}.json`);
-    if (!response.ok) {
-      throw new Error(`Error al cargar el archivo JSON para el idioma ${lang}: ${response.status}`);
-    }
-    const translations = await response.json();
-
-    // Actualizar elementos del DOM con las traducciones
-    Object.keys(translations).forEach((key) => {
-      const element = document.getElementById(key);
-      if (element) {
-        // Si el valor es un objeto, concatenar sus propiedades
-        if (typeof translations[key] === "object") {
-          element.innerHTML = Object.values(translations[key]).join("<br>");
-        } else {
-          element.innerHTML = translations[key];
-        }
-      } else {
-        console.warn(`Elemento con ID '${key}' no encontrado en el DOM.`);
-      }
-    });
-
-    // Actualizar idioma actual
-    currentLanguage = lang;
+    const lycContent = fs.readFileSync(inputFile, 'utf-8');
+    const cssContent = processLYC(lycContent);
+    fs.writeFileSync(outputFile, cssContent);
+    console.log(`Archivo CSS generado: ${outputFile}`);
   } catch (error) {
-    console.error("Error al cargar las traducciones:", error);
+    console.error(`Error al compilar: ${error.message}`);
   }
 }
 
-/**
- * Evento para cambiar el idioma mediante el selector.
- */
-document.addEventListener("DOMContentLoaded", () => {
-  const languageSelect = document.getElementById("language-select");
-  if (languageSelect) {
-    languageSelect.addEventListener("change", (event) => {
-      const lang = event.target.value;
-      loadTranslations(lang);
-    });
-  } else {
-    console.error("Elemento 'language-select' no encontrado en el DOM.");
-  }
-
-  // Cargar traducciones iniciales
-  loadTranslations(currentLanguage);
-
-  // Asociar evento de compilación
-  const compileButton = document.getElementById("compile-button");
-  if (compileButton) {
-    compileButton.addEventListener("click", compileLYC);
-  } else {
-    console.error("Elemento 'compile-button' no encontrado en el DOM.");
-  }
-
-  // Asociar evento de copiar ejemplo
-  const copyExampleButton = document.getElementById("copy-example-button");
-  if (copyExampleButton) {
-    copyExampleButton.addEventListener("click", () => {
-      const exampleCode = document.getElementById("example-lyc-code").textContent.trim();
-      navigator.clipboard.writeText(exampleCode).then(() => {
-        alert("Código LYC copiado al portapapeles.");
-      }).catch((error) => {
-        console.error("Error al copiar el código:", error);
-        alert("No se pudo copiar el código. Por favor, inténtalo manualmente.");
-      });
-    });
-  } else {
-    console.error("Elemento 'copy-example-button' no encontrado en el DOM.");
-  }
-});
-
-/**
- * Función principal para compilar LYC a CSS.
- */
-function compileLYC() {
-  const codeInput = document.getElementById("code-input");
-  if (!codeInput || !codeInput.value.trim()) {
-    alert("Por favor, ingresa código LYC.");
-    return;
-  }
-
-  const lycCode = codeInput.value;
-  const startTime = performance.now();
-  try {
-    const cssCode = processLYC(lycCode);
-    const endTime = performance.now();
-    const compileTime = (endTime - startTime).toFixed(2);
-
-    // Mostrar resultados
-    const outputElement = document.getElementById("output");
-    if (outputElement) {
-      outputElement.textContent = cssCode;
-    } else {
-      console.error("Elemento 'output' no encontrado en el DOM.");
-    }
-  } catch (error) {
-    const outputElement = document.getElementById("output");
-    if (outputElement) {
-      outputElement.textContent = `Error de compilación: ${error.message}`;
-    } else {
-      console.error("Elemento 'output' no encontrado en el DOM.");
-    }
-  }
-}
-
-/**
- * Compilador LYC a CSS.
- * @param {string} lycContent - Código LYC a procesar.
- * @returns {string} Código CSS procesado.
- */
 function processLYC(lycContent) {
-  let globalVariables = {};
+  let cssOutput = '';
+  const globalVariables = {};
+
+  // Eliminar comentarios
   lycContent = lycContent.replace(/\/\/.*|\/\*[\s\S]*?\*\//g, '');
 
   // Procesar variables globales
-  const globalVarRegex = /^--([a-zA-Z0-9-]+):\s*([^;]+);/gm;
-  let match;
-  while ((match = globalVarRegex.exec(lycContent)) !== null) {
-    globalVariables[match[1]] = match[2].trim();
+  const globalVarMatch = lycContent.match(/^--([a-zA-Z0-9-]+):\s*([^;]+);/gm);
+  if (globalVarMatch) {
+    globalVarMatch.forEach(line => {
+      const [key, value] = line.split(':').map(part => part.trim());
+      globalVariables[key] = value.replace(';', '');
+    });
+    lycContent = lycContent.replace(/^--([a-zA-Z0-9-]+):\s*([^;]+);/gm, '').trim();
   }
-  lycContent = lycContent.replace(globalVarRegex, '');
 
-  // Procesar mixins (@mixin)
-  const mixins = {};
-  lycContent = lycContent.replace(/@mixin\s+([^{]+)\s*\{([^}]+)\}/g, (match, mixinName, mixinContent) => {
-    mixins[mixinName.trim()] = mixinContent.trim();
-    return "";
-  });
+  // Procesar bloques
+  const blocks = lycContent.split(/(@layer\s+\w+\s*\{|\})/).filter(block => block.trim() !== '');
 
-  // Reemplazar @include con el contenido del mixin
-  lycContent = lycContent.replace(/@include\s+([^{;]+)/g, (match, mixinName) => {
-    const trimmedMixinName = mixinName.trim();
-    const content = mixins[trimmedMixinName];
-    if (!content) {
-      throw new Error(`Mixin '${trimmedMixinName}' no definido.`);
-    }
-    return content;
-  });
+  for (let i = 0; i < blocks.length; i++) {
+    const block = blocks[i].trim();
 
-  // Procesar herencia (@extend)
-  lycContent = lycContent.replace(/@extend\s+([^{ ]+)\s+to\s+([^{ ]+)/g, (match, sourceClass, targetClass) => {
-    const sourceStyles = lycContent.match(new RegExp(`${sourceClass}\\s*\\{([^}]+)\\}`, "g"));
-    if (!sourceStyles) {
-      throw new Error(`Clase '${sourceClass}' no encontrada para extender.`);
-    }
-    const styles = sourceStyles[0].replace(sourceClass, targetClass);
-    return styles;
-  });
-
-  // Procesar bloques anidados
-  const blocks = lycContent.split(/(@layer\s+\w+\s*\{|})/).filter(Boolean);
-  let stack = [];
-  let result = ''; // Variable para almacenar el resultado final
-  for (const block of blocks) {
-    const trimmedBlock = block.trim();
-    if (!trimmedBlock) continue;
-    if (trimmedBlock === "{") {
-      stack.push(result);
-      result += " {";
-    } else if (trimmedBlock === "}") {
-      result += "}";
-      if (stack.length > 0) {
-        const parentBlock = stack.pop();
-        result = parentBlock + result;
-      }
+    if (block.startsWith('@layer')) {
+      const layerName = block.match(/@layer\s+(\w+)/)[1];
+      const layerContent = blocks[++i].trim();
+      cssOutput += processBlock(layerContent, globalVariables);
     } else {
-      result += processBlock(trimmedBlock, globalVariables);
+      cssOutput += processBlock(block, globalVariables);
     }
   }
 
-  // Procesar cálculos matemáticos (calc())
-  result = result.replace(/calc\(([^)]+)\)/g, (match, expression) => {
-    try {
-      const evaluatedResult = evaluateExpression(expression);
-      return evaluatedResult.toString();
-    } catch (error) {
-      throw new Error(`Error al evaluar calc(): ${error.message}`);
-    }
+  return minifyCSS(cssOutput);
+}
+
+function processBlock(blockContent, variables) {
+  const localVariables = {};
+  blockContent = blockContent.replace(/--([a-zA-Z0-9-]+):\s*([^;]+);/g, (_, key, value) => {
+    localVariables[`--${key}`] = value.trim();
+    return '';
   });
 
-  return minifyCSS(result);
-}
-
-/**
- * Procesar un bloque individual.
- * @param {string} blockContent - Contenido del bloque.
- * @param {Object} variables - Variables globales.
- * @returns {string} Bloque procesado.
- */
-function processBlock(blockContent, variables) {
-  let localVariables = {};
-  const localVarRegex = /--([a-zA-Z0-9-]+):\s*([^;]+);/g;
-  let match;
-  while ((match = localVarRegex.exec(blockContent)) !== null) {
-    localVariables[match[1]] = match[2].trim();
-  }
-  blockContent = blockContent.replace(localVarRegex, '');
+  // Combinar variables locales y globales
   const combinedVariables = { ...variables, ...localVariables };
+
+  // Reemplazar variables
+  let processedBlock = blockContent;
   for (const [varName, varValue] of Object.entries(combinedVariables)) {
-    blockContent = blockContent.replace(new RegExp(`var\$--${varName}\$`, 'g'), varValue);
+    processedBlock = processedBlock.replace(new RegExp(`var\\(${varName}\\)`, 'g'), varValue);
   }
-  return blockContent;
+
+  return processedBlock;
 }
 
-/**
- * Minificar CSS.
- * @param {string} css - Código CSS a minificar.
- * @returns {string} Código CSS minificado.
- */
 function minifyCSS(css) {
   return css.replace(/\s+/g, ' ').trim();
 }
 
-/**
- * Evaluar expresiones matemáticas dentro de calc(), ignorando unidades.
- * @param {string} expression - Expresión matemática con o sin unidades.
- * @returns {string} Resultado con unidad original.
- */
-function evaluateExpression(expression) {
-  // Elimina espacios y reemplaza unidades temporales
-  const numericExpression = expression
-    .replace(/([0-9.]+)(px|%|em|rem)/g, '$1');
-  const tokens = numericExpression.split(/([+\-*/])/).map(t => t.trim());
-  let result = 0;
-  let operator = "+";
-
-  for (let i = 0; i < tokens.length; i++) {
-    const token = tokens[i];
-
-    if (["+", "-", "*", "/"].includes(token)) {
-      operator = token;
-    } else {
-      const value = parseFloat(token);
-      if (isNaN(value)) continue;
-
-      switch (operator) {
-        case "+": result += value; break;
-        case "-": result -= value; break;
-        case "*": result *= value; break;
-        case "/":
-          if (value === 0) throw new Error("División por cero.");
-          result /= value;
-          break;
-      }
-
-      // Guardar la última unidad válida
-      const unitMatch = expression.match(new RegExp(`${value}(px|%|em|rem)`, 'g'));
-      if (unitMatch && unitMatch.length > 0) {
-        lastValidUnit = unitMatch[unitMatch.length - 1].match(/(px|%|em|rem)/)[0];
-      }
-    }
-  }
-
-  return `${result}${lastValidUnit || ""}`;
-}
+// Ejecutar el compilador
+const inputFile = path.join(__dirname, '../examples/example1.lyc');
+const outputFile = path.join(__dirname, '../examples/example1.css');
+compileLYC(inputFile, outputFile);
